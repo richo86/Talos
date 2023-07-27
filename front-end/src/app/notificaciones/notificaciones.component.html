@@ -1,0 +1,24 @@
+<ul class="dropdown-menu dropdown-menu-right">
+    <span #notificaciones>
+        <div *ngFor="let notification of notifications">
+            <li>
+                <a href="#" class="top-text-block">
+                <div class="top-text-heading">{{notification.mensaje}}</div>
+                <div class="top-text-light">{{notification.fechaRegistro}}</div>
+                </a> 
+            </li>
+        </div>
+    </span>
+    
+    <div *ngIf="!notificaciones.innerHTML.trim()">
+        <li>
+            <div class="loader-topbar"></div>
+        </li>
+    </div>
+
+    <div *ngIf="notifications === undefined">
+        <span>
+            <p>You have no messages</p>
+        </span>
+    </div>
+</ul>

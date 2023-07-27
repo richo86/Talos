@@ -1,0 +1,50 @@
+.section {
+    margin: 0rem 0rem 2rem 1rem;
+    padding: 2rem 3rem;
+    background-color: white;
+  }
+  
+  .title {
+    padding: 1rem 2rem;
+    background-color: #4B7CB6;
+    margin-left: -4rem;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    color: white;
+    position: relative;
+    filter: drop-shadow(8px 8px 8px rgba(0, 0, 0, .3));
+  }
+  .title::after {
+    content: "";
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    background-color: #2B5C96;
+    left: 0;
+    bottom: -1rem;
+    clip-path: polygon(
+      0% 0%,
+      100% 0%,
+      100% 100%,
+      0% 0%
+    );
+  }
+  
+  body {
+     background-color: lightgray;
+  }
+  /* ******************************* */
+  body {
+    height: 100vh;
+  }
+  
+  img {
+    width: 100%;
+    height: auto;
+    vertical-align: bottom;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+  }

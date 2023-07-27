@@ -1,0 +1,32 @@
+<app-cabecera-generica [titulo]="'Administrar descuentos'"></app-cabecera-generica>
+
+<app-mostrar-errores [errores]="errores"></app-mostrar-errores>
+
+<form (submit)="create()" [formGroup]="form">
+    <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input type="text" formControlName="nombre" matInput />
+        <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Descripción</mat-label>
+        <input type="text" formControlName="descripcion" matInput />
+        <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="estado">
+            <mat-option [value]="true">Activo</mat-option>
+            <mat-option [value]="false">Inactivo</mat-option>
+        </mat-select>
+      </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Descuento</mat-label>
+        <input type="number" formControlName="porcentajeDescuento" matInput />
+        <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <div class="formButtons">
+        <a mat-stroked-button routerLink="/descuentos">Cancelar</a>
+        <button mat-flat-button color="primary" [disabled]="form.invalid">Enviar</button>
+    </div>
+</form>

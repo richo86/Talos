@@ -1,0 +1,63 @@
+.spacer {
+    flex: 1 1 auto;
+}
+.notification-icon{
+    margin-right:0.5em;
+}
+.shopping-icon{
+    margin-right:1em;
+}
+.mat-toolbar{
+    background:#3f51b5;
+    position: fixed;
+    top:0;
+    z-index: 1000;
+}
+.hoverButton:hover{
+    background:#3f51b5;
+}
+app-autorizacion{
+    display:flex;
+}
+app-autorizacion p{
+    font-size: 15px;
+    margin-right: 1rem;
+}
+.showMenu {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.hiddenMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.hiddenMenu .mat-icon{
+    margin-top:10px;
+}
+.mat-drawer{
+    background:#3f51b5;
+    color:#fff;
+    width:45%;
+}
+.menuMobile{
+    background:#3f51b5;
+    padding:1rem;
+    color:#fff;
+    display:flex;
+}
+.menu-item{
+    padding:1rem;
+    color:#fff;
+}
+.mobileItem{
+    display:flex;
+    margin-top: 10px;
+}
+.mobileItem .mat-icon{
+    margin-top:5px;
+}

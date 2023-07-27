@@ -1,0 +1,10 @@
+.contenedor{
+    padding:2rem;
+    padding-top: 100px;
+}
+@media only screen and (max-width: 768px) {
+    .contenedor{
+      margin-top:50px;
+      padding-top: 3rem;
+    }
+}

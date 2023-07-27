@@ -1,0 +1,70 @@
+<app-cabecera-generica [titulo]="'Perfil'"></app-cabecera-generica>
+
+<app-mostrar-errores [errores]="errores"></app-mostrar-errores>
+
+<form (submit)="editar()" [formGroup]="form">
+    <mat-form-field appearance="outline">
+        <mat-label>Primer nombre</mat-label>
+        <input formControlName="firstName" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Segundo nombre</mat-label>
+        <input formControlName="middleName" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Primer apellido</mat-label>
+        <input formControlName="firstLastName" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Segundo apellido</mat-label>
+        <input formControlName="secondLastName" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Pais</mat-label>
+        <mat-select formControlName="country">
+            <mat-option *ngFor="let pais of paises" [value]="pais.id">
+            {{pais.nombre}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" *ngIf="mostrarEmail">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput />
+        <mat-error>{{ObtenerMensajeErrorEmail()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Contraseña</mat-label>
+        <input type="password" formControlName="password" matInput />
+        <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Confirma tu contraseña</mat-label>
+        <input type="password" formControlName="confirmPassword" matInput />
+    </mat-form-field>
+    <span *ngIf="form.errors?.['notmatched'] && (form.controls.confirmPassword.touched)" style="margin-top: -25px;margin-bottom: 2rem;;font-size:10px" class="mat-error">
+        Las contraseñas no coinciden
+    </span>
+    <app-autorizacion>
+        <ng-container autorizado>
+            <mat-form-field appearance="outline">
+                <mat-label>Dirección</mat-label>
+                <input type="text" formControlName="address" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Género</mat-label>
+                <mat-select formControlName="gender">
+                    <mat-option *ngFor="let genero of generos" [value]="genero.id">{{genero.nombre}}</mat-option>
+                 </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Teléfono</mat-label>
+                <input type="text" formControlName="phoneNumber" matInput />
+            </mat-form-field>
+        </ng-container>
+    </app-autorizacion>
+
+    <div>
+        <button mat-flat-button color="primary">Actualizar</button>
+        <a mat-stroked-button routerLink="/usuarios">Cancelar</a>
+    </div>
+</form>

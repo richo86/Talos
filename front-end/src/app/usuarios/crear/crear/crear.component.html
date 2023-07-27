@@ -1,0 +1,7 @@
+<app-cabecera-generica [titulo]="'Crear usuario'"></app-cabecera-generica>
+
+<app-formulario-registro
+    [accion]="'Registro'"
+    [errores]="errores"
+    (onSubmit)="registrar($event)">
+</app-formulario-registro>

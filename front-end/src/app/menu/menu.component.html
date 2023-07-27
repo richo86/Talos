@@ -1,0 +1,143 @@
+<div class="hiddenMobile">
+    <mat-toolbar color="primary">
+        <span style="margin-right:1rem;">Talos</span>
+        <app-autorizacion [rol]="'admin'">
+            <ng-container autorizado>
+                <button mat-button [matMenuTriggerFor]="menu">Administración</button>
+                <mat-menu #menu="matMenu">
+                    <button routerLink="/panel" mat-menu-item>Panel de control</button>
+                    <button routerLink="/categorias" mat-menu-item>Categorias</button>
+                    <button routerLink="/descuentos" mat-menu-item>Descuentos</button>
+                    <button routerLink="/productos" mat-menu-item>Productos</button>
+                    <button routerLink="/usuarios" mat-menu-item>Usuarios</button>
+                </mat-menu>
+            </ng-container>
+        </app-autorizacion>
+        <app-autorizacion [rol]="'vendor'">
+            <ng-container autorizado>
+                <button mat-button [matMenuTriggerFor]="vendor">Administración</button>
+                <mat-menu #vendor="matMenu">
+                    <button routerLink="/panel" mat-menu-item>Panel de control</button>
+                </mat-menu>
+            </ng-container>
+        </app-autorizacion>
+        
+        <span class="spacer"></span>
+
+        <button mat-icon-button class="notification-icon" aria-label="Notificaciones">
+            <mat-icon [matMenuTriggerFor]="notifications">
+                <span class="material-symbols-outlined">notifications</span>
+            </mat-icon>
+        </button>
+        <mat-menu #notifications="matMenu">
+            <app-notificaciones></app-notificaciones>
+        </mat-menu>
+        <button mat-icon-button class="shopping-icon" aria-label="Carrito de compras">
+            <mat-icon [matMenuTriggerFor]="cart">
+                <span class="material-symbols-outlined">shopping_cart_checkout</span>
+            </mat-icon>
+        </button>
+        <mat-menu #cart="matMenu">
+            <app-cart></app-cart>
+        </mat-menu>
+        <app-autorizacion>
+            <ng-container autorizado>
+                <button mat-button class="hoverButton" routerLink="/perfil/{{userId}}">Hola {{securityService.obtenerCampoJwt('nombre')}}</button>
+                <button mat-button class="hoverButton" (click)="logOut()">Cerrar sesión</button>
+            </ng-container>
+            <ng-container noAutorizado>
+                <button mat-button routerLink="/login">Iniciar sesión</button>
+                <button mat-button routerLink="/registro">Registrarme</button>
+            </ng-container>
+        </app-autorizacion>
+    </mat-toolbar>
+</div>
+
+<div class="hiddenDesktop">
+    <mat-sidenav-container
+        [ngClass]="{'hiddenMenu': !openMenu,'showMenu': openMenu}" (backdropClick)="close()">
+        <mat-sidenav #sidenav (keydown.escape)="close()" disableClose>
+            <div class="menu-item">
+                <app-autorizacion>
+                    <ng-container noAutorizado>
+                        <div class="mobileItem" (click)="redirect('/login')">
+                            <mat-icon aria-hidden="false" aria-label="login" fontIcon="login"></mat-icon>
+                            <button mat-button>Iniciar sesión</button>
+                        </div>
+                        <div class="mobileItem" (click)="redirect('/registro')">
+                            <mat-icon aria-hidden="false" aria-label="login" fontIcon="app_registration"></mat-icon>
+                            <button mat-button>Registrarme</button>
+                        </div>
+                    </ng-container>
+                    <ng-container autorizado>
+                        <div style="display:block">
+                            <div class="mobileItem" (click)="redirect('/perfil')">
+                                <mat-icon aria-hidden="false" aria-label="profile" fontIcon="person"></mat-icon>
+                                <button mat-button>Perfil</button>
+                            </div>
+                            <div class="mobileItem" (click)="redirect('/checkout')">
+                                <mat-icon aria-hidden="false" aria-label="checkout" fontIcon="shopping_cart_checkout"></mat-icon>
+                                <button mat-button>Mi carrito</button>
+                            </div>
+                            <div class="mobileItem" (click)="logOut()" style="position:absolute;bottom:3%">
+                                <mat-icon aria-hidden="false" aria-label="logout" fontIcon="logout"></mat-icon>
+                                <button mat-button>Cerrar sesión</button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </app-autorizacion>
+                <app-autorizacion [rol]="'admin'">
+                    <ng-container autorizado>
+                        <div style="display:block">
+                            <div class="mobileItem" (click)="redirect('/panel')">
+                                <mat-icon aria-hidden="false" aria-label="profile" fontIcon="admin_panel_settings"></mat-icon>
+                                <button mat-button>Panel de control</button>
+                            </div>
+                            <div class="mobileItem" (click)="redirect('/categorias')">
+                                <mat-icon aria-hidden="false" aria-label="categorias" fontIcon="inventory_2"></mat-icon>
+                                <button mat-button>Categorias</button>
+                            </div>
+                            <div class="mobileItem" (click)="redirect('/descuentos')">
+                                <mat-icon aria-hidden="false" aria-label="categorias" fontIcon="inventory_2"></mat-icon>
+                                <button mat-button>Descuentos</button>
+                            </div>
+                            <div class="mobileItem" (click)="redirect('/productos')">
+                                <mat-icon aria-hidden="false" aria-label="productos" fontIcon="inventory_2"></mat-icon>
+                                <button mat-button>Productos</button>
+                            </div>
+                            <div class="mobileItem" (click)="logOut()">
+                                <mat-icon aria-hidden="false" aria-label="usuarios" fontIcon="group"></mat-icon>
+                                <button mat-button>Usuarios</button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </app-autorizacion>
+                <app-autorizacion [rol]="'vendor'">
+                    <ng-container autorizado>
+                        <div style="display:block">
+                            <div class="mobileItem" (click)="redirect('/panel')">
+                                <mat-icon aria-hidden="false" aria-label="profile" fontIcon="person"></mat-icon>
+                                <button mat-button>Panel de control</button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </app-autorizacion>
+            </div>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+            <div class="menuMobile">
+                <mat-icon aria-hidden="false" aria-label="Menu" fontIcon="menu" (click)="sidenav.open()" (click)="toggleMenu()"></mat-icon>
+                <span class="spacer"></span>
+                <button mat-icon-button class="shopping-icon" aria-label="Carrito de compras">
+                    <mat-icon [matMenuTriggerFor]="cartMobile" style="margin-top:5px">
+                        <span class="material-symbols-outlined">shopping_cart_checkout</span>
+                    </mat-icon>
+                </button>
+                <mat-menu #cartMobile="matMenu">
+                    <app-cart></app-cart>
+                </mat-menu>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

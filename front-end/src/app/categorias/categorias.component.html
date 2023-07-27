@@ -1,0 +1,141 @@
+<app-cabecera-generica [titulo]="'Categorias'"></app-cabecera-generica>
+
+<button mat-flat-button color="primary" routerLink="/categorias/CEC">Crear nuevo</button>
+
+<app-mostrar-errores [errores]="errores"></app-mostrar-errores>
+
+<h2>Áreas de negocio</h2>
+
+<app-listado-generico [listado]="areas">
+  <ng-container contenido>
+    <table #table mat-table [dataSource]="areas" class="mat-elevation-z8 tabla-indice">
+      <ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+      </ng-container>
+      <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let element">{{ element.descripcion }}</td>
+      </ng-container>
+      <ng-container matColumnDef="codigo">
+          <th mat-header-cell *matHeaderCellDef>Código</th>
+          <td mat-cell *matCellDef="let element">{{ element.codigo }}</td>
+      </ng-container>
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <a
+            routerLink="/categorias/CEC/{{ element.id }}"
+            mat-flat-button
+            color="primary"
+            >Editar</a>
+          <button mat-flat-button color="warn" 
+          [swal]="{title: 'Confirmación', 
+          text: '¿Está seguro que desea borrar el registro?', 
+          showCancelButton: true}"
+          (confirm)="borrar(element.id)">Borrar</button>
+        </td>
+      </ng-container>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons
+    [length]="cantidadTotalRegistrosArea" [pageSize]="cantidadRegistrosMostrados"
+    (page)="actualizarPaginacionAreas($event)"
+    class="mat-elevation-z8">
+
+    </mat-paginator>
+
+  </ng-container>
+</app-listado-generico>
+
+<h2>Categorias principales</h2>
+
+<app-listado-generico [listado]="categorias">
+  <ng-container contenido>
+    <table #table mat-table [dataSource]="categorias" class="mat-elevation-z8 tabla-indice">
+      <ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+      </ng-container>
+      <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let element">{{ element.descripcion }}</td>
+      </ng-container>
+      <ng-container matColumnDef="codigo">
+          <th mat-header-cell *matHeaderCellDef>Código</th>
+          <td mat-cell *matCellDef="let element">{{ element.codigo }}</td>
+      </ng-container>
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <a
+            routerLink="/categorias/CEC/{{ element.id }}"
+            mat-flat-button
+            color="primary"
+            >Editar</a>
+          <button mat-flat-button color="warn" 
+          [swal]="{title: 'Confirmación', 
+          text: '¿Está seguro que desea borrar el registro?', 
+          showCancelButton: true}"
+          (confirm)="borrar(element.id)">Borrar</button>
+        </td>
+      </ng-container>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons
+    [length]="cantidadTotalRegistrosPrincipal" [pageSize]="cantidadRegistrosMostrados"
+    (page)="actualizarPaginacion($event)"
+    class="mat-elevation-z8">
+
+    </mat-paginator>
+
+  </ng-container>
+</app-listado-generico>
+
+<h2>Categorias secundarias</h2>
+
+<app-listado-generico [listado]="categorias">
+  <ng-container contenido>
+    <table #table mat-table [dataSource]="subcategorias" class="mat-elevation-z8 tabla-indice">
+      <ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnasSub"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnasSub"></tr>
+      </ng-container>
+      <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let element">{{ element.descripcion }}</td>
+      </ng-container>
+      <ng-container matColumnDef="codigo">
+          <th mat-header-cell *matHeaderCellDef>Código</th>
+          <td mat-cell *matCellDef="let element">{{ element.codigo }}</td>
+      </ng-container>
+      <ng-container matColumnDef="categoriaPrincipal">
+          <th mat-header-cell *matHeaderCellDef>Categoria principal</th>
+          <td mat-cell *matCellDef="let element">{{ element.categoriaPrincipalDescripcion }}</td>
+      </ng-container>
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <a
+            routerLink="/categorias/CEC/{{ element.id }}"
+            mat-flat-button
+            color="primary"
+            >Editar</a>
+          <button mat-flat-button color="warn" 
+          [swal]="{title: 'Confirmación', 
+          text: '¿Está seguro que desea borrar el registro?', 
+          showCancelButton: true}"
+          (confirm)="borrar(element.id)">Borrar</button>
+        </td>
+      </ng-container>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons
+    [length]="cantidadTotalRegistrosSecundaria" [pageSize]="cantidadRegistrosMostrados"
+    (page)="actualizarPaginacionSub($event)"
+    class="mat-elevation-z8">
+
+    </mat-paginator>
+
+  </ng-container>
+</app-listado-generico>

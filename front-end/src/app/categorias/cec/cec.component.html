@@ -1,0 +1,46 @@
+<app-cabecera-generica [titulo]="'Administrar categoria'"></app-cabecera-generica>
+
+<app-mostrar-errores [errores]="errores"></app-mostrar-errores>
+
+<form (submit)="create()" [formGroup]="form">
+    <mat-form-field appearance="outline">
+        <mat-label>Descripción</mat-label>
+        <input type="text" formControlName="descripcion" matInput />
+        <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo Categoria</mat-label>
+      <mat-select formControlName="tipoCategoria" [(ngModel)]="selectedType">
+        <mat-option *ngFor="let categoria of tipoCategorias" [value]="categoria.value">
+          {{categoria.descripcion}}
+        </mat-option>
+      </mat-select>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="selectedType == 1">
+      <mat-label>Área de negocio</mat-label>
+      <mat-select formControlName="area">
+        <mat-option *ngFor="let categoria of areasNegocio" [value]="categoria.id">
+          {{categoria.descripcion}}
+        </mat-option>
+      </mat-select>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="selectedType == 2">
+      <mat-label>Categoria principal</mat-label>
+      <mat-select formControlName="categoriaPrincipal">
+        <mat-option *ngFor="let categoria of categoriasPrincipales" [value]="categoria.id">
+          {{categoria.descripcion}}
+        </mat-option>
+      </mat-select>
+      <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <app-cargar-imagen [imagenActual]="imagenActual" (archivoSeleccionado)="archivoSeleccionado($event)"></app-cargar-imagen>
+    <div class="main-container" *ngIf="imagenActual?.length > 0">
+        <img [src]="imagenActual" alt="Base64 Image">
+    </div>
+    <div class="formButtons">
+        <a mat-stroked-button routerLink="/categorias">Cancelar</a>
+        <button mat-flat-button color="primary" [disabled]="form.invalid">Enviar</button>
+    </div>
+</form>

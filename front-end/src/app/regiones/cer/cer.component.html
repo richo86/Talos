@@ -1,0 +1,43 @@
+<app-cabecera-generica [titulo]="'Administrar regiones de producto'"></app-cabecera-generica>
+
+<app-mostrar-errores [errores]="errores"></app-mostrar-errores>
+
+<form (submit)="create()" [formGroup]="form">
+    <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input type="text" formControlName="nombre" matInput />
+        <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Regiones</mat-label>
+        <mat-select [(ngModel)]="regionesSeleccionadas" multiple>
+            <mat-option *ngFor="let pais of paises" [value]="pais.id">
+            {{pais.descripcion}}
+            </mat-option>
+        </mat-select>
+        <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Precio</mat-label>
+        <input type="text" formControlName="precio" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Productos Relacionados</mat-label>
+        <mat-select [(ngModel)]="productosSeleccionados" multiple>
+            <mat-option *ngFor="let tipo of listadoProductosRelacionados" [value]="tipo.id">
+            {{tipo.descripcion}}
+            </mat-option>
+        </mat-select>
+        <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Inventario</mat-label>
+        <input type="number" formControlName="inventario" matInput />
+        <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+    
+    <div class="formButtons">
+        <a mat-stroked-button routerLink="/productos">Cancelar</a>
+        <button mat-flat-button color="primary" [disabled]="form.invalid">Enviar</button>
+    </div>
+</form>

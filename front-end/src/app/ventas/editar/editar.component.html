@@ -1,0 +1,42 @@
+<app-cabecera-generica [titulo]="'Editar venta'"></app-cabecera-generica>
+
+<app-mostrar-errores [errores]="errores"></app-mostrar-errores>
+
+<form (submit)="editar()" [formGroup]="form">
+    <mat-form-field appearance="outline">
+        <mat-label>Nombre usuario</mat-label>
+        <input formControlName="nombreUsuario" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Total venta</mat-label>
+        <input formControlName="totalVenta" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Total Venta sin IVA</mat-label>
+        <input formControlName="TotalVentaSinIVA" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Método de pago</mat-label>
+        <input formControlName="metodoPago" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <input formControlName="estado" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Observaciones</mat-label>
+        <input formControlName="observaciones" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Tipo Venta</mat-label>
+        <mat-select formControlName="tipoVenta">
+            <mat-option *ngFor="let tipo of tiposVenta" [value]="tipo.id">
+            {{tipo.descripcion}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="formButtons">
+        <a mat-stroked-button routerLink="/usuarios">Cancelar</a>
+        <button mat-flat-button color="primary">Actualizar</button>
+    </div>
+</form>
