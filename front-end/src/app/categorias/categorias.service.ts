@@ -91,4 +91,10 @@ export class CategoriasService {
           }
         ));
   }
+
+  public borrarImagen(fileId:string){
+    let params = new HttpParams();
+    params = params.append('fileId', fileId);
+    return this.http.delete<any>(this.driveURL + "/DeleteImage",{observe: 'response', responseType: 'text' as 'json', params});
+  }
 }

@@ -1,0 +1,23 @@
+<mat-card class="card" *ngIf="!!productDTO">
+    <mat-card-header>
+        <!-- <div mat-card-avatar class="header-image"></div> -->
+        <mat-card-title>{{productDTO.nombre}}</mat-card-title>
+        <mat-card-subtitle>{{productDTO.subcategoriaDescripcion}}</mat-card-subtitle>
+    </mat-card-header>
+    <a (click)="redirect('/product-page/{{ productDTO.Id }}')">
+        <img mat-card-image [src]="productDTO.imagen[0]" [alt]="productDTO.nombre">
+    </a>
+    <mat-card-content>
+        <p>{{productDTO.descripcion}}</p>
+    </mat-card-content>
+    <mat-card-actions class="action-buttons">
+        <div class="quantity-select">
+            <input type="number" min="1" max="100" [(ngModel)]="quantity" value="{{quantity}}" (keyup)="onQtyChange($event)">
+            <button class="plus" mat-button (click)="incrementQty()">+</button>
+            <button class="minus" mat-button (click)="decrementQty()">-</button>
+        </div>
+        <div class="add-Cart">
+            <button mat-button (click)="AddToCart()">ADD TO CART</button>
+        </div>
+    </mat-card-actions>
+</mat-card>

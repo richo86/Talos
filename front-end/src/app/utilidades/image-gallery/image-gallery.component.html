@@ -1,0 +1,14 @@
+<section class="gallery">
+    <div class="container">
+        <div class="image-container">
+            <img [src]="activeSrc" [alt]="productName">
+            <div class="preview">
+                <ng-container *ngFor="let image of product.imagen; let index = index">
+                    <div [ngClass]="{'thumbnail active': image === activeSrc}">
+                        <img [src]="base64(image)" [alt]="productName" (click)="onImageClicked(index)">
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</section>

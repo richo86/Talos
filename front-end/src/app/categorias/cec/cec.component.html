@@ -36,9 +36,6 @@
       <mat-error>El campo es requerido</mat-error>
     </mat-form-field>
     <app-cargar-imagen [imagenActual]="imagenActual" (archivoSeleccionado)="archivoSeleccionado($event)"></app-cargar-imagen>
-    <div class="main-container" *ngIf="imagenActual?.length > 0">
-        <img [src]="imagenActual" alt="Base64 Image">
-    </div>
     <div class="formButtons">
         <a mat-stroked-button routerLink="/categorias">Cancelar</a>
         <button mat-flat-button color="primary" [disabled]="form.invalid">Enviar</button>

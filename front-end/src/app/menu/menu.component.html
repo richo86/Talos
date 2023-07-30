@@ -3,24 +3,47 @@
         <span style="margin-right:1rem;">Talos</span>
         <app-autorizacion [rol]="'admin'">
             <ng-container autorizado>
-                <button mat-button [matMenuTriggerFor]="menu">Administración</button>
+                <button mat-button [matMenuTriggerFor]="menu">Administrator</button>
                 <mat-menu #menu="matMenu">
-                    <button routerLink="/panel" mat-menu-item>Panel de control</button>
-                    <button routerLink="/categorias" mat-menu-item>Categorias</button>
-                    <button routerLink="/descuentos" mat-menu-item>Descuentos</button>
-                    <button routerLink="/productos" mat-menu-item>Productos</button>
-                    <button routerLink="/usuarios" mat-menu-item>Usuarios</button>
+                    <button routerLink="/panel" mat-menu-item>Control Panel</button>
+                    <button routerLink="/categorias" mat-menu-item>Areas</button>
+                    <button routerLink="/descuentos" mat-menu-item>Discounts</button>
+                    <button routerLink="/productos" mat-menu-item>Products</button>
+                    <button routerLink="/usuarios" mat-menu-item>Users</button>
                 </mat-menu>
             </ng-container>
         </app-autorizacion>
         <app-autorizacion [rol]="'vendor'">
             <ng-container autorizado>
-                <button mat-button [matMenuTriggerFor]="vendor">Administración</button>
+                <button mat-button [matMenuTriggerFor]="vendor">Administrator</button>
                 <mat-menu #vendor="matMenu">
-                    <button routerLink="/panel" mat-menu-item>Panel de control</button>
+                    <button routerLink="/panel" mat-menu-item>Control Panel</button>
                 </mat-menu>
             </ng-container>
         </app-autorizacion>
+
+        <button mat-button [matMenuTriggerFor]="areas">Categories</button>
+        <mat-menu #areas="matMenu" class="categories-panel">
+            <mat-grid-list cols="5" rowHeight="1:1" *ngIf="!!productMenu">
+                <ng-container *ngFor="let area of productMenu.areas">
+                    <mat-grid-tile>
+                        <div class="categoryContent">
+                            <h1 routerLink="/areas/{{area.id}}">{{area.descripcion}}</h1>
+                            <ng-container *ngFor="let category of area.categorias">
+                                <div class="categoryList">
+                                    <a routerLink="/categories/{{category.id}}">{{category.descripcion}}</a>
+                                    <ng-container *ngFor="let subcategory of category.subcategorias">
+                                        <div class="subcategoryList">
+                                            <a routerLink="/subcategories/{{subcategory.id}}">{{subcategory.descripcion}}</a>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </mat-grid-tile>
+                </ng-container>
+            </mat-grid-list>
+        </mat-menu>
         
         <span class="spacer"></span>
 
@@ -42,12 +65,12 @@
         </mat-menu>
         <app-autorizacion>
             <ng-container autorizado>
-                <button mat-button class="hoverButton" routerLink="/perfil/{{userId}}">Hola {{securityService.obtenerCampoJwt('nombre')}}</button>
-                <button mat-button class="hoverButton" (click)="logOut()">Cerrar sesión</button>
+                <button mat-button class="hoverButton" routerLink="/perfil/{{userId}}">Hi {{securityService.obtenerCampoJwt('nombre')}}</button>
+                <button mat-button class="hoverButton" (click)="logOut()">Log Out</button>
             </ng-container>
             <ng-container noAutorizado>
-                <button mat-button routerLink="/login">Iniciar sesión</button>
-                <button mat-button routerLink="/registro">Registrarme</button>
+                <button mat-button routerLink="/login">Log In</button>
+                <button mat-button routerLink="/registro">Register</button>
             </ng-container>
         </app-autorizacion>
     </mat-toolbar>
@@ -62,26 +85,47 @@
                     <ng-container noAutorizado>
                         <div class="mobileItem" (click)="redirect('/login')">
                             <mat-icon aria-hidden="false" aria-label="login" fontIcon="login"></mat-icon>
-                            <button mat-button>Iniciar sesión</button>
+                            <button mat-button>Log In</button>
                         </div>
                         <div class="mobileItem" (click)="redirect('/registro')">
                             <mat-icon aria-hidden="false" aria-label="login" fontIcon="app_registration"></mat-icon>
-                            <button mat-button>Registrarme</button>
+                            <button mat-button>Register</button>
                         </div>
                     </ng-container>
                     <ng-container autorizado>
                         <div style="display:block">
                             <div class="mobileItem" (click)="redirect('/perfil')">
                                 <mat-icon aria-hidden="false" aria-label="profile" fontIcon="person"></mat-icon>
-                                <button mat-button>Perfil</button>
+                                <button mat-button>Profile</button>
+                            </div>
+                            <div class="mobileItem">
+                                <mat-icon aria-hidden="false" aria-label="profile" fontIcon="category"></mat-icon>
+                                <button mat-button [matMenuTriggerFor]="areasm">Categories</button>
+                                <mat-menu #areasm="matMenu">
+                                    <ng-container *ngFor="let area of productMenu.areas">
+                                        <div class="categoryContent">
+                                            <h1 routerLink="/areas/{{area.id}}">{{area.descripcion}}</h1>
+                                            <ng-container *ngFor="let category of area.categorias">
+                                                <div class="categoryList">
+                                                    <a routerLink="/categories/{{category.id}}">{{category.descripcion}}</a>
+                                                    <ng-container *ngFor="let subcategory of category.subcategorias">
+                                                        <div class="subcategoryList">
+                                                            <a routerLink="/subcategories/{{subcategory.id}}">{{subcategory.descripcion}}</a>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </ng-container>
+                                </mat-menu>
                             </div>
                             <div class="mobileItem" (click)="redirect('/checkout')">
                                 <mat-icon aria-hidden="false" aria-label="checkout" fontIcon="shopping_cart_checkout"></mat-icon>
-                                <button mat-button>Mi carrito</button>
+                                <button mat-button>My cart</button>
                             </div>
                             <div class="mobileItem" (click)="logOut()" style="position:absolute;bottom:3%">
                                 <mat-icon aria-hidden="false" aria-label="logout" fontIcon="logout"></mat-icon>
-                                <button mat-button>Cerrar sesión</button>
+                                <button mat-button>Log out</button>
                             </div>
                         </div>
                     </ng-container>
@@ -91,23 +135,23 @@
                         <div style="display:block">
                             <div class="mobileItem" (click)="redirect('/panel')">
                                 <mat-icon aria-hidden="false" aria-label="profile" fontIcon="admin_panel_settings"></mat-icon>
-                                <button mat-button>Panel de control</button>
+                                <button mat-button>Control Panel</button>
                             </div>
                             <div class="mobileItem" (click)="redirect('/categorias')">
                                 <mat-icon aria-hidden="false" aria-label="categorias" fontIcon="inventory_2"></mat-icon>
-                                <button mat-button>Categorias</button>
+                                <button mat-button>Areas</button>
                             </div>
                             <div class="mobileItem" (click)="redirect('/descuentos')">
                                 <mat-icon aria-hidden="false" aria-label="categorias" fontIcon="inventory_2"></mat-icon>
-                                <button mat-button>Descuentos</button>
+                                <button mat-button>Discounts</button>
                             </div>
                             <div class="mobileItem" (click)="redirect('/productos')">
                                 <mat-icon aria-hidden="false" aria-label="productos" fontIcon="inventory_2"></mat-icon>
-                                <button mat-button>Productos</button>
+                                <button mat-button>Products</button>
                             </div>
                             <div class="mobileItem" (click)="logOut()">
                                 <mat-icon aria-hidden="false" aria-label="usuarios" fontIcon="group"></mat-icon>
-                                <button mat-button>Usuarios</button>
+                                <button mat-button>Users</button>
                             </div>
                         </div>
                     </ng-container>
@@ -117,7 +161,7 @@
                         <div style="display:block">
                             <div class="mobileItem" (click)="redirect('/panel')">
                                 <mat-icon aria-hidden="false" aria-label="profile" fontIcon="person"></mat-icon>
-                                <button mat-button>Panel de control</button>
+                                <button mat-button>Control Panel</button>
                             </div>
                         </div>
                     </ng-container>

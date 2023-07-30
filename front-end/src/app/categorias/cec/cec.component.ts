@@ -63,6 +63,7 @@ export class CecComponent implements OnInit {
         this.categoriasService.obtenerArea(params.id)
         .subscribe({
           next: res => {
+            this.imagenActual = dataURI(res.body.imagen);
             this.categoria = res.body;
             this.categoria.categoriaPrincipal = 'ninguna';
             this.categoria.area = 'ninguna';
@@ -75,11 +76,11 @@ export class CecComponent implements OnInit {
             this.categoriasService.obtenerCategoria(params.id)
             .subscribe({
               next: res => {
-                console.log("res",res);
                 this.categoriasService.obtenerAreas(this.paginaActual,this.cantidadRegistrosMostrados)
                 .subscribe({
                   next: (result) => {
                     this.areasNegocio = result.body;
+                    this.imagenActual = dataURI(res.body.imagen);
                     this.categoria = res.body;
                     this.categoria.categoriaPrincipal = 'ninguna';
                     this.categoria.area = this.areasNegocio.find(x=>x.id == this.categoria.categoriaPrincipal)?.descripcion;
@@ -95,7 +96,7 @@ export class CecComponent implements OnInit {
                       .subscribe({
                         next: (result) => {
                           this.categoriasPrincipales = result.body;
-
+                          this.imagenActual = dataURI(res.body.imagen);
                           this.categoria = res.body;
                           this.categoria.area = 'ninguna';
                           this.categoria.categoriaPrincipalDescripcion = this.categoriasPrincipales.find(x=>x.id == this.categoria.categoriaPrincipal)?.descripcion;
@@ -137,7 +138,9 @@ export class CecComponent implements OnInit {
         .subscribe({
           next: (res) => {
             if(this.imagenCategoria.size > 0){
-              console.log(res);
+              if(!!this.categoria.imagen)
+                this.categoriasService.borrarImagen(this.categoria.imagen);
+                
               this.categoriasService.subirImagen(this.imagenCategoria,this.categoria.id)
               .subscribe({
                 next: (res) =>{
@@ -162,7 +165,6 @@ export class CecComponent implements OnInit {
         .subscribe({
           next: (res) => {
             if(this.imagenCategoria.size > 0){
-              console.log(res);
               this.categoriasService.subirImagen(this.imagenCategoria,res.id)
               .subscribe({
                 next: (res) =>{

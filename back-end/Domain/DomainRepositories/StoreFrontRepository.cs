@@ -21,6 +21,7 @@ namespace Domain.DomainRepositories
         public async Task<CategoriasProductoDTO> GetAllMenuItems()
         {
             CategoriasProductoDTO listadoCategoriasProducto = new CategoriasProductoDTO();
+            listadoCategoriasProducto.Areas = new List<AreasDTO>();
 
             var areas = await context.Areas.Where(x => x.Descripcion != null).ToListAsync();
             var categorias = await context.Categorias.Where(x => x.Descripcion != null).ToListAsync();
@@ -45,7 +46,7 @@ namespace Domain.DomainRepositories
                     };
 
                     List<CategoriaSecundariaDTO> Subcategorias = new List<CategoriaSecundariaDTO>();
-                    var listadoSubcategorias = subcategorias.Where(x => x.CategoriaPrincipal.Equals(categoria));
+                    var listadoSubcategorias = subcategorias.Where(x => x.CategoriaPrincipal.Equals(categoria.Id));
                     foreach (var subcategoria in listadoSubcategorias)
                     {
                         CategoriaSecundariaDTO nuevaSecundaria = new CategoriaSecundariaDTO()
@@ -123,7 +124,7 @@ namespace Domain.DomainRepositories
 
             var products = (from a in context.Producto
                             where a.Inventario > 0
-                            select a).OrderByDescending(x=>x.FechaCreacion).Take(12);
+                            select a).OrderByDescending(x=>x.FechaCreacion).Take(12).ToList();
 
             foreach (var item in products)
             {
@@ -159,6 +160,14 @@ namespace Domain.DomainRepositories
 
                         if (region.Precio != null)
                             producto.Precio = region.Precio.Value;
+
+                        var productHasOtherRegion = context.RegionesProductos.Where(x => x.Producto.Equals(producto.Id) && x.Pais != region.Id);
+                        if (productHasOtherRegion.Any())
+                        {
+                            var productInCountry = context.RegionesProductos.FirstOrDefault(x => x.Producto.Equals(producto.Id) && x.Pais.Equals(region.Id));
+                            if(productInCountry == null)
+                                products.Remove(item);
+                        }
                     }
                 }
             }
@@ -184,7 +193,7 @@ namespace Domain.DomainRepositories
                             join b in context.Areas on a.Area equals b.Id
                             join c in context.Producto on a.Id equals c.CategoriaId
                             where b.Id == Guid.Parse(area)
-                            select c).OrderByDescending(x => x.FechaCreacion);
+                            select c).OrderByDescending(x => x.FechaCreacion).ToList();
 
             foreach (var item in products)
             {
@@ -220,6 +229,14 @@ namespace Domain.DomainRepositories
 
                         if (region.Precio != null)
                             producto.Precio = region.Precio.Value;
+
+                        var productHasOtherRegion = context.RegionesProductos.Where(x => x.Producto.Equals(producto.Id) && x.Pais != region.Id);
+                        if (productHasOtherRegion.Any())
+                        {
+                            var productInCountry = context.RegionesProductos.FirstOrDefault(x => x.Producto.Equals(producto.Id) && x.Pais.Equals(region.Id));
+                            if (productInCountry == null)
+                                products.Remove(item);
+                        }
                     }
                 }
             }
@@ -234,7 +251,7 @@ namespace Domain.DomainRepositories
             var products = (from a in context.Categorias
                             join b in context.Producto on a.Id equals b.CategoriaId
                             where a.Id == Guid.Parse(category)
-                            select b).OrderByDescending(x => x.FechaCreacion);
+                            select b).OrderByDescending(x => x.FechaCreacion).ToList();
 
             foreach (var item in products)
             {
@@ -270,6 +287,14 @@ namespace Domain.DomainRepositories
 
                         if (region.Precio != null)
                             producto.Precio = region.Precio.Value;
+
+                        var productHasOtherRegion = context.RegionesProductos.Where(x => x.Producto.Equals(producto.Id) && x.Pais != region.Id);
+                        if (productHasOtherRegion.Any())
+                        {
+                            var productInCountry = context.RegionesProductos.FirstOrDefault(x => x.Producto.Equals(producto.Id) && x.Pais.Equals(region.Id));
+                            if (productInCountry == null)
+                                products.Remove(item);
+                        }
                     }
                 }
             }
@@ -284,7 +309,7 @@ namespace Domain.DomainRepositories
             var products = (from a in context.Subcategorias
                             join b in context.Producto on a.Id equals b.SubcategoriaId
                             where a.Id == Guid.Parse(subcategory)
-                            select b).OrderByDescending(x => x.FechaCreacion);
+                            select b).OrderByDescending(x => x.FechaCreacion).ToList();
 
             foreach (var item in products)
             {
@@ -320,6 +345,14 @@ namespace Domain.DomainRepositories
 
                         if (region.Precio != null)
                             producto.Precio = region.Precio.Value;
+
+                        var productHasOtherRegion = context.RegionesProductos.Where(x => x.Producto.Equals(producto.Id) && x.Pais != region.Id);
+                        if (productHasOtherRegion.Any())
+                        {
+                            var productInCountry = context.RegionesProductos.FirstOrDefault(x => x.Producto.Equals(producto.Id) && x.Pais.Equals(region.Id));
+                            if (productInCountry == null)
+                                products.Remove(item);
+                        }
                     }
                 }
             }

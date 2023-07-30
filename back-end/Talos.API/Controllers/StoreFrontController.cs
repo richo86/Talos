@@ -23,12 +23,14 @@ namespace Talos.API.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IMapper mapper;
         private readonly IStoreFrontRepository storeFrontRepository;
+        private readonly IDriveRepository driveRepository;
 
-        public StoreFrontController(UserManager<ApplicationUser> userManager, IMapper mapper, IStoreFrontRepository storeFrontRepository)
+        public StoreFrontController(UserManager<ApplicationUser> userManager, IMapper mapper, IStoreFrontRepository storeFrontRepository, IDriveRepository driveRepository)
         {
             this.userManager = userManager;
             this.mapper = mapper;
             this.storeFrontRepository = storeFrontRepository;
+            this.driveRepository = driveRepository;
         }
 
         [HttpGet("GetAllProducts")]
@@ -59,6 +61,11 @@ namespace Talos.API.Controllers
                 if (!products.Any())
                     return NotFound();
 
+                foreach (var item in products)
+                {
+                    item.ImagenesBase64 = driveRepository.GetFilesByIds(item.Imagenes);
+                }
+
                 return Ok(products);
             }
             catch (Exception ex)
@@ -76,6 +83,11 @@ namespace Talos.API.Controllers
 
                 if (!products.Any())
                     return NotFound();
+
+                foreach (var item in products)
+                {
+                    item.ImagenesBase64 = driveRepository.GetFilesByIds(item.Imagenes);
+                }
 
                 return Ok(products);
             }
@@ -95,6 +107,11 @@ namespace Talos.API.Controllers
                 if (!products.Any())
                     return NotFound();
 
+                foreach (var item in products)
+                {
+                    item.ImagenesBase64 = driveRepository.GetFilesByIds(item.Imagenes);
+                }
+
                 return Ok(products);
             }
             catch(Exception ex)
@@ -112,6 +129,11 @@ namespace Talos.API.Controllers
 
                 if (!products.Any())
                     return NotFound();
+
+                foreach (var item in products)
+                {
+                    item.ImagenesBase64 = driveRepository.GetFilesByIds(item.Imagenes);
+                }
 
                 return Ok(products);
             }
@@ -131,6 +153,11 @@ namespace Talos.API.Controllers
                 if (!products.Any())
                     return NotFound();
 
+                foreach (var item in products)
+                {
+                    item.ImagenesBase64 = driveRepository.GetFilesByIds(item.Imagenes);
+                }
+
                 return Ok(products);
             }
             catch (Exception ex)
@@ -148,6 +175,11 @@ namespace Talos.API.Controllers
 
                 if (!products.Any())
                     return NotFound();
+
+                foreach (var item in products)
+                {
+                    item.ImagenesBase64 = driveRepository.GetFilesByIds(item.Imagenes);
+                }
 
                 return Ok(products);
             }
@@ -167,6 +199,11 @@ namespace Talos.API.Controllers
                 if (!products.Any())
                     return NotFound();
 
+                foreach (var item in products)
+                {
+                    item.ImagenesBase64 = driveRepository.GetFilesByIds(item.Imagenes);
+                }
+
                 return Ok(products);
             }
             catch (Exception ex)
@@ -184,6 +221,11 @@ namespace Talos.API.Controllers
 
                 if (!products.Any())
                     return NotFound();
+
+                foreach (var item in products)
+                {
+                    item.ImagenesBase64 = driveRepository.GetFilesByIds(item.Imagenes);
+                }
 
                 return Ok(products);
             }

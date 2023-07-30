@@ -45,6 +45,19 @@ import { EditarVentaComponent } from './ventas/editar/editar.component';
 import { RegionesComponent } from './regiones/regiones.component';
 import { CerComponent } from './regiones/cer/cer.component';
 import { CategoriesDisplayComponent } from './categories-display/categories-display.component';
+import {NgxGalleryModule} from 'ngx-gallery';
+import { ImageGalleryComponent } from './utilidades/image-gallery/image-gallery.component';
+import { CarouselComponent } from './utilidades/carousel/carousel.component';
+import { AreasDisplayComponent } from './areas-display/areas-display.component';
+import { SubcategoriesDisplayComponent } from './subcategories-display/subcategories-display.component';
+import { AboutComponent } from './about/about.component';
+import { ReturnPolicyComponent } from './return-policy/return-policy.component';
+import { ProductPageComponent } from './product-page/product-page.component';
+import { ProductCardComponent } from './utilidades/product-card/product-card.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import { AllProductsComponent } from './all-products/all-products.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -80,7 +93,16 @@ import { CategoriesDisplayComponent } from './categories-display/categories-disp
     EditarVentaComponent,
     RegionesComponent,
     CerComponent,
-    CategoriesDisplayComponent
+    CategoriesDisplayComponent,
+    ImageGalleryComponent,
+    CarouselComponent,
+    AreasDisplayComponent,
+    SubcategoriesDisplayComponent,
+    AboutComponent,
+    ReturnPolicyComponent,
+    ProductPageComponent,
+    ProductCardComponent,
+    AllProductsComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +115,11 @@ import { CategoriesDisplayComponent } from './categories-display/categories-disp
     MatSidenavModule,
     FormsModule,
     MatMenuModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxGalleryModule,
+    MatCardModule,
+    MatButtonModule,
+    MatGridListModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

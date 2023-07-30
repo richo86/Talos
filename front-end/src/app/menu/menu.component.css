@@ -61,3 +61,49 @@ app-autorizacion p{
 .mobileItem .mat-icon{
     margin-top:5px;
 }
+::ng-deep .categories-panel{
+    width:600px;
+    min-width: none!important;
+    max-width: none!important;
+    max-height: none!important;
+}
+::ng-deep .categories-panel a{
+    display:flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    word-wrap: break-word;
+    color: #565656;
+    text-decoration: none;
+}
+.categoryList{
+    display: block;
+    font-weight: 500;
+    font-size: 15px;
+}
+.subcategoryList{
+    font-weight: 400;
+    font-size: 14px;
+}
+.subcategoryList a:hover{
+    color:#3f51b5;
+}
+.categoryContent h1{
+    font-weight: 500;
+    font-size: 16px;
+    color: #ccc;
+    cursor: pointer;
+}
+@media screen and (max-width: 600px) {
+    .categoryContent{
+        padding:10px;
+    }
+    .categoryContent a{
+        display:flex;
+        flex-direction: column;
+        margin-bottom: 8px;
+        word-wrap: break-word;
+        font-size: 14px;
+        color: #565656;
+        text-decoration: none;
+    }
+}

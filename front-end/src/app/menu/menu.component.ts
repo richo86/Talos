@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { SeguridadService } from '../seguridad/seguridad.service';
+import { MenuService } from './menu.service';
+import { AreasDTO, CategoriasProductoDTO } from './menu.models';
 
 @Component({
   selector: 'app-menu',
@@ -14,24 +16,33 @@ export class MenuComponent implements OnInit {
 
   openMenu: boolean = false;
   userId: string;
+  productMenu: CategoriasProductoDTO = new CategoriasProductoDTO();
+  shouldRun = /(^|.)(stackblitz|webcontainer).(io|com)$/.test(window.location.host);
 
   constructor(public securityService: SeguridadService,
-    private router: Router) { }
+    private router: Router,
+    private menuService: MenuService) { }
 
   ngOnInit(): void {
     if(this.userId == null)
       this.securityService.getUserID(this.securityService.obtenerCampoJwt('email'))
-        .subscribe(res =>{
-          this.userId = res;
-        });
+      .subscribe(res =>{
+        this.userId = res;
+      });
+
+    this.menuService.obtenerMenuProductos()
+    .subscribe({
+      next: res =>{
+        if(res.body.Count() > 0)
+          this.productMenu = res.body;
+      }
+    })  
   }
 
   close() {
     this.sidenav.close();
     this.toggleMenu();
   }
-
-  shouldRun = /(^|.)(stackblitz|webcontainer).(io|com)$/.test(window.location.host);
 
   logOut(){
     this.securityService.logOut();

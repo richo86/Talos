@@ -8,3 +8,6 @@
       padding-top: 3rem;
     }
 }
+.mat-sidenav-container, .mat-sidenav-content, .mat-tab-body-content {
+  transform: none !important;
+}

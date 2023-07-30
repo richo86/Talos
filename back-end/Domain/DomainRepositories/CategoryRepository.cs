@@ -184,10 +184,7 @@ namespace Domain.DomainRepositories
                 context.Entry(category).CurrentValues.SetValues(categoria);
                 var result = context.SaveChanges();
 
-                if (result > 0)
-                    return category;
-                else
-                    return new Categorias();
+                return category;
             }
             else
                 return new Categorias();
@@ -202,10 +199,7 @@ namespace Domain.DomainRepositories
                 context.Entry(category).CurrentValues.SetValues(categoria);
                 var result = context.SaveChanges();
 
-                if (result > 0)
-                    return category;
-                else
-                    return new Subcategorias();
+                return category;
             }
             else
                 return new Subcategorias();
@@ -270,10 +264,7 @@ namespace Domain.DomainRepositories
                 context.Entry(areaExistente).CurrentValues.SetValues(area);
                 var result = context.SaveChanges();
 
-                if (result > 0)
-                    return area;
-                else
-                    return new Areas();
+                return area;
             }
             else
                 return new Areas();

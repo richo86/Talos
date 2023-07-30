@@ -73,7 +73,7 @@ namespace Talos.API.Controllers
         [HttpPost("UploadCategoryFile")]
         public async Task<IActionResult> UploadCategoryFile(IFormFile file, [FromForm] string id)
         {
-            if (files.Length == 0)
+            if (file.Length == 0)
                 return BadRequest("No se adjuntó un archivo");
 
             var result = await driveRepository.UploadCategoryFile(file, id);
