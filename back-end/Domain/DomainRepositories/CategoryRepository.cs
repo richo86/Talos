@@ -2,7 +2,6 @@
 using Domain.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Models;
-using Models.Classes;
 using Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -275,7 +274,7 @@ namespace Domain.DomainRepositories
             return await context.Areas.AsNoTracking().Where(x => x.TipoCategoria.Equals(Models.Enums.TipoCategoria.Area)).ToListAsync();
         }
 
-        public bool CreateImage(string id, string category)
+        public bool CreateImage(string id, string category, string base64Image)
         {
             try
             {
@@ -287,17 +286,20 @@ namespace Domain.DomainRepositories
                 if (area != null)
                 {
                     area.Imagen = id;
+                    area.ImagenBase64 = base64Image;
                     context.Areas.Update(area);
                     context.SaveChanges();
                 }else if (categoria != null)
                 {
                     categoria.Imagen = id;
+                    categoria.ImagenBase64 = base64Image;
                     context.Categorias.Update(categoria);
                     context.SaveChanges();
                 }
                 else if (subcategoria != null)
                 {
                     subcategoria.Imagen = id;
+                    subcategoria.ImagenBase64 = base64Image;
                     context.Subcategorias.Update(subcategoria);
                     context.SaveChanges();
                 }

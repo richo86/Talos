@@ -19,24 +19,32 @@ export class MenuComponent implements OnInit {
   productMenu: CategoriasProductoDTO = new CategoriasProductoDTO();
   shouldRun = /(^|.)(stackblitz|webcontainer).(io|com)$/.test(window.location.host);
 
+
   constructor(public securityService: SeguridadService,
     private router: Router,
     private menuService: MenuService) { }
 
   ngOnInit(): void {
-    if(this.userId == null)
-      this.securityService.getUserID(this.securityService.obtenerCampoJwt('email'))
-      .subscribe(res =>{
-        this.userId = res;
-      });
+    this.getUserId();
+    this.getProductMenu();
+  }
 
+  getUserId(){
+    if(this.userId == null)
+    this.securityService.getUserID(this.securityService.obtenerCampoJwt('email'))
+    .subscribe(res =>{
+      this.userId = res;
+    });
+  }
+
+  getProductMenu(){
     this.menuService.obtenerMenuProductos()
     .subscribe({
       next: res =>{
-        if(res.body.Count() > 0)
+        if(!!res)
           this.productMenu = res.body;
       }
-    })  
+    });
   }
 
   close() {

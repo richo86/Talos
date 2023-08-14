@@ -49,6 +49,12 @@ export class ProductosService {
     return this.http.get<string[]>(this.apiURL + '/getProductIds', {observe: 'response', params});
   }
 
+  public obtenerImagenesProductoBase64(id:string){
+    let params = new HttpParams();
+    params = params.append('id', id);
+    return this.http.get<KeyValuePair<string, string>[]>(this.apiURL + '/getProductBase64Images', {observe: 'response', params});
+  }
+
   public obtenerTodasImagenes(){
     return this.http.get<any>(this.driveURL + '/GetAllFiles', {observe: 'response'});
   }

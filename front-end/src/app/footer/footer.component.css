@@ -1,0 +1,128 @@
+/* footer section  */
+footer {
+    background: #111112;
+}
+footer .copyright-text {
+padding-top: 10px;
+}
+footer a {
+    color: #fff;
+}
+footer a:hover {
+    color: #FF6;
+}
+
+/* svg */
+@media screen and (min-width: 768px) {
+.svgcolor-light {
+/*position: absolute;
+top: 0;*/
+right: 20px;
+position: relative;
+}
+}
+.svgcolor-light > path {
+fill: white;
+stroke: white;
+stroke-width: 0;
+}
+
+/* svg */
+.svgcolor-light2 {
+/*position: absolute;
+top: 0;
+left: 0; */
+position: relative;
+bottom: 104px;
+}
+.svgcolor-light2 > path {
+fill: white;
+stroke: white;
+stroke-width: 0;
+}
+
+/* modal */
+.modal-dialog .modal-content {
+background: url('../images/modal/modal-bg.jpg') no-repeat;
+background-size: cover;
+background-position: center center;
+border-radius: 0;
+text-align: center;
+padding: 100px 50px 100px 50px;
+position: relative;
+}
+.btn:focus {
+outline: none;
+}
+.modal-header {
+border-bottom: 0px;
+}
+.modal-dialog .close {
+color: #f1c11a;
+font-size: 40px;
+font-weight: 300;
+text-shadow: none;
+opacity: 1;
+position: absolute;
+top: 40px;
+right: 40px;
+border: 2px solid #ffffff;
+border-radius: 100px;
+width: 36px;
+height: 36px;
+line-height: 35px;
+text-align: center;
+}
+.modal-dialog .close:focus {
+outline: none;
+}
+.modal-dialog form {
+padding: 20px;
+}
+.modal-dialog form input {
+height: 55px;
+}
+.modal-dialog form .form-control {
+background: transparent;
+border: 1px solid #f0f0f0;
+border-radius: 0px;
+box-shadow: none;
+font-size: 20px;
+color: #fff;
+margin-bottom: 20px;
+transition: all 0.4s ease-in-out;
+}
+.modal-dialog form input[type="submit"] {
+background: #ffffff;
+color: #242424;
+text-transform: uppercase;
+margin-top: 30px;
+}
+.modal-dialog form input[type="submit"]:hover {
+background: #f1c11a;
+border-color: transparent;
+color: #ffffff;
+}
+  
+
+@media (max-width: 700px) {
+
+    #home {height: 100vh;}
+  
+    .modal-dialog .modal-content {
+      padding: 50px 20px;
+    }
+  
+    footer {text-align: center;}
+    footer .col-sm-6 {
+      padding-bottom: 32px;
+    }
+  
+    .modal-dialog .close {
+    font-size: 35px;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+  }
+  
+}

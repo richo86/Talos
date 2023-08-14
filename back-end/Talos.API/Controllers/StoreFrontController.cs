@@ -47,7 +47,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener las categorias principales: {ex.Message}");
+                return BadRequest($"Error al intentar obtener las categorias: {ex.Message}");
             }
         }
 
@@ -70,7 +70,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener la categoria: {ex.Message}");
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
             }
         }
 
@@ -93,7 +93,30 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener las categorias principales: {ex.Message}");
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetLowestCost")]
+        public ActionResult GetLowestCost(string countryCode)
+        {
+            try
+            {
+                var products = storeFrontRepository.GetLowestCost(countryCode);
+
+                if (!products.Any())
+                    return NotFound();
+
+                foreach (var item in products)
+                {
+                    item.ImagenesBase64 = driveRepository.GetFilesByIds(item.Imagenes);
+                }
+
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
             }
         }
 
@@ -116,7 +139,7 @@ namespace Talos.API.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest($"Error al intentar obtener las categorias principales: {ex.Message}");
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
             }
         }
 
@@ -139,7 +162,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener las categorias principales: {ex.Message}");
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
             }
         }
 
@@ -162,7 +185,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener las categorias principales: {ex.Message}");
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
             }
         }
 
@@ -185,7 +208,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener las categorias principales: {ex.Message}");
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
             }
         }
 
@@ -208,7 +231,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener las categorias principales: {ex.Message}");
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
             }
         }
 
@@ -231,7 +254,76 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener las categorias principales: {ex.Message}");
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetDiscountedProducts")]
+        public ActionResult GetDiscountedProducts(string countryCode)
+        {
+            try
+            {
+                var products = storeFrontRepository.GetDiscountedProducts(countryCode);
+
+                if (!products.Any())
+                    return NotFound();
+
+                foreach (var item in products)
+                {
+                    item.ImagenesBase64 = driveRepository.GetFilesByIds(item.Imagenes);
+                }
+
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetTopAreas")]
+        public ActionResult GetTopAreas(string countryCode)
+        {
+            try
+            {
+                var categories = storeFrontRepository.GetTopAreas(countryCode);
+
+                if (!categories.Any())
+                    return NotFound();
+
+                foreach (var item in categories)
+                {
+                    item.Image = driveRepository.GetFileById(item.Image);
+                }
+
+                return Ok(categories);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetTopSubcategories")]
+        public ActionResult GetTopSubcategories(string countryCode)
+        {
+            try
+            {
+                var subcategories = storeFrontRepository.GetTopSubcategories(countryCode);
+
+                if (!subcategories.Any())
+                    return NotFound();
+
+                foreach (var item in subcategories)
+                {
+                    item.Image = driveRepository.GetFileById(item.Image);
+                }
+
+                return Ok(subcategories);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
             }
         }
     }

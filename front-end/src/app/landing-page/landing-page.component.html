@@ -1,1 +1,93 @@
+
 <app-carousel [carouselDTO]="carouselDTO"></app-carousel>
+
+<section id="storeDescription">
+    <div class="storeSummary">
+        <h1>wellness rituals shouldn't be complicated.</h1>
+        <p>We're tease. We create all natural, tea + botanical based essentials that compliment each other and your goals without compromising convenience, sustainability, or impact.</p>
+    </div>
+</section>
+
+<section id="categories">
+    <h1>DISCOVER OUR COLLECTIONS</h1>
+    <mat-grid-list cols="4" rowHeight="500px">
+        <ng-container *ngFor="let item of collectionList">
+            <mat-grid-tile>
+                <div class="categoryCard">
+                    <a routerLink=""></a>
+                </div>
+            </mat-grid-tile>
+        </ng-container>
+    </mat-grid-list>
+</section>
+
+<section id="bestSellers">
+    <h1>THE ESSENTIALS</h1>
+    <mat-grid-list cols="4" rowHeight="500px">
+        <ng-container *ngFor="let item of collectionList">
+            <mat-grid-tile>
+                <div class="categoryCard">
+                    <a routerLink=""></a>
+                </div>
+            </mat-grid-tile>
+        </ng-container>
+    </mat-grid-list>
+</section>
+
+<section id="subcategories">
+    <mat-grid-list cols="2" rowHeight="500px">
+        <ng-container *ngFor="let item of collectionList">
+            <mat-grid-tile>
+                <a routerLink="{{item.linkRoute}}">
+                    <div class="subcategoryCard">
+                        <img
+                        [src]="item.image"
+                        class="subcategoryImage"
+                        [alt]="item.title"
+                        @carouselAnimation
+                        />
+                        <div class="subcategory-text">
+                            <h1>{{item.title}}</h1>
+                            <a routerLink="{{item.linkRoute}}">SHOP</a>
+                        </div>
+                    </div>
+                </a>
+            </mat-grid-tile>
+        </ng-container>
+    </mat-grid-list>
+</section>
+
+<section id="lowCost">
+    <h1>THE BEST VALUE FOR YOU</h1>
+    <mat-grid-list cols="4" rowHeight="500px">
+        <ng-container *ngFor="let item of collectionList">
+            <mat-grid-tile>
+                <div class="categoryCard">
+                    <a routerLink=""></a>
+                </div>
+            </mat-grid-tile>
+        </ng-container>
+    </mat-grid-list>
+</section>
+
+<section id="about">
+    <mat-grid-list cols="2" rowHeight="500px">
+        <mat-grid-tile>
+            <div class="aboutText">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <br/>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <a routerLink=""></a>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div class="aboutImage">
+                <img src="//www.teasetea.com/cdn/shop/files/0036_Sheena_Brady_Tease__PBE_Branding_1080x.jpg?v=1670219375" alt="">
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</section>
+
+<section id="footer">
+    <app-footer></app-footer>
+</section>

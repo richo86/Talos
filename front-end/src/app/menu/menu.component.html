@@ -24,7 +24,7 @@
 
         <button mat-button [matMenuTriggerFor]="areas">Categories</button>
         <mat-menu #areas="matMenu" class="categories-panel">
-            <mat-grid-list cols="5" rowHeight="1:1" *ngIf="!!productMenu">
+            <mat-grid-list cols="4" rowHeight="1:1" *ngIf="!!productMenu">
                 <ng-container *ngFor="let area of productMenu.areas">
                     <mat-grid-tile>
                         <div class="categoryContent">

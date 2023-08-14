@@ -58,6 +58,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import { AllProductsComponent } from './all-products/all-products.component';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     ReturnPolicyComponent,
     ProductPageComponent,
     ProductCardComponent,
-    AllProductsComponent
+    AllProductsComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

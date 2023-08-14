@@ -20,6 +20,7 @@ namespace PeliculasAPI.Utilidades
             CreateMap<Producto, ProductoDTO>()
                 .ForMember(to => to.Id, from => from.MapFrom(src => src.Id.ToString()))
                 .ForMember(to => to.Imagenes, from => from.MapFrom(src => ExtractImages(src.Imagenes)))
+                .ForMember(to => to.ImagenesBase64, from => from.MapFrom(src => ExtractBase64Images(src.Imagenes)))
                 .ForMember(to => to.DescuentoId, from => from.MapFrom(src => src.DescuentoId.ToString()))
                 .ForMember(to => to.CategoriaDescripcion, from => from.MapFrom(src => src.Categoria.Descripcion))
                 .ForMember(to => to.SubcategoriaDescripcion, from => from.MapFrom(src => src.Subcategoria.Descripcion));
@@ -95,6 +96,17 @@ namespace PeliculasAPI.Utilidades
             }
 
             return imagesCodes;
+        }
+
+        private object ExtractBase64Images(List<Imagenes> imagenes)
+        {
+            List<string> images = new List<string>();
+            foreach (var item in imagenes)
+            {
+                images.Add(item.ImagenBase64);
+            }
+
+            return images;
         }
     }
 }

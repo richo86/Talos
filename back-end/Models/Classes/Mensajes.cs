@@ -13,7 +13,9 @@ namespace Models.Classes
         public Guid Id { get; set; }
         public string Mensaje { get; set; }
         public DateTime FechaRegistro { get; set; }
+        [EmailAddress]
         public string UsuarioEmail { get; set; }
+        [EmailAddress]
         public string UsuarioReceptorEmail { get; set; }
     }
 }

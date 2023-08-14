@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Talos.API.Classes;
 using Talos.API.User;
 
 namespace Talos.API.Controllers
@@ -24,6 +25,7 @@ namespace Talos.API.Controllers
         private readonly IMapper mapper;
         private readonly ICategoryRepository categoryRepository;
         private readonly IDriveRepository driveRepository;
+        private readonly CategoriesHelper categoryHelper;
 
         public CategoryController(UserManager<ApplicationUser> userManager, IMapper mapper, ICategoryRepository categoryRepository, IDriveRepository driveRepository)
         {
@@ -31,6 +33,7 @@ namespace Talos.API.Controllers
             this.mapper = mapper;
             this.categoryRepository = categoryRepository;
             this.driveRepository = driveRepository;
+            this.categoryHelper = new CategoriesHelper(this.driveRepository);
         }
 
         [HttpGet("GetArea")]
@@ -43,9 +46,7 @@ namespace Talos.API.Controllers
                 if (area.Descripcion != null)
                 {
                     var categoriaDTO = mapper.Map<Areas, CategoriaDTO>(area);
-
-                    if(categoriaDTO.Imagen != null)
-                        categoriaDTO.Imagen = driveRepository.GetFileById(categoriaDTO.Imagen);
+                    categoriaDTO = categoryHelper.GetImage(categoriaDTO);
                     
                     return Ok(categoriaDTO);
                 }
@@ -54,7 +55,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener la categoria: {ex.Message}");
+                return BadRequest($"There was an error obtaining the area: {ex.Message}");
             }
         }
 
@@ -68,9 +69,7 @@ namespace Talos.API.Controllers
                 if (category.Descripcion != null)
                 {
                     var categoriaDTO = mapper.Map<Categorias, CategoriaDTO>(category);
-
-                    if (categoriaDTO.Imagen != null)
-                        categoriaDTO.Imagen = driveRepository.GetFileById(categoriaDTO.Imagen);
+                    categoriaDTO = categoryHelper.GetImage(categoriaDTO);
 
                     return Ok(categoriaDTO);
                 }
@@ -79,7 +78,7 @@ namespace Talos.API.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest($"Error al intentar obtener la categoria: {ex.Message}");
+                return BadRequest($"There was an error obtaining the area: {ex.Message}");
             }
         }
 
@@ -93,9 +92,7 @@ namespace Talos.API.Controllers
                 if (category.Descripcion != null)
                 {
                     var categoriaDTO = mapper.Map<Subcategorias, CategoriaDTO>(category);
-
-                    if (categoriaDTO.Imagen != null)
-                        categoriaDTO.Imagen = driveRepository.GetFileById(categoriaDTO.Imagen);
+                    categoriaDTO = categoryHelper.GetImage(categoriaDTO);
 
                     return Ok(categoriaDTO);
                 }
@@ -104,7 +101,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener la subcategoria: {ex.Message}");
+                return BadRequest($"There was an error obtaining the subcategory: {ex.Message}");
             }
         }
 
@@ -125,7 +122,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener las categorias principales: {ex.Message}");
+                return BadRequest($"An error occurred when trying to get the main categories: {ex.Message}");
             }
         }
 
@@ -146,7 +143,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener las áreas de negocio: {ex.Message}");
+                return BadRequest($"An error occurred when trying to get the areas: {ex.Message}");
             }
         }
 
@@ -167,7 +164,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al intentar obtener las categorias secundarias: {ex.Message}");
+                return BadRequest($"An error occurred when trying to get the subcategories: {ex.Message}");
             }
         }
 
@@ -192,7 +189,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al recuperar las categorias: {ex.Message}");
+                return BadRequest($"An error occurred when trying to obtain the categories: {ex.Message}");
             }
         }
 
@@ -217,7 +214,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al recuperar las subcategorias: {ex.Message}");
+                return BadRequest($"An error occurred when trying to obtain the subcategories: {ex.Message}");
             }
         }
 
@@ -242,7 +239,7 @@ namespace Talos.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error al recuperar las areas: {ex.Message}");
+                return BadRequest($"An error occurred when trying to obtain the areas: {ex.Message}");
             }
         }
 
@@ -269,7 +266,7 @@ namespace Talos.API.Controllers
                         return Ok(result);
                     }
                     else
-                        return Ok("No fue posible crear la categoria o actualizarla");
+                        return Ok("An error occurred while trying to create the category");
                 }
                 else if (categoryDTO.TipoCategoria == Models.Enums.TipoCategoria.Area)
                 {
@@ -283,7 +280,7 @@ namespace Talos.API.Controllers
                         return Ok(result);
                     }
                     else
-                        return Ok("No fue posible crear el área o actualizarla");
+                        return Ok("An error occurred while trying to create the area");
                 }
                 else
                 {
@@ -297,12 +294,12 @@ namespace Talos.API.Controllers
                         return Ok(result);
                     }
                     else
-                        return Ok("No fue posible crear la categoria o actualizarla");
+                        return Ok("An error occurred while trying to create the subcategory");
                 }
             }
             catch(Exception ex)
             {
-                return BadRequest($"Error al intentar crear la categoria: {ex.Message}");
+                return BadRequest($"An error occurred while trying to create the category: {ex.Message}");
             }
         }
 
@@ -328,7 +325,7 @@ namespace Talos.API.Controllers
                         return Ok(result);
                     }
                     else
-                        return BadRequest("No fue posible actualizar el producto");
+                        return BadRequest("An error occurred while trying to update the category");
                 }
                 else if(categoryDTO.TipoCategoria == Models.Enums.TipoCategoria.Area)
                 {
@@ -342,7 +339,7 @@ namespace Talos.API.Controllers
                         return Ok(result);
                     }
                     else
-                        return BadRequest("No fue posible actualizar el producto");
+                        return BadRequest("An error occurred while trying to update the area");
                 }
                 else
                 {
@@ -356,7 +353,7 @@ namespace Talos.API.Controllers
                         return Ok(result);
                     }
                     else
-                        return BadRequest("No fue posible actualizar el producto");
+                        return BadRequest("An error occurred while trying to update the subcategory");
                 }
             }
             catch (Exception ex)
@@ -377,8 +374,8 @@ namespace Talos.API.Controllers
             }
             catch (Exception)
             {
-                return BadRequest($"Error al eliminar la categoria: Ya existe una relación con un producto o categoria activo y no es posible eliminarlo. " +
-                                    $"Por favor intenta editar el registro");
+                return BadRequest($"An error occurred while trying to delete the category: A relationship between a product " +
+                    $"or category has already been established and it is not possible to eliminate, please edit the category instead.");
             }
         }
 
@@ -387,7 +384,7 @@ namespace Talos.API.Controllers
             List<string> errorList = new List<string>();
 
             if (category.Descripcion == null)
-                errorList.Add("Es necesario incluir una descripción");
+                errorList.Add("It is necessary to include a description");
 
             return errorList;
         }
@@ -397,7 +394,7 @@ namespace Talos.API.Controllers
             List<string> errorList = new List<string>();
 
             if (category.Descripcion == null)
-                errorList.Add("Es necesario incluir una descripción");
+                errorList.Add("It is necessary to include a description");
 
             return errorList;
         }

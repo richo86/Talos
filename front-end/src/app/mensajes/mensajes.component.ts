@@ -25,6 +25,10 @@ export class MensajesComponent implements OnInit {
   findMessages = setInterval(() => this.getMessages(), 10000);
 
   ngOnInit(): void {
+    this.GetEmailReceiver();
+  }
+
+  GetEmailReceiver(){
     if(this.emailReceiver == undefined){
       this.activatedRoute.params.subscribe((params) => {
         this.emailReceiver = params.emailReceiver;

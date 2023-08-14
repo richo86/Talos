@@ -128,8 +128,9 @@ namespace Domain.DomainRepositories
                         request.Upload();
 
                         var fileUploaded = request.ResponseBody;
+                        var imageBase64 = GetFileById(request.ResponseBody.Id);
 
-                        productRepository.CreateImage(request.ResponseBody.Id, id);
+                        productRepository.CreateImage(request.ResponseBody.Id, id,imageBase64);
                     }
                 }
                 catch
@@ -162,8 +163,9 @@ namespace Domain.DomainRepositories
                     request.Upload();
 
                     var fileUploaded = request.ResponseBody;
+                    var imageBase64 = GetFileById(request.ResponseBody.Id);
 
-                    var result = categoryRepository.CreateImage(request.ResponseBody.Id, id);
+                    var result = categoryRepository.CreateImage(request.ResponseBody.Id, id, imageBase64);
 
                     if (!result)
                         await DeleteFile(request.ResponseBody.Id);

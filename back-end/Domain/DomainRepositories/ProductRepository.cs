@@ -19,7 +19,7 @@ namespace Domain.DomainRepositories
             this.context = context;
         }
 
-        public bool CreateImage(string id, string product)
+        public bool CreateImage(string id, string product, string imageBase64)
         {
             try
             {
@@ -32,7 +32,8 @@ namespace Domain.DomainRepositories
                     {
                         Id = Guid.NewGuid(),
                         ProductoId = productId,
-                        ImagenUrl = id
+                        ImagenUrl = id,
+                        ImagenBase64 = imageBase64
                     };
                     context.Imagenes.Add(imagen);
                     context.SaveChanges();
@@ -103,6 +104,23 @@ namespace Domain.DomainRepositories
                 return producto;
             else
                 return new Producto();
+        }
+
+        public List<KeyValuePair<string, string>> getProductBase64Images(string id)
+        {
+            Guid productId = Guid.Parse(id);
+
+            var query = (from a in context.Imagenes
+                         where a.ProductoId == productId
+                         select new
+                         {
+                             key = a.ImagenUrl,
+                             value = a.ImagenBase64 != null ? a.ImagenBase64 : a.ImagenUrl
+                         });
+
+            var images = query.AsEnumerable().Select(x => new KeyValuePair<string, string>(x.key, x.value)).ToList();
+
+            return images;
         }
 
         public List<string> getProductIds(string id)

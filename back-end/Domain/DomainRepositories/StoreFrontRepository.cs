@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Helper;
+using Domain.Interfaces;
 using Domain.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Models.DTOs;
@@ -12,6 +13,7 @@ namespace Domain.DomainRepositories
     public class StoreFrontRepository : IStoreFrontRepository
     {
         private readonly ApplicationDbContext context;
+        private readonly ProductHelper productHelper;
 
         public StoreFrontRepository(ApplicationDbContext context)
         {
@@ -75,7 +77,7 @@ namespace Domain.DomainRepositories
                          join b in context.DetallePedidos on a.Id equals b.PagoId
                          join c in context.ItemsPedido on b.Id equals c.DetallePedidosId
                          join d in context.Producto on c.ProductoId equals d.Id
-                         select new { d.Id, d.Descripcion }).GroupBy(x=>x.Id).Select(y=> new { Id = y.Key, cantidad = y.Count() }).Take(12);
+                         select new { d.Id }).GroupBy(x=>x.Id).Select(y => new { Id = y.Key, cantidad = y.Count() }).Take(12).ToList();
 
             foreach (var item in sales)
             {
@@ -111,9 +113,41 @@ namespace Domain.DomainRepositories
 
                         if(region.Precio != null)
                             producto.Precio = region.Precio.Value;
+
+                        var productHasOtherRegion = context.RegionesProductos.Where(x => x.Producto.Equals(producto.Id) && x.Pais != region.Id);
+                        if (productHasOtherRegion.Any())
+                        {
+                            var productInCountry = context.RegionesProductos.FirstOrDefault(x => x.Producto.Equals(producto.Id) && x.Pais.Equals(region.Id));
+                            if (productInCountry == null)
+                                sales.Remove(item);
+                        }
+                    }
+
+                    if (producto.DescuentoId != null)
+                    {
+                        var descuentoId = Guid.Parse(producto.DescuentoId);
+                        var descuento = context.Descuentos.FirstOrDefault(x => x.Id.Equals(descuentoId)).PorcentajeDescuento;
+
+                        producto.ValorDescuento = ((producto.Precio * (100 - descuento)) / 100).ToString();
                     }
                 }
             }
+
+            return productList;
+        }
+
+        public List<ProductoDTO> GetDiscountedProducts(string countryCode)
+        {
+            List<ProductoDTO> productList = new List<ProductoDTO>();
+
+            var products = (from a in context.Producto
+                            join b in context.Descuentos on a.DescuentoId equals b.Id
+                            where a.DescuentoId != null
+                            select a).OrderBy(x => x.Precio).ToList();
+
+            productList = productHelper.CreateProductDTO(products);
+
+            productList = productHelper.ApplyRegionalPricing(productList,countryCode);
 
             return productList;
         }
@@ -126,51 +160,24 @@ namespace Domain.DomainRepositories
                             where a.Inventario > 0
                             select a).OrderByDescending(x=>x.FechaCreacion).Take(12).ToList();
 
-            foreach (var item in products)
-            {
-                var productItem = context.Producto.FirstOrDefault(x => x.Id.Equals(item.Id));
-                if (productItem != null)
-                {
-                    var images = context.Imagenes.Where(x => x.ProductoId.Equals(item.Id)).Select(x => x.ImagenUrl).ToList();
-                    ProductoDTO producto = new ProductoDTO()
-                    {
-                        Id = productItem.Id.ToString(),
-                        Nombre = productItem.Nombre,
-                        Descripcion = productItem.Descripcion,
-                        Inventario = productItem.Inventario.ToString(),
-                        Precio = productItem.Precio,
-                        Imagenes = images,
-                        FechaCreacion = productItem.FechaCreacion,
-                        FechaModificacion = productItem.FechaModificacion,
-                        CategoriaId = productItem.CategoriaId.ToString(),
-                        CategoriaDescripcion = context.Categorias.FirstOrDefault(x => x.Id.Equals(productItem.CategoriaId)).Descripcion,
-                        SubcategoriaId = productItem.SubcategoriaId.ToString(),
-                        SubcategoriaDescripcion = context.Subcategorias.FirstOrDefault(x => x.Id.Equals(productItem.SubcategoriaId)).Descripcion,
-                        DescuentoId = productItem.DescuentoId.ToString(),
-                        ValorDescuento = context.Descuentos.FirstOrDefault(x => x.Id.Equals(productItem.DescuentoId)).PorcentajeDescuento.ToString(),
-                        Codigo = productItem.Codigo
-                    };
+            productList = productHelper.CreateProductDTO(products);
 
-                    var country = context.Pais.FirstOrDefault(x => x.Abreviacion.Equals(countryCode)).Id;
-                    var region = context.RegionesProductos.FirstOrDefault(x => x.Pais.Equals(country));
-                    if (region != null)
-                    {
-                        if (region.Inventario > -1)
-                            producto.Inventario = region.Inventario.ToString();
+            productList = productHelper.ApplyRegionalPricing(productList, countryCode);
 
-                        if (region.Precio != null)
-                            producto.Precio = region.Precio.Value;
+            return productList;
+        }
 
-                        var productHasOtherRegion = context.RegionesProductos.Where(x => x.Producto.Equals(producto.Id) && x.Pais != region.Id);
-                        if (productHasOtherRegion.Any())
-                        {
-                            var productInCountry = context.RegionesProductos.FirstOrDefault(x => x.Producto.Equals(producto.Id) && x.Pais.Equals(region.Id));
-                            if(productInCountry == null)
-                                products.Remove(item);
-                        }
-                    }
-                }
-            }
+        public List<ProductoDTO> GetLowestCost(string countryCode)
+        {
+            List<ProductoDTO> productList = new List<ProductoDTO>();
+
+            var products = (from a in context.Producto
+                            where a.Inventario > 0
+                            select a).OrderBy(x => x.Precio).Take(12).ToList();
+
+            productList = productHelper.CreateProductDTO(products);
+
+            productList = productHelper.ApplyRegionalPricing(productList, countryCode);
 
             return productList;
         }
@@ -195,51 +202,9 @@ namespace Domain.DomainRepositories
                             where b.Id == Guid.Parse(area)
                             select c).OrderByDescending(x => x.FechaCreacion).ToList();
 
-            foreach (var item in products)
-            {
-                var productItem = context.Producto.FirstOrDefault(x => x.Id.Equals(item.Id));
-                if (productItem != null)
-                {
-                    var images = context.Imagenes.Where(x => x.ProductoId.Equals(item.Id)).Select(x => x.ImagenUrl).ToList();
-                    ProductoDTO producto = new ProductoDTO()
-                    {
-                        Id = productItem.Id.ToString(),
-                        Nombre = productItem.Nombre,
-                        Descripcion = productItem.Descripcion,
-                        Inventario = productItem.Inventario.ToString(),
-                        Precio = productItem.Precio,
-                        Imagenes = images,
-                        FechaCreacion = productItem.FechaCreacion,
-                        FechaModificacion = productItem.FechaModificacion,
-                        CategoriaId = productItem.CategoriaId.ToString(),
-                        CategoriaDescripcion = context.Categorias.FirstOrDefault(x => x.Id.Equals(productItem.CategoriaId)).Descripcion,
-                        SubcategoriaId = productItem.SubcategoriaId.ToString(),
-                        SubcategoriaDescripcion = context.Subcategorias.FirstOrDefault(x => x.Id.Equals(productItem.SubcategoriaId)).Descripcion,
-                        DescuentoId = productItem.DescuentoId.ToString(),
-                        ValorDescuento = context.Descuentos.FirstOrDefault(x => x.Id.Equals(productItem.DescuentoId)).PorcentajeDescuento.ToString(),
-                        Codigo = productItem.Codigo
-                    };
+            productList = productHelper.CreateProductDTO(products);
 
-                    var country = context.Pais.FirstOrDefault(x => x.Abreviacion.Equals(countryCode)).Id;
-                    var region = context.RegionesProductos.FirstOrDefault(x => x.Pais.Equals(country));
-                    if (region != null)
-                    {
-                        if (region.Inventario > -1)
-                            producto.Inventario = region.Inventario.ToString();
-
-                        if (region.Precio != null)
-                            producto.Precio = region.Precio.Value;
-
-                        var productHasOtherRegion = context.RegionesProductos.Where(x => x.Producto.Equals(producto.Id) && x.Pais != region.Id);
-                        if (productHasOtherRegion.Any())
-                        {
-                            var productInCountry = context.RegionesProductos.FirstOrDefault(x => x.Producto.Equals(producto.Id) && x.Pais.Equals(region.Id));
-                            if (productInCountry == null)
-                                products.Remove(item);
-                        }
-                    }
-                }
-            }
+            productList = productHelper.ApplyRegionalPricing(productList, countryCode);
 
             return productList;
         }
@@ -253,51 +218,9 @@ namespace Domain.DomainRepositories
                             where a.Id == Guid.Parse(category)
                             select b).OrderByDescending(x => x.FechaCreacion).ToList();
 
-            foreach (var item in products)
-            {
-                var productItem = context.Producto.FirstOrDefault(x => x.Id.Equals(item.Id));
-                if (productItem != null)
-                {
-                    var images = context.Imagenes.Where(x => x.ProductoId.Equals(item.Id)).Select(x => x.ImagenUrl).ToList();
-                    ProductoDTO producto = new ProductoDTO()
-                    {
-                        Id = productItem.Id.ToString(),
-                        Nombre = productItem.Nombre,
-                        Descripcion = productItem.Descripcion,
-                        Inventario = productItem.Inventario.ToString(),
-                        Precio = productItem.Precio,
-                        Imagenes = images,
-                        FechaCreacion = productItem.FechaCreacion,
-                        FechaModificacion = productItem.FechaModificacion,
-                        CategoriaId = productItem.CategoriaId.ToString(),
-                        CategoriaDescripcion = context.Categorias.FirstOrDefault(x => x.Id.Equals(productItem.CategoriaId)).Descripcion,
-                        SubcategoriaId = productItem.SubcategoriaId.ToString(),
-                        SubcategoriaDescripcion = context.Subcategorias.FirstOrDefault(x => x.Id.Equals(productItem.SubcategoriaId)).Descripcion,
-                        DescuentoId = productItem.DescuentoId.ToString(),
-                        ValorDescuento = context.Descuentos.FirstOrDefault(x => x.Id.Equals(productItem.DescuentoId)).PorcentajeDescuento.ToString(),
-                        Codigo = productItem.Codigo
-                    };
+            productList = productHelper.CreateProductDTO(products);
 
-                    var country = context.Pais.FirstOrDefault(x => x.Abreviacion.Equals(countryCode)).Id;
-                    var region = context.RegionesProductos.FirstOrDefault(x => x.Pais.Equals(country));
-                    if (region != null)
-                    {
-                        if (region.Inventario > -1)
-                            producto.Inventario = region.Inventario.ToString();
-
-                        if (region.Precio != null)
-                            producto.Precio = region.Precio.Value;
-
-                        var productHasOtherRegion = context.RegionesProductos.Where(x => x.Producto.Equals(producto.Id) && x.Pais != region.Id);
-                        if (productHasOtherRegion.Any())
-                        {
-                            var productInCountry = context.RegionesProductos.FirstOrDefault(x => x.Producto.Equals(producto.Id) && x.Pais.Equals(region.Id));
-                            if (productInCountry == null)
-                                products.Remove(item);
-                        }
-                    }
-                }
-            }
+            productList = productHelper.ApplyRegionalPricing(productList, countryCode);
 
             return productList;
         }
@@ -311,51 +234,9 @@ namespace Domain.DomainRepositories
                             where a.Id == Guid.Parse(subcategory)
                             select b).OrderByDescending(x => x.FechaCreacion).ToList();
 
-            foreach (var item in products)
-            {
-                var productItem = context.Producto.FirstOrDefault(x => x.Id.Equals(item.Id));
-                if (productItem != null)
-                {
-                    var images = context.Imagenes.Where(x => x.ProductoId.Equals(item.Id)).Select(x => x.ImagenUrl).ToList();
-                    ProductoDTO producto = new ProductoDTO()
-                    {
-                        Id = productItem.Id.ToString(),
-                        Nombre = productItem.Nombre,
-                        Descripcion = productItem.Descripcion,
-                        Inventario = productItem.Inventario.ToString(),
-                        Precio = productItem.Precio,
-                        Imagenes = images,
-                        FechaCreacion = productItem.FechaCreacion,
-                        FechaModificacion = productItem.FechaModificacion,
-                        CategoriaId = productItem.CategoriaId.ToString(),
-                        CategoriaDescripcion = context.Categorias.FirstOrDefault(x => x.Id.Equals(productItem.CategoriaId)).Descripcion,
-                        SubcategoriaId = productItem.SubcategoriaId.ToString(),
-                        SubcategoriaDescripcion = context.Subcategorias.FirstOrDefault(x => x.Id.Equals(productItem.SubcategoriaId)).Descripcion,
-                        DescuentoId = productItem.DescuentoId.ToString(),
-                        ValorDescuento = context.Descuentos.FirstOrDefault(x => x.Id.Equals(productItem.DescuentoId)).PorcentajeDescuento.ToString(),
-                        Codigo = productItem.Codigo
-                    };
+            productList = productHelper.CreateProductDTO(products);
 
-                    var country = context.Pais.FirstOrDefault(x => x.Abreviacion.Equals(countryCode)).Id;
-                    var region = context.RegionesProductos.FirstOrDefault(x => x.Pais.Equals(country));
-                    if (region != null)
-                    {
-                        if (region.Inventario > -1)
-                            producto.Inventario = region.Inventario.ToString();
-
-                        if (region.Precio != null)
-                            producto.Precio = region.Precio.Value;
-
-                        var productHasOtherRegion = context.RegionesProductos.Where(x => x.Producto.Equals(producto.Id) && x.Pais != region.Id);
-                        if (productHasOtherRegion.Any())
-                        {
-                            var productInCountry = context.RegionesProductos.FirstOrDefault(x => x.Producto.Equals(producto.Id) && x.Pais.Equals(region.Id));
-                            if (productInCountry == null)
-                                products.Remove(item);
-                        }
-                    }
-                }
-            }
+            productList = productHelper.ApplyRegionalPricing(productList, countryCode);
 
             return productList;
         }
@@ -363,6 +244,51 @@ namespace Domain.DomainRepositories
         public List<ProductoDTO> GetProductsFromSubcategory(string countryCode)
         {
             throw new NotImplementedException();
+        }
+
+        public List<CollectionDTO> GetTopAreas(string countryCode)
+        {
+            var categories = (from a in context.Areas
+                              join b in context.Categorias on a.Id equals b.Area
+                              join c in context.Producto on a.Id equals c.CategoriaId
+                              select new CollectionDTO
+                              {
+                                  Id = a.Id.ToString(),
+                                  Image = a.Imagen,
+                                  Name = a.Descripcion,
+                                  Route = "/areas/" + a.Id,
+                                  Price = c.Precio
+                              }).OrderBy(x => x.Price).Take(6).ToList();
+
+            if(categories.Count() < 3)
+            {
+                return (from b in context.Categorias
+                              join c in context.Producto on b.Id equals c.CategoriaId
+                              select new CollectionDTO
+                              {
+                                  Id = b.Id.ToString(),
+                                  Image = b.Imagen,
+                                  Name = b.Descripcion,
+                                  Route = "/categories/" + b.Id,
+                                  Price = c.Precio
+                              }).OrderBy(x => x.Price).Take(6).ToList();
+            }
+
+            return categories;
+    }
+
+        public List<CollectionDTO> GetTopSubcategories(string countryCode)
+        {
+            return (from a in context.Subcategorias
+                                  join c in context.Producto on a.Id equals c.SubcategoriaId
+                                  select new CollectionDTO
+                                  {
+                                      Id = a.Id.ToString(),
+                                      Image = a.Imagen,
+                                      Name = a.Descripcion,
+                                      Route = "/categories/" + a.Id,
+                                      Price = c.Precio
+                                  }).OrderBy(x => x.Price).Take(2).ToList();
         }
     }
 }

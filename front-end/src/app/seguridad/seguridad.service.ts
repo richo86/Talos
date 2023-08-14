@@ -97,4 +97,8 @@ export class SeguridadService {
   obtenerPaises(){
     return this.httpClient.get<paisDTO[]>(this.apiUrl + '/paises',{observe: 'response'});
   }
+
+  getUserLocation(){
+    return this.httpClient.get<any>("http://ip-api.com/json/",{observe: 'response'});
+  }
 }

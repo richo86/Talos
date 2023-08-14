@@ -1,0 +1,29 @@
+#storeDescription{
+    margin-top:90vh;
+    text-align: center;
+    padding-left:20vw;
+    padding-right:20vw;
+}
+#storeDescription h1{
+    font-size:32px;
+    color: #1d432b;
+}
+#storeDescription p{
+    font-size:24px;
+    color: #1d432b;
+}
+#categories{
+    margin-top:100px;
+}
+#categories h1{
+    text-align: center;
+    font-size:32px;
+    color: #1d432b;
+}
+#subcategories{
+    display:flex;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+}

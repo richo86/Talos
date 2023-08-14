@@ -3,4 +3,5 @@ export class carouselDTO{
     title: string;
     description: string;
     linkRoute: string;
+    linkDescription:string;
 }

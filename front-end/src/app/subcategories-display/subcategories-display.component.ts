@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { productoDTO } from '../productos/productos.models';
 
 @Component({
   selector: 'app-subcategories-display',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubcategoriesDisplayComponent implements OnInit {
 
+  products: productoDTO[];
+
   constructor() { }
 
   ngOnInit(): void {
+    this.GetProductsFromSubcategory();
+  }
+
+  GetProductsFromSubcategory(){
+
   }
 
 }

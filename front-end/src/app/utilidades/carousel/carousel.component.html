@@ -1,22 +1,28 @@
-<a (click)="redirect('/cards')">
-    <div class="carousel">
-        <ng-container *ngFor="let item of carouselDTO; let i = index">
-            <img
-            *ngIf="i === currentSlide"
-            [src]="item.image"
-            class="slide"
-            @carouselAnimation
-            />
-        </ng-container>
-    
-        <!-- controls -->
-        <ng-container *ngIf="carouselDTO.length>1">
-            <button class="control prev" (click)="onPreviousClick()">
-                <span class="arrow left"></span>
-            </button>
-            <button class="control next" (click)="onNextClick()">
-                <span class="arrow right"></span>
-            </button>
-        </ng-container>
-    </div>
-</a>
+
+<div class="carousel">
+    <ng-container *ngFor="let item of carouselDTO; let i = index">
+        <img
+        *ngIf="i === currentSlide"
+        [src]="item.image"
+        class="slide"
+        [alt]="item.title"
+        @carouselAnimation
+        />
+
+        <div class="carousel-text" *ngIf="i === currentSlide">
+            <h1>{{item.title}}</h1>
+            <p>{{item.description}}</p>
+            <a (click)="redirect(item.linkRoute)">item.linkDescription</a>
+        </div>
+    </ng-container>
+
+    <!-- controls -->
+    <ng-container *ngIf="carouselDTO.length>1">
+        <button class="control prev" (click)="onPreviousClick()">
+            <span class="arrow left"></span>
+        </button>
+        <button class="control next" (click)="onNextClick()">
+            <span class="arrow right"></span>
+        </button>
+    </ng-container>
+</div>

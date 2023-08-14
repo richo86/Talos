@@ -8,7 +8,7 @@ namespace Models.Utilities
 {
     public class Helper
     {
-        public bool IsGuid(string id)
+        public static bool IsGuid(string id)
         {
             try
             {
@@ -19,6 +19,12 @@ namespace Models.Utilities
             {
                 return false;
             }
+        }
+
+        public static bool checkBase64String(string base64)
+        {
+            Span<byte> buffer = new Span<byte>(new byte[base64.Length]);
+            return Convert.TryFromBase64String(base64, buffer, out int bytesParsed);
         }
     }
 }

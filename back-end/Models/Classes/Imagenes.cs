@@ -12,5 +12,6 @@ namespace Models.Classes
         public Guid Id { get; set; }
         public Guid? ProductoId { get; set; }
         public string ImagenUrl { get; set; }
+        public string ImagenBase64 { get; set; }
     }
 }

@@ -48,6 +48,14 @@ export class CrearProductosComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
+    this.InitializeForm();
+    this.GetProduct();
+    this.GetMainCategories();
+    this.GetSubcategories();
+    this.GetDiscounts();
+  }
+
+  InitializeForm(){
     this.form = this.formBuilder.group({
       nombre: ['',{validators: [Validators.required]}],
       descripcion: ['',{validators: [Validators.required]}],
@@ -58,7 +66,9 @@ export class CrearProductosComponent implements OnInit {
       codigo: ['',{validators:[Validators.required]}],
       descuentoId: ['',{validators:[]}]
     });
+  }
 
+  GetProduct(){
     this.activatedRoute.params.subscribe((params) => {
       if(!!params.id){
         this.productosService.obtenerProducto(params.id)
@@ -68,26 +78,7 @@ export class CrearProductosComponent implements OnInit {
             this.producto = res.body;
             this.form.patchValue(this.producto);
 
-            this.productosService.obtenerListadoImagenesProducto(this.productoId)
-            .subscribe({
-              next: (res) => {
-                this.listadoIds = res.body;
-                this.productosService.obtenerImagenesProducto(this.listadoIds)
-                  .subscribe({
-                    next: (response) => {
-                      this.listadoImagenesBase64 = response;
-                      this.listadoImagenesBase64.forEach(x=>{
-                        if(!x.value.includes("base64")){
-                          x.value = dataURI(x.value);
-                        }
-                      })
-                    },
-                    error: (error) =>{
-                      this.errores = parsearErroresAPI(error)
-                    }
-                  })
-              }
-            });
+            this.GetProductImagesBase64();
           },
           error: (error) =>{
             this.errores = parsearErroresAPI(error)
@@ -95,7 +86,26 @@ export class CrearProductosComponent implements OnInit {
         });
       }
     });
+  }
 
+  GetProductImagesBase64(){
+    this.productosService.obtenerImagenesProductoBase64(this.productoId)
+      .subscribe({
+        next: (res) => {
+          this.listadoImagenesBase64 = res.body;
+          this.listadoImagenesBase64.forEach(x=>{
+            if(!x.value.includes("base64")){
+              x.value = dataURI(x.value);
+            }
+          })
+        },
+        error: (error) =>{
+          this.errores = parsearErroresAPI(error)
+        }
+      });
+  }
+
+  GetMainCategories(){
     this.productosService.obtenerCategoriasPrincipales()
       .subscribe({
         next: (res) => {
@@ -105,17 +115,9 @@ export class CrearProductosComponent implements OnInit {
           this.errores = parsearErroresAPI(errores);
         }
     });
-    
-    this.productosService.obtenerCategoriasSecundarias()
-      .subscribe({
-        next: (res) => {
-          this.subcategorias = res.body;
-        },
-        error: (errores) => {
-          this.errores = parsearErroresAPI(errores);
-        }
-    });  
+  }
 
+  GetDiscounts(){
     this.productosService.obtenerDescuentos()
       .subscribe({
         next: (res) => {
@@ -128,6 +130,18 @@ export class CrearProductosComponent implements OnInit {
 
     //Default selected discount
     this.form.get('descuentoId').setValue(0);
+  }
+
+  GetSubcategories(){
+    this.productosService.obtenerCategoriasSecundarias()
+      .subscribe({
+        next: (res) => {
+          this.subcategorias = res.body;
+        },
+        error: (errores) => {
+          this.errores = parsearErroresAPI(errores);
+        }
+    }); 
   }
 
   create(){

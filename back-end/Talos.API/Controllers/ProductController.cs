@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Talos.API.Classes;
 using Talos.API.User;
 
 namespace Talos.API.Controllers
@@ -24,6 +25,7 @@ namespace Talos.API.Controllers
         private readonly IMapper mapper;
         private readonly IProductRepository productRepository;
         private readonly IDriveRepository driveRepository;
+        private readonly ProductsHelper productHelper;
 
         public ProductController(UserManager<ApplicationUser> userManager, IMapper mapper, IProductRepository productRepository, IDriveRepository driveRepository)
         {
@@ -31,6 +33,7 @@ namespace Talos.API.Controllers
             this.mapper = mapper;
             this.productRepository = productRepository;
             this.driveRepository = driveRepository;
+            this.productHelper = new ProductsHelper(this.driveRepository);
         }
 
         [HttpGet("getProduct")]
@@ -43,7 +46,6 @@ namespace Talos.API.Controllers
                 if (product.Descripcion != null)
                 {
                     var productDTO = mapper.Map<Producto, ProductoDTO>(product);
-                    //productDTO.ImagenesBase64 = driveRepository.GetFilesByIds(productDTO.Imagenes);
                     return Ok(productDTO);
                 }
                 else
@@ -174,6 +176,25 @@ namespace Talos.API.Controllers
             catch (Exception ex)
             {
                 return BadRequest($"Error al recuperar el listado de IDs: {ex.Message}");
+            }
+        }
+
+        [HttpGet("getProductBase64Images")]
+        public ActionResult<List<KeyValuePair<string, string>>> getProductBase64Images(string id)
+        {
+            try
+            {
+                var images = productRepository.getProductBase64Images(id);
+                images = productHelper.VerifyProductImages(images);
+
+                if (images.Any())
+                    return Ok(images);
+                else
+                    return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al recuperar el listado de imagenes base64: {ex.Message}");
             }
         }
 
