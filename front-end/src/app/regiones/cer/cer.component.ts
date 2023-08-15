@@ -34,6 +34,14 @@ export class CerComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
+    this.InitializeForm();
+    this.GetRegionsProduct();
+    this.GetCountries();
+    this.GetMainCategories();
+    this.GetSecondaryCategories();
+  }
+
+  InitializeForm(){
     this.form = this.formBuilder.group({
       nombre: ['',{validators: [Validators.required]}],
       regiones: ['',{validators: [Validators.required]}],
@@ -41,7 +49,9 @@ export class CerComponent implements OnInit {
       productosRelacionados: ['',{validators: [Validators.required]}],
       inventario:['',{validators:[Validators.required]}]
     });
+  }
 
+  GetRegionsProduct(){
     this.activatedRoute.params.subscribe((params) => {
       if(!!params.id){
         this.regionesService.obtenerRegionesProducto(params.id)
@@ -58,35 +68,41 @@ export class CerComponent implements OnInit {
       if(!!params.productoId)
         this.regionesProducto.producto = params.productoId;
     });
+  }
 
+  GetCountries(){
     this.regionesService.obtenerPaises()
-      .subscribe({
-        next: (res) => {
-          this.paises = res.body;
-        },
-        error: (errors) =>{
-          this.errores = parsearErroresAPI(errors);
-        }
+    .subscribe({
+      next: (res) => {
+        this.paises = res.body;
+      },
+      error: (errors) =>{
+        this.errores = parsearErroresAPI(errors);
+      }
     });
+  }
 
+  GetMainCategories(){
     this.productosService.obtenerCategoriasPrincipales()
-      .subscribe({
-        next: (res) => {
-          this.categorias = res.body;
-        },
-        error: (errors) => {
-          this.errores = parsearErroresAPI(errors);
-        }
+    .subscribe({
+      next: (res) => {
+        this.categorias = res.body;
+      },
+      error: (errors) => {
+        this.errores = parsearErroresAPI(errors);
+      }
     });
+  }
 
+  GetSecondaryCategories(){
     this.productosService.obtenerCategoriasSecundarias()
-      .subscribe({
-        next: (res) => {
-          this.subcategorias = res.body;
-        },
-        error: (errores) => {
-          this.errores = parsearErroresAPI(errores);
-        }
+    .subscribe({
+      next: (res) => {
+        this.subcategorias = res.body;
+      },
+      error: (errores) => {
+        this.errores = parsearErroresAPI(errores);
+      }
     });
   }
 

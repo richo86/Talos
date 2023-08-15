@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { CategoriaDTO } from '../categorias/categorias.models';
+import { productoDTO } from '../productos/productos.models';
+import { SeguridadService } from '../seguridad/seguridad.service';
+import { AreasDisplayService } from './areas-display.service';
 
 @Component({
   selector: 'app-areas-display',
@@ -7,9 +11,46 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AreasDisplayComponent implements OnInit {
 
-  constructor() { }
+  products : productoDTO[];
+  categories : CategoriaDTO[];
+  countryCode:string;
+  areaId:string;
+
+  constructor(private areasDisplayService:AreasDisplayService,
+              private securityService:SeguridadService) { }
 
   ngOnInit(): void {
+    this.GetUserLocation();
+  }
+
+  GetUserLocation(){
+    this.securityService.getUserLocation()
+    .subscribe({
+      next: res =>{
+        this.countryCode = res.body.countryCode;
+
+        this.GetCategoryProducts(this.countryCode,this.areaId);
+        this.GetCategories(this.countryCode,this.areaId);
+      }
+    });
+  }
+
+  GetCategoryProducts(countryCode:string,id:string){
+    this.areasDisplayService.getCategoryProducts(countryCode,id)
+    .subscribe({
+      next: (res) =>{
+        this.products = res.body;
+      }
+    })
+  }
+
+  GetCategories(countryCode:string,id:string){
+    this.areasDisplayService.getCategories(this.areaId)
+    .subscribe({
+      next: (res) =>{
+        this.categories = res.body;
+      }
+    })
   }
 
 }

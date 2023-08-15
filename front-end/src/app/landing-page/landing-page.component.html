@@ -24,7 +24,7 @@
 <section id="bestSellers">
     <h1>THE ESSENTIALS</h1>
     <mat-grid-list cols="4" rowHeight="500px">
-        <ng-container *ngFor="let item of collectionList">
+        <ng-container *ngFor="let item of bestSellers">
             <mat-grid-tile>
                 <div class="categoryCard">
                     <a routerLink=""></a>
@@ -36,7 +36,7 @@
 
 <section id="subcategories">
     <mat-grid-list cols="2" rowHeight="500px">
-        <ng-container *ngFor="let item of collectionList">
+        <ng-container *ngFor="let item of topSubcategories">
             <mat-grid-tile>
                 <a routerLink="{{item.linkRoute}}">
                     <div class="subcategoryCard">
@@ -60,7 +60,7 @@
 <section id="lowCost">
     <h1>THE BEST VALUE FOR YOU</h1>
     <mat-grid-list cols="4" rowHeight="500px">
-        <ng-container *ngFor="let item of collectionList">
+        <ng-container *ngFor="let item of economyList">
             <mat-grid-tile>
                 <div class="categoryCard">
                     <a routerLink=""></a>

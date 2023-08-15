@@ -18,6 +18,7 @@ namespace Domain.DomainRepositories
         public StoreFrontRepository(ApplicationDbContext context)
         {
             this.context = context;
+            this.productHelper = new ProductHelper(this.context);
         }
 
         public async Task<CategoriasProductoDTO> GetAllMenuItems()
@@ -286,7 +287,7 @@ namespace Domain.DomainRepositories
                                       Id = a.Id.ToString(),
                                       Image = a.Imagen,
                                       Name = a.Descripcion,
-                                      Route = "/categories/" + a.Id,
+                                      Route = "/subcategories/" + a.Id,
                                       Price = c.Precio
                                   }).OrderBy(x => x.Price).Take(2).ToList();
         }

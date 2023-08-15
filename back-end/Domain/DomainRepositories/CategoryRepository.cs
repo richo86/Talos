@@ -313,5 +313,45 @@ namespace Domain.DomainRepositories
                 return false;
             }
         }
+
+        public async Task<List<CategoriaDTO>> GetCategoriesFromArea(string id)
+        {
+            Guid areaId = Guid.Parse(id);
+            var categories = await (from a in context.Categorias
+                              join b in context.Areas on a.Area equals b.Id
+                              where a.Area == areaId
+                              select new CategoriaDTO()
+                              {
+                                  Id = a.Id.ToString(),
+                                  Descripcion = a.Descripcion,
+                                  Codigo = a.Codigo,
+                                  Area = a.Area.ToString(),
+                                  AreaDescripcion = b.Descripcion,
+                                  Imagen = a.ImagenBase64,
+                                  TipoCategoria = a.TipoCategoria
+                              }).AsNoTracking().ToListAsync();
+
+            return categories;
+        }
+
+        public async Task<List<CategoriaDTO>> GetSubcategoriesFromCategory(string id)
+        {
+            Guid categoryId = Guid.Parse(id);
+            var categories = await (from a in context.Subcategorias
+                                   join b in context.Categorias on a.CategoriaPrincipal equals b.Id
+                                   where a.CategoriaPrincipal == categoryId
+                                   select new CategoriaDTO()
+                                   {
+                                       Id = a.Id.ToString(),
+                                       Descripcion = a.Descripcion,
+                                       Codigo = a.Codigo,
+                                       CategoriaPrincipal = a.CategoriaPrincipal.ToString(),
+                                       CategoriaPrincipalDescripcion = b.Descripcion,
+                                       Imagen = a.ImagenBase64,
+                                       TipoCategoria = a.TipoCategoria
+                                   }).AsNoTracking().ToListAsync();
+
+            return categories;
+        }
     }
 }

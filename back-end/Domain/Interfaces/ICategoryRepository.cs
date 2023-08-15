@@ -26,5 +26,7 @@ namespace Domain.Interfaces
         Task<List<Categorias>> GetMainCategories();
         Task<List<Subcategorias>> GetSecondaryCategories();
         bool CreateImage(string id, string category, string imageBase64);
+        Task<List<CategoriaDTO>> GetCategoriesFromArea(string id);
+        Task<List<CategoriaDTO>> GetSubcategoriesFromCategory(string id);
     }
 }

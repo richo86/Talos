@@ -20,5 +20,16 @@ namespace Talos.API.Classes
 
             return category;
         }
+
+        public List<CategoriaDTO> GetImageFromList(List<CategoriaDTO> categories)
+        {
+            foreach (var item in categories)
+            {
+                if (!Helper.checkBase64String(item.Imagen))
+                    item.Imagen = _driveRepository.GetFileById(item.Imagen);
+            }
+            
+            return categories;
+        }
     }
 }

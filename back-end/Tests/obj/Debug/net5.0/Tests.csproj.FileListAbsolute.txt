@@ -15,7 +15,6 @@ D:\Talos\back-end\Tests\bin\Debug\net5.0\Tests.deps.json
 D:\Talos\back-end\Tests\bin\Debug\net5.0\Tests.runtimeconfig.json
 D:\Talos\back-end\Tests\bin\Debug\net5.0\Tests.runtimeconfig.dev.json
 D:\Talos\back-end\Tests\bin\Debug\net5.0\Tests.dll
-D:\Talos\back-end\Tests\bin\Debug\net5.0\ref\Tests.dll
 D:\Talos\back-end\Tests\bin\Debug\net5.0\Tests.pdb
 D:\Talos\back-end\Tests\bin\Debug\net5.0\AutoMapper.dll
 D:\Talos\back-end\Tests\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
@@ -166,3 +165,4 @@ D:\Talos\back-end\Tests\obj\Debug\net5.0\Tests.dll
 D:\Talos\back-end\Tests\obj\Debug\net5.0\ref\Tests.dll
 D:\Talos\back-end\Tests\obj\Debug\net5.0\Tests.pdb
 D:\Talos\back-end\Tests\obj\Debug\net5.0\Tests.genruntimeconfig.cache
+D:\Talos\back-end\Tests\obj\Debug\net5.0\refint\Tests.dll

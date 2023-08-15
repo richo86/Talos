@@ -243,7 +243,6 @@ namespace Talos.API.Controllers
             }
         }
 
-
         [HttpPost("CreateCategory")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
         public async Task<ActionResult> CreateCategory(CategoriaDTO categoryDTO)
@@ -376,6 +375,44 @@ namespace Talos.API.Controllers
             {
                 return BadRequest($"An error occurred while trying to delete the category: A relationship between a product " +
                     $"or category has already been established and it is not possible to eliminate, please edit the category instead.");
+            }
+        }
+
+        [HttpGet("GetCategoriesFromArea")]
+        public async Task<ActionResult<List<CategoriaDTO>>> GetCategoriesFromArea(string id)
+        {
+            try
+            {
+                var categories = await categoryRepository.GetCategoriesFromArea(id);
+                if (!categories.Any())
+                    return NotFound();
+
+                categories = categoryHelper.GetImageFromList(categories);
+
+                return categories;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"An error occurred when trying to obtain the areas: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetSubcategoriesFromCategory")]
+        public async Task<ActionResult<List<CategoriaDTO>>> GetSubcategoriesFromCategory(string id)
+        {
+            try
+            {
+                var categories = await categoryRepository.GetSubcategoriesFromCategory(id);
+                if (!categories.Any())
+                    return NotFound();
+
+                categories = categoryHelper.GetImageFromList(categories);
+
+                return categories;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"An error occurred when trying to obtain the areas: {ex.Message}");
             }
         }
 

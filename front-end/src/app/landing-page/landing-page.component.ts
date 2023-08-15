@@ -38,7 +38,7 @@ export class LandingPageComponent implements OnInit {
       next: res =>{
         this.countryCode = res.body.countryCode;
 
-        this.GetProductsFromArea();
+        this.GetAreas();
 
         this.GetBestSellers();
 
@@ -47,6 +47,15 @@ export class LandingPageComponent implements OnInit {
         this.GetSubcategories();
       }
     });
+  }
+
+  GetAreas(){
+    this.landingService.GetAreas()
+    .subscribe({
+      next:(res)=>{
+        this.collectionList = res.body;
+      }
+    })
   }
 
   GetProductsFromArea(){
@@ -89,7 +98,10 @@ export class LandingPageComponent implements OnInit {
   }
 
   GetSubcategories(){
-
+    this.landingService.GetTopSubcategories(this.countryCode)
+    .subscribe((result)=> {
+      this.topSubcategories = result.body;
+    });
   }
 
 }

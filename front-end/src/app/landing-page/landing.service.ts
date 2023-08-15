@@ -11,6 +11,7 @@ export class LandingService {
   constructor(private http:HttpClient) { }
 
   private apiURL = environment.apiUrl + 'StoreFront';
+  private categoryURL = environment.apiUrl + 'Category';
 
   public GetLatestProducts(countryCode:string){
     return this.http.get<any>(this.apiURL + '/GetLatestProducts?countryCode=' + countryCode, {observe: 'response'});
@@ -48,4 +49,11 @@ export class LandingService {
     return this.http.get<any>(this.apiURL + '/GetProductsFromSpecificSubcategory', {observe: 'response'});
   }
 
+  public GetAreas(){
+    return this.http.get<any>(this.categoryURL + '/GetMainAreas', {observe: 'response'});
+  }
+
+  public GetTopSubcategories(countryCode:string){
+    return this.http.get<any>(this.apiURL + '/GetTopSubcategories?countryCode=' + countryCode, {observe: 'response'});
+  }
 }

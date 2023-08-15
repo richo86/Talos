@@ -83,5 +83,9 @@ D:\Talos\back-end\Talos.API\bin\Debug\net5.0\Stripe.net.dll
 D:\Talos\back-end\Talos.API\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Features.dll
 D:\Talos\back-end\Talos.API\bin\Debug\net5.0\System.IO.Pipelines.dll
 D:\Talos\back-end\Talos.API\obj\Debug\net5.0\Talos.API.MvcApplicationPartsAssemblyInfo.cs
-D:\Talos\back-end\Talos.API\bin\Debug\net5.0\ref\Talos.API.dll
-D:\Talos\back-end\Talos.API\obj\Debug\net5.0\staticwebassets\Talos.API.StaticWebAssets.xml
+D:\Talos\back-end\Talos.API\obj\Debug\net5.0\staticwebassets\Talos.API.StaticWebAssets.Pack.cache
+D:\Talos\back-end\Talos.API\obj\Debug\net5.0\staticwebassets\msbuild.Talos.API.Microsoft.AspNetCore.StaticWebAssets.props
+D:\Talos\back-end\Talos.API\obj\Debug\net5.0\staticwebassets\msbuild.build.Talos.API.props
+D:\Talos\back-end\Talos.API\obj\Debug\net5.0\staticwebassets\msbuild.buildMultiTargeting.Talos.API.props
+D:\Talos\back-end\Talos.API\obj\Debug\net5.0\staticwebassets\msbuild.buildTransitive.Talos.API.props
+D:\Talos\back-end\Talos.API\obj\Debug\net5.0\refint\Talos.API.dll
