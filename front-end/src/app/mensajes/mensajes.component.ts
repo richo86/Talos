@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { take } from 'rxjs';
 import { SeguridadService } from '../seguridad/seguridad.service';
 import { MessagesDTO } from './mensajes.models';
 import { MensajesService } from './mensajes.service';
@@ -41,7 +42,7 @@ export class MensajesComponent implements OnInit {
   }
 
   getMessages(){
-    this.mensajesService.GetMessages(this.email)
+    this.mensajesService.GetMessages(this.email).pipe(take(1))
       .subscribe({
         next: res => {
           this.messages = res.body;

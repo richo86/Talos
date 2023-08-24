@@ -1,5 +1,16 @@
-<app-autenticacion
-    [accion]="'Ingresar'"
-    [errores]="errores"
-    (onSubmit)="Ingresar($event)">
-</app-autenticacion>
+<mat-grid-list cols="2">
+    <mat-grid-tile>
+        <div class="imageContainer">
+            <img src="" alt="">
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <app-autenticacion
+            [accion]="'Ingresar'"
+            [errores]="errores"
+            (onSubmit)="Ingresar($event)">
+        </app-autenticacion>
+    </mat-grid-tile>
+</mat-grid-list>
+
+

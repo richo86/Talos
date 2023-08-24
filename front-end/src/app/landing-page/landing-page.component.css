@@ -20,10 +20,45 @@
     font-size:32px;
     color: #1d432b;
 }
+#bestSellers h1{
+    text-align: center;
+    font-size:32px;
+    color: #1d432b;
+}
 #subcategories{
     display:flex;
     align-items: flex-start;
     position: relative;
     overflow: hidden;
     background-repeat: no-repeat;
+}
+#subcategories h1{
+    text-align: center;
+    font-size:32px;
+    color: #1d432b;
+}
+#lowCost h1{
+    text-align: center;
+    font-size:32px;
+    color: #1d432b;
+}
+#about{
+    margin-bottom:150px;
+}
+#about h1{
+    text-align: center;
+    font-size:32px;
+    color: #1d432b;
+}
+.aboutText{
+    font-size:17px;
+    line-height:2rem;
+    padding-left:15%;
+    padding-right:15%;
+}
+.aboutImage img{
+    position:absolute;
+    top:5%;
+    right:25%;
+    width: 60%;
 }

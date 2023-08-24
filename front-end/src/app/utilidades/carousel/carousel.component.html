@@ -12,7 +12,7 @@
         <div class="carousel-text" *ngIf="i === currentSlide">
             <h1>{{item.title}}</h1>
             <p>{{item.description}}</p>
-            <a (click)="redirect(item.linkRoute)">item.linkDescription</a>
+            <a (click)="redirect(item.linkRoute)">{{item.linkDescription}}</a>
         </div>
     </ng-container>
 

@@ -12,4 +12,4 @@ D:\Talos\back-end\Domain\obj\Debug\net5.0\Domain.csproj.CopyComplete
 D:\Talos\back-end\Domain\obj\Debug\net5.0\Domain.dll
 D:\Talos\back-end\Domain\obj\Debug\net5.0\ref\Domain.dll
 D:\Talos\back-end\Domain\obj\Debug\net5.0\Domain.pdb
-D:\Talos\back-end\Domain\obj\Debug\net5.0\refint\Domain.dll
+D:\Talos\back-end\Domain\bin\Debug\net5.0\ref\Domain.dll

@@ -1,6 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
+import { CartDTO } from 'src/app/cart/cartDTO.models';
 import { productoDTO } from 'src/app/productos/productos.models';
+import { SeguridadService } from 'src/app/seguridad/seguridad.service';
+import Swal from 'sweetalert2';
+import { GUID } from '../guid';
+import { dataURI } from '../utilidades';
+import { ProductCardService } from './product-card.service';
 
 @Component({
   selector: 'app-product-card',
@@ -14,12 +21,32 @@ export class ProductCardComponent implements OnInit {
 
   quantity: number = 1;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private securityService: SeguridadService,
+    private productCardService: ProductCardService) { }
 
   ngOnInit(): void {
+    console.log("producto",this.productDTO);
   }
 
-  AddToCart(){
+  AddToCart(productId:string){
+    let cart : CartDTO = {
+      id : new GUID().toString(),
+      sesionId : null,
+      productoId : productId,
+      cantidad : this.quantity,
+      fechaCreacion : new Date(),
+      fechaModificacion : new Date(),
+      email : this.securityService.getUserId(),
+    }
+
+    this.productCardService.CreateCart(cart).pipe(take(1))
+    .subscribe(()=>{
+      Swal.fire({
+        text: '¡Item added!',
+        icon: 'success'
+      })
+    });
   }
 
   redirect(location:string){
@@ -43,6 +70,10 @@ export class ProductCardComponent implements OnInit {
 
     if(value > 100)
       this.quantity = 100;
+  }
+
+  base64(data:string){
+    return dataURI(data);
   }
 
 }

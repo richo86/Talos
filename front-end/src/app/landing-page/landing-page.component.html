@@ -8,33 +8,17 @@
     </div>
 </section>
 
-<section id="categories">
+<section id="categories" *ngIf="collectionList.length > 0">
     <h1>DISCOVER OUR COLLECTIONS</h1>
-    <mat-grid-list cols="4" rowHeight="500px">
-        <ng-container *ngFor="let item of collectionList">
-            <mat-grid-tile>
-                <div class="categoryCard">
-                    <a routerLink=""></a>
-                </div>
-            </mat-grid-tile>
-        </ng-container>
-    </mat-grid-list>
+    <app-card-slider [areas]="collectionList"></app-card-slider>
 </section>
 
-<section id="bestSellers">
+<section id="bestSellers" *ngIf="bestSellers.length > 0">
     <h1>THE ESSENTIALS</h1>
-    <mat-grid-list cols="4" rowHeight="500px">
-        <ng-container *ngFor="let item of bestSellers">
-            <mat-grid-tile>
-                <div class="categoryCard">
-                    <a routerLink=""></a>
-                </div>
-            </mat-grid-tile>
-        </ng-container>
-    </mat-grid-list>
+    <app-card-slider [arr]="bestSellers"></app-card-slider>
 </section>
 
-<section id="subcategories">
+<section id="subcategories" *ngIf="topSubcategories.length > 0">
     <mat-grid-list cols="2" rowHeight="500px">
         <ng-container *ngFor="let item of topSubcategories">
             <mat-grid-tile>
@@ -57,21 +41,14 @@
     </mat-grid-list>
 </section>
 
-<section id="lowCost">
+<section id="lowCost" *ngIf="economyList.length > 0">
     <h1>THE BEST VALUE FOR YOU</h1>
-    <mat-grid-list cols="4" rowHeight="500px">
-        <ng-container *ngFor="let item of economyList">
-            <mat-grid-tile>
-                <div class="categoryCard">
-                    <a routerLink=""></a>
-                </div>
-            </mat-grid-tile>
-        </ng-container>
-    </mat-grid-list>
+    <app-card-slider [arr]="economyList"></app-card-slider>
 </section>
 
 <section id="about">
-    <mat-grid-list cols="2" rowHeight="500px">
+    <h1>BEHIND THE SCENES</h1>
+    <mat-grid-list cols="2" >
         <mat-grid-tile>
             <div class="aboutText">
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>

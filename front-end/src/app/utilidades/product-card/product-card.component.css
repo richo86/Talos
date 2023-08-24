@@ -1,6 +1,7 @@
 .card {
     max-width: 350px;
     overflow: hidden;
+    border: 1px solid #d3d3d3;
 }
 
 .card a{
@@ -18,27 +19,39 @@
     justify-content: center;
     position: relative;
     top: 50px;
+    left: -10px;
     transition: top ease 0.4s;
 }
 
 .action-buttons .add-Cart button{
     display: block;
-    width:200px;
+    width:150px;
     background-color: #3f51b5;
     color: #fff;
 }
 
 .action-buttons .add-Cart button:hover{
     display: block;
-    width:200px;
+    width:150px;
     border: 1px solid #3f51b5;
     background-color: #fff;
     color: #3f51b5;
 }
 
-.card:hover .action-buttons{
-    top: -5px;
-    display: flex;
+.card:hover .slide{
+    width: 100%;
+    padding: 10px;
+    position: absolute;
+    bottom: 30px;
+    left:0;
+    height:100px;
+    background-color: #fff;
+    transition: .3s ease;
+}
+
+.card:hover .plus,.minus{
+    top: 19%!important;
+    height: 36%!important;
 }
 
 .quantity-select{
@@ -93,4 +106,12 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+mat-card-header{
+    margin-bottom: 10px;
+}
+
+mat-card{
+    max-height: 520px;
 }

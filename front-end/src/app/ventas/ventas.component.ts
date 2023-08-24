@@ -3,6 +3,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 import { parsearErroresAPI } from '../utilidades/utilidades';
 import { DetalleVentaComponent } from './detalle-venta/detalle-venta.component';
 import { ItemsPedidoDTO, ventasDTO } from './ventas.models';
@@ -31,7 +32,7 @@ export class VentasComponent implements OnInit {
   }
 
   cargarRegistros(pagina: number, cantidadElementosAMostrar){
-    this.ventasService.obtenerTodos(pagina, cantidadElementosAMostrar)
+    this.ventasService.obtenerTodos(pagina, cantidadElementosAMostrar).pipe(take(1))
     .subscribe({
       next: (respuesta: HttpResponse<ventasDTO[]>) => {
         this.ventas = respuesta.body;

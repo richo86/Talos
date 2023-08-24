@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models.Utilities
 {
-    public class Helper
+    public static class Helper
     {
         public static bool IsGuid(string id)
         {

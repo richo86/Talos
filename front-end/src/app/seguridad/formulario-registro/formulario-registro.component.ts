@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { take } from 'rxjs';
 import { passwordMatchingValidator } from 'src/app/utilidades/validadores/confirmarContraseña';
 import { credencialesUsuario, usuarioDTO } from '../seguridad';
 import { SeguridadService } from '../seguridad.service';
@@ -42,7 +43,7 @@ export class FormularioRegistroComponent implements OnInit {
       phoneNumber:['',{validators:[]}]
     },{validators: passwordMatchingValidator});
 
-    this.seguridadService.obtenerGeneros()
+    this.seguridadService.obtenerGeneros().pipe(take(1))
     .subscribe(res => {
       this.generos = res.body;
       console.log(this.generos);

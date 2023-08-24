@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { take } from 'rxjs';
 import { KeyValuePair } from 'src/app/productos/productos.models';
 import { ProductosService } from 'src/app/productos/productos.service';
 import { dataURI, parsearErroresAPI, toBase64 } from 'src/app/utilidades/utilidades';
@@ -60,7 +61,7 @@ export class CecComponent implements OnInit {
 
     this.activatedRoute.params.subscribe((params) => {
       if(!!params.id){
-        this.categoriasService.obtenerArea(params.id)
+        this.categoriasService.obtenerArea(params.id).pipe(take(1))
         .subscribe({
           next: res => {
             this.imagenActual = dataURI(res.body.imagen);
@@ -73,10 +74,10 @@ export class CecComponent implements OnInit {
             this.form.patchValue(this.categoria);
           },
           error: () => {
-            this.categoriasService.obtenerCategoria(params.id)
+            this.categoriasService.obtenerCategoria(params.id).pipe(take(1))
             .subscribe({
               next: res => {
-                this.categoriasService.obtenerAreas(this.paginaActual,this.cantidadRegistrosMostrados)
+                this.categoriasService.obtenerAreas(this.paginaActual,this.cantidadRegistrosMostrados).pipe(take(1))
                 .subscribe({
                   next: (result) => {
                     this.areasNegocio = result.body;
@@ -89,10 +90,10 @@ export class CecComponent implements OnInit {
                 });
               },
               error: () => {
-                this.categoriasService.obtenerCategoriaSecundaria(params.id)
+                this.categoriasService.obtenerCategoriaSecundaria(params.id).pipe(take(1))
                   .subscribe({
                     next: res => {
-                      this.productosService.obtenerCategoriasPrincipales()
+                      this.productosService.obtenerCategoriasPrincipales().pipe(take(1))
                       .subscribe({
                         next: (result) => {
                           this.categoriasPrincipales = result.body;
@@ -113,13 +114,13 @@ export class CecComponent implements OnInit {
           }
         });
       }else{
-        this.categoriasService.obtenerAreas(this.paginaActual,this.cantidadRegistrosMostrados)
+        this.categoriasService.obtenerAreas(this.paginaActual,this.cantidadRegistrosMostrados).pipe(take(1))
         .subscribe({
           next: (result) => {
             this.areasNegocio = result.body;
           }
         });
-        this.productosService.obtenerCategoriasPrincipales()
+        this.productosService.obtenerCategoriasPrincipales().pipe(take(1))
         .subscribe({
           next: (result) => {
             this.categoriasPrincipales = result.body;
@@ -134,14 +135,14 @@ export class CecComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       this.categoria = Object.assign(this.categoria,this.form.value);
       if(!!params.id){
-        this.categoriasService.actualizarCategoria(this.categoria)
+        this.categoriasService.actualizarCategoria(this.categoria).pipe(take(1))
         .subscribe({
           next: (res) => {
             if(this.imagenCategoria.size > 0){
               if(!!this.categoria.imagen)
                 this.categoriasService.borrarImagen(this.categoria.imagen);
                 
-              this.categoriasService.subirImagen(this.imagenCategoria,this.categoria.id)
+              this.categoriasService.subirImagen(this.imagenCategoria,this.categoria.id).pipe(take(1))
               .subscribe({
                 next: (res) =>{
                 },
@@ -161,11 +162,11 @@ export class CecComponent implements OnInit {
           error: (error) => this.errores = parsearErroresAPI(error)
         });
       }else{
-        this.categoriasService.crearCategoria(this.categoria)
+        this.categoriasService.crearCategoria(this.categoria).pipe(take(1))
         .subscribe({
           next: (res) => {
             if(this.imagenCategoria.size > 0){
-              this.categoriasService.subirImagen(this.imagenCategoria,res.id)
+              this.categoriasService.subirImagen(this.imagenCategoria,res.id).pipe(take(1))
               .subscribe({
                 next: (res) =>{
                 },
@@ -173,6 +174,9 @@ export class CecComponent implements OnInit {
                   this.errores = parsearErroresAPI(error)
                 }
               });
+            }
+            else{
+              this.errores.push("Es necesario incluir una imagen")
             }
             Swal.fire({
               text: '¡Operación exitosa!',

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 import { parsearErroresAPI } from 'src/app/utilidades/utilidades';
 import { credencialesUsuario, usuarioDTO } from '../seguridad';
 import { SeguridadService } from '../seguridad.service'
@@ -21,8 +22,8 @@ export class RegistroComponent implements OnInit {
 
   registrar(usuario: usuarioDTO){
     this.errores = [];
-    this.seguridadService.registrar(usuario)
-      .subscribe(res => {
+    this.seguridadService.registrar(usuario).pipe(take(1))
+      .subscribe((res) => {
         this.seguridadService.guardarToken(res);
         this.router.navigate(['/']);
       }, errores => this.errores = parsearErroresAPI(errores));

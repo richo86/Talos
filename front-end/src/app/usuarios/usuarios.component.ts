@@ -2,6 +2,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 import Swal from 'sweetalert2';
 import { usuarioDTO } from '../seguridad/seguridad';
 import { MostrarErroresComponent } from '../utilidades/mostrar-errores/mostrar-errores.component';
@@ -30,7 +31,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   cargarRegistros(pagina: number, cantidadElementosAMostrar){
-    this.usuariosService.obtenerTodos(pagina, cantidadElementosAMostrar)
+    this.usuariosService.obtenerTodos(pagina, cantidadElementosAMostrar).pipe(take(1))
     .subscribe({
       next: (respuesta: HttpResponse<usuarioDTO[]>) => {
       this.usuarios = respuesta.body;
@@ -50,7 +51,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   hacerAdmin(id : string){
-    this.usuariosService.hacerAdmin(id)
+    this.usuariosService.hacerAdmin(id).pipe(take(1))
     .subscribe(
       {
         next: (res) => {
@@ -65,7 +66,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   quitarAdmin(id: string){
-    this.usuariosService.quitarAdmin(id)
+    this.usuariosService.quitarAdmin(id).pipe(take(1))
     .subscribe(
       {
         next: (res) => {
@@ -80,7 +81,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   borrar(id: string){
-    this.usuariosService.borrarUsuario(id)
+    this.usuariosService.borrarUsuario(id).pipe(take(1))
     .subscribe({
       next: (res) => {
         this.cargarRegistros(this.paginaActual,this.cantidadRegistrosMostrados);

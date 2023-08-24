@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { take } from 'rxjs';
 import { parsearErroresAPI } from 'src/app/utilidades/utilidades';
 import Swal from 'sweetalert2';
 import { PaymentType, ventasDTO } from '../ventas.models';
@@ -35,7 +36,8 @@ export class EditarVentaComponent implements OnInit {
       tipoVenta: ['',{validators:[]}]
     });
 
-    this.ventasService.GetPaymentTypes().subscribe({
+    this.ventasService.GetPaymentTypes().pipe(take(1))
+    .subscribe({
       next: res => {
         this.tiposVenta = res.body;
       }
@@ -43,7 +45,7 @@ export class EditarVentaComponent implements OnInit {
 
     this.activatedRoute.params.subscribe((params) => {
       this.idVenta = params.id;
-      this.ventasService.GetSale(params.id)
+      this.ventasService.GetSale(params.id).pipe(take(1))
       .subscribe({
         next: res => {
           this.venta = res.body;
@@ -57,7 +59,7 @@ export class EditarVentaComponent implements OnInit {
   editar(){
     this.venta = this.form.value;
     this.venta.id = this.idVenta;
-    this.ventasService.Editar(this.venta)
+    this.ventasService.Editar(this.venta).pipe(take(1))
       .subscribe({
         next: res => {
           Swal.fire({

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { take } from 'rxjs';
 import { generoDTO, paisDTO } from 'src/app/seguridad/formulario-registro/registro';
 import { usuarioDTO } from 'src/app/seguridad/seguridad';
 import { SeguridadService } from 'src/app/seguridad/seguridad.service';
@@ -42,18 +43,18 @@ export class EditarComponent implements OnInit {
       phoneNumber:['',{validators:[]}]
     },{validators: passwordMatchingValidator});
 
-    this.seguridadService.obtenerGeneros()
+    this.seguridadService.obtenerGeneros().pipe(take(1))
     .subscribe(res => {
       this.generos = res.body;
     });
 
-    this.seguridadService.obtenerPaises()
+    this.seguridadService.obtenerPaises().pipe(take(1))
     .subscribe(res =>{
       this.paises = res.body;
     })
 
     this.activatedRoute.params.subscribe((params) => {
-      this.seguridadService.getUser(params.id)
+      this.seguridadService.getUser(params.id).pipe(take(1))
       .subscribe({
         next: res => {
           this.usuario = res;
@@ -81,7 +82,7 @@ export class EditarComponent implements OnInit {
     if(this.usuario.password == null)
       this.usuario.password = "abc";
 
-    this.seguridadService.editar(this.usuario)
+    this.seguridadService.editar(this.usuario).pipe(take(1))
       .subscribe({
         next: res => {
           this.usuario = res;

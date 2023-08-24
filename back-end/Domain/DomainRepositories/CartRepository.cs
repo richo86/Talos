@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Talos.API.User;
+using static Models.Utilities.Helper;
 
 namespace Domain.DomainRepositories
 {
@@ -37,25 +38,28 @@ namespace Domain.DomainRepositories
 
         public async Task<Sesion> CreateSesion(Carrito carrito, string email)
         {
-            var sesionActual = context.Sesion.FirstOrDefault(x => x.Estado.Equals(true));
+            Sesion sesion = new Sesion();
+            Guid idUsuario;
+
+            if (Models.Utilities.Helper.IsGuid(email))
+                idUsuario = Guid.Parse(email);
+            else
+            {
+                var persona = await userManager.FindByEmailAsync(email);
+                idUsuario = Guid.Parse(persona.Id);
+            }
+
+            var sesionActual = context.Sesion.FirstOrDefault(x => x.Estado.Equals(true) && x.IdUsuario.Equals(idUsuario));
             if (sesionActual != null)
                 return sesionActual;
 
-            Sesion sesion = new Sesion();
-            var persona = await userManager.FindByEmailAsync(email);
+            sesion.Id = Guid.NewGuid();
+            sesion.FechaCreacion = DateTime.Now;
+            sesion.Estado = true;
+            sesion.IdUsuario = idUsuario;
+            sesion.TotalCosto = sesion.TotalCosto;
 
-            if (persona != null)
-            {
-                sesion.Id = Guid.NewGuid();
-                sesion.FechaCreacion = DateTime.Now;
-                sesion.Estado = true;
-                sesion.IdUsuario = Guid.Parse(persona.Id);
-                sesion.TotalCosto = sesion.TotalCosto;
-
-                return sesion;
-            }
-            else
-                return new Sesion();
+            return sesion;
         }
 
         public async Task<string> DeleteCart(string id)

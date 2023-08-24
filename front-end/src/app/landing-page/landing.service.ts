@@ -25,6 +25,10 @@ export class LandingService {
     return this.http.get<any>(this.apiURL + '/GetLowestCost?countryCode=' + countryCode, {observe: 'response'});
   }
 
+  public GetDiscountedProducts(countryCode:string){
+    return this.http.get<any>(this.apiURL + '/GetDiscountedProducts?countryCode=' + countryCode, {observe: 'response'});
+  }
+
   public GetProductsFromCategory(){
     return this.http.get<any>(this.apiURL + '/GetProductsFromCategory', {observe: 'response'});
   }

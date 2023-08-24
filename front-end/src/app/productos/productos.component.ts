@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 import Swal from 'sweetalert2';
 import { dataURI, parsearErroresAPI } from '../utilidades/utilidades';
 import { productoDTO } from './productos.models';
@@ -28,7 +29,7 @@ ngOnInit(): void {
 }
 
 cargarRegistros(pagina: number, cantidadElementosAMostrar){
-  this.productosService.obtenerProductos(pagina, cantidadElementosAMostrar)
+  this.productosService.obtenerProductos(pagina, cantidadElementosAMostrar).pipe(take(1))
   .subscribe({
     next: res => {
       this.productos = res.body;
@@ -48,11 +49,11 @@ actualizarPaginacion(datos: PageEvent){
 }
 
 borrar(id:string){
-  this.productosService.obtenerListadoImagenesProducto(id)
+  this.productosService.obtenerListadoImagenesProducto(id).pipe(take(1))
       .subscribe({
         next: res => {
           res.body.forEach(x=> {
-            this.productosService.borrarImagen(x).subscribe();
+            this.productosService.borrarImagen(x).pipe(take(1)).subscribe();
           });
           this.borrarProducto(id);
         },
@@ -63,7 +64,7 @@ borrar(id:string){
 }
 
 borrarProducto(id:string){
-  this.productosService.borrarProducto(id).subscribe({
+  this.productosService.borrarProducto(id).pipe(take(1)).subscribe({
     next: (res) => {
       window.location.reload();
   },

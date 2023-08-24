@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { SeguridadService } from '../seguridad/seguridad.service';
 import { MenuService } from './menu.service';
 import { AreasDTO, CategoriasProductoDTO } from './menu.models';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -31,14 +32,14 @@ export class MenuComponent implements OnInit {
 
   getUserId(){
     if(this.userId == null)
-    this.securityService.getUserID(this.securityService.obtenerCampoJwt('email'))
+    this.securityService.getUserID(this.securityService.obtenerCampoJwt('email')).pipe(take(1))
     .subscribe(res =>{
       this.userId = res;
     });
   }
 
   getProductMenu(){
-    this.menuService.obtenerMenuProductos()
+    this.menuService.obtenerMenuProductos().pipe(take(1))
     .subscribe({
       next: res =>{
         if(!!res)

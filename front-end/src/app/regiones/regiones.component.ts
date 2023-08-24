@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { take } from 'rxjs';
 import { parsearErroresAPI } from '../utilidades/utilidades';
 import { regionesProductoDTO } from './regiones.models';
 import { RegionesService } from './regiones.service';
@@ -25,7 +26,7 @@ export class RegionesComponent implements OnInit {
   }
 
   cargarRegistros(pagina: number, cantidadElementosAMostrar){
-    this.regionesService.obtenerRegiones(pagina, cantidadElementosAMostrar)
+    this.regionesService.obtenerRegiones(pagina, cantidadElementosAMostrar).pipe(take(1))
     .subscribe({
       next: res => {
         this.regiones = res.body;

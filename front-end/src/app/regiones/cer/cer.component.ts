@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { take } from 'rxjs';
 import { CategoriaDTO } from 'src/app/categorias/categorias.models';
 import { ProductosService } from 'src/app/productos/productos.service';
 import { paisDTO } from 'src/app/seguridad/formulario-registro/registro';
@@ -54,7 +55,7 @@ export class CerComponent implements OnInit {
   GetRegionsProduct(){
     this.activatedRoute.params.subscribe((params) => {
       if(!!params.id){
-        this.regionesService.obtenerRegionesProducto(params.id)
+        this.regionesService.obtenerRegionesProducto(params.id).pipe(take(1))
         .subscribe({
           next: res => {
             this.regionesProducto = res.body;
@@ -71,7 +72,7 @@ export class CerComponent implements OnInit {
   }
 
   GetCountries(){
-    this.regionesService.obtenerPaises()
+    this.regionesService.obtenerPaises().pipe(take(1))
     .subscribe({
       next: (res) => {
         this.paises = res.body;
@@ -83,7 +84,7 @@ export class CerComponent implements OnInit {
   }
 
   GetMainCategories(){
-    this.productosService.obtenerCategoriasPrincipales()
+    this.productosService.obtenerCategoriasPrincipales().pipe(take(1))
     .subscribe({
       next: (res) => {
         this.categorias = res.body;
@@ -95,7 +96,7 @@ export class CerComponent implements OnInit {
   }
 
   GetSecondaryCategories(){
-    this.productosService.obtenerCategoriasSecundarias()
+    this.productosService.obtenerCategoriasSecundarias().pipe(take(1))
     .subscribe({
       next: (res) => {
         this.subcategorias = res.body;
@@ -112,7 +113,7 @@ export class CerComponent implements OnInit {
         this.regionesProducto = Object.assign(this.regionesProducto,this.form.value);
         this.regionesProducto.productosRelacionados = this.productosSeleccionados;
         this.regionesProducto.regiones = this.regionesSeleccionadas;
-        this.regionesService.actualizarRegiones(this.regionesProducto)
+        this.regionesService.actualizarRegiones(this.regionesProducto).pipe(take(1))
         .subscribe({
           next: (res) => {
             Swal.fire({
@@ -129,7 +130,7 @@ export class CerComponent implements OnInit {
         this.regionesProducto = Object.assign(this.regionesProducto,this.form.value);
         this.regionesProducto.productosRelacionados = this.productosSeleccionados;
         this.regionesProducto.regiones = this.regionesSeleccionadas;
-        this.regionesService.crearRegiones(this.regionesProducto)
+        this.regionesService.crearRegiones(this.regionesProducto).pipe(take(1))
         .subscribe({
           next: (res) => {
             Swal.fire({

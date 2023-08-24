@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
+import { take } from 'rxjs';
 import Swal from 'sweetalert2';
 import { parsearErroresAPI } from '../utilidades/utilidades';
 import { descuentoDTO } from './descuentos.models';
@@ -27,7 +28,7 @@ ngOnInit(): void {
 }
 
 cargarRegistros(pagina: number, cantidadElementosAMostrar){
-  this.descuentosService.obtenerDescuentos(pagina, cantidadElementosAMostrar)
+  this.descuentosService.obtenerDescuentos(pagina, cantidadElementosAMostrar).pipe(take(1))
   .subscribe({
     next: res => {
       this.descuentos = res.body;
@@ -47,7 +48,8 @@ actualizarPaginacion(datos: PageEvent){
 }
 
 borrar(id:string){
-  this.descuentosService.borrarDescuento(id).subscribe({
+  this.descuentosService.borrarDescuento(id).pipe(take(1))
+  .subscribe({
     next: (res) => {
     Swal.fire({
       text: '¡Operación exitosa!',

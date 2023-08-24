@@ -55,7 +55,7 @@ namespace Domain.Helper
         {
             foreach (var producto in products)
             {
-                var country = context.Pais.FirstOrDefault(x => x.Abreviacion.Equals(countryCode)).Id;
+                var country = context.Pais.FirstOrDefault(x => x.Abreviacion.Equals(countryCode))?.Id;
                 var region = context.RegionesProductos.FirstOrDefault(x => x.Pais.Equals(country));
                 if (region != null)
                 {

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { take } from 'rxjs';
 import { CategoriaDTO } from '../categorias/categorias.models';
 import { productoDTO } from '../productos/productos.models';
 import { SeguridadService } from '../seguridad/seguridad.service';
@@ -26,7 +27,7 @@ export class CategoriesDisplayComponent implements OnInit {
   }
 
   GetUserLocation(){
-    this.securityService.getUserLocation()
+    this.securityService.getUserLocation().pipe(take(1))
     .subscribe({
       next: res =>{
         this.countryCode = res.body.countryCode;
@@ -38,7 +39,7 @@ export class CategoriesDisplayComponent implements OnInit {
   }
 
   GetCategoryProducts(countryCode:string,id:string){
-    this.categoryDisplayService.getCategoryProducts(countryCode,id)
+    this.categoryDisplayService.getCategoryProducts(countryCode,id).pipe(take(1))
     .subscribe({
       next: (res) =>{
         this.products = res.body;
@@ -47,7 +48,7 @@ export class CategoriesDisplayComponent implements OnInit {
   }
 
   GetSubcategories(countryCode:string,id:string){
-    this.categoryDisplayService.getSubcategories(this.categoryId)
+    this.categoryDisplayService.getSubcategories(this.categoryId).pipe(take(1))
     .subscribe({
       next: (res) =>{
         this.categories = res.body;

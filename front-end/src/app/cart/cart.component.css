@@ -80,14 +80,15 @@
 	font-size: 1rem;
 	font-weight: 500;
 	border: none;
-	background-color: var(--main-color);
-	color: var(--bg-color);
+	background-color: #4B7CB6;
+	color: #fff;
 	cursor: pointer;
 	transition: background-color 0.3s;
+	border-radius:8px;
 }
 
 .btn-buy:hover {
-	background-color: var(--text-color);
+	transform: scale(1.1);;
 }
 
 #close-cart {

@@ -60,6 +60,10 @@ import { AllProductsComponent } from './all-products/all-products.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { FooterComponent } from './footer/footer.component';
 import { DisplayItemsComponent } from './display-items/display-items.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AppearDirective } from './utilidades/appear';
+import { CardSliderComponent } from './utilidades/card-slider/card-slider.component';
+import { AreaCardComponent } from './area-card/area-card.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +110,10 @@ import { DisplayItemsComponent } from './display-items/display-items.component';
     ProductCardComponent,
     AllProductsComponent,
     FooterComponent,
-    DisplayItemsComponent
+    DisplayItemsComponent,
+    AppearDirective,
+    CardSliderComponent,
+    AreaCardComponent
   ],
   imports: [
     BrowserModule,
@@ -123,7 +130,8 @@ import { DisplayItemsComponent } from './display-items/display-items.component';
     NgxGalleryModule,
     MatCardModule,
     MatButtonModule,
-    MatGridListModule
+    MatGridListModule,
+    FontAwesomeModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

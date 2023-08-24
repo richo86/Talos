@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { GUID } from '../utilidades/guid';
 import { generoDTO, paisDTO } from './formulario-registro/registro';
 import { credencialesUsuario, respuestaAutenticacion, usuarioDTO } from './seguridad';
 
@@ -16,6 +17,7 @@ export class SeguridadService {
   private readonly llaveToken = 'token';
   private readonly llaveExpiracion = 'token-expiracion';
   private readonly campoRol = 'role';
+  private readonly userGuid = 'userGuid';
 
   isLoggedIn() : boolean {
     const token = localStorage.getItem(this.llaveToken);
@@ -74,6 +76,32 @@ export class SeguridadService {
   guardarToken(respuestaAutenticacion: respuestaAutenticacion){
     localStorage.setItem(this.llaveToken, respuestaAutenticacion.token);
     localStorage.setItem(this.llaveExpiracion, respuestaAutenticacion.expiracion.toString());
+  }
+
+  saveUserId(id:string){
+    localStorage.setItem(this.userGuid,id);
+  }
+
+  getUserId(){
+    return localStorage.getItem(this.userGuid);
+  }
+
+  setUserId(){
+    const token = this.obtenerToken();
+    if(token)
+      this.getUserID(this.obtenerCampoJwt('email')).pipe(take(1)).subscribe((res)=>{
+        return res;
+      });
+    else{
+      const findLocalId = this.getUserId();
+      if(findLocalId)
+        return findLocalId;
+      else{
+        const guid = new GUID().toString();
+        this.saveUserId(guid);
+        return guid;
+      }
+    }
   }
 
   obtenerToken(){

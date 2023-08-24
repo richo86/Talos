@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 import Swal from 'sweetalert2';
 import { parsearErroresAPI } from '../utilidades/utilidades';
 import { CategoriaDTO } from './categorias.models';
@@ -39,7 +40,7 @@ export class CategoriasComponent implements OnInit {
   }
   
   cargarRegistros(pagina: number, cantidadElementosAMostrar){
-    this.categoriasService.obtenerCategorias(pagina, cantidadElementosAMostrar)
+    this.categoriasService.obtenerCategorias(pagina, cantidadElementosAMostrar).pipe(take(1))
     .subscribe({
       next: res => {
         this.categorias = res.body;
@@ -53,7 +54,7 @@ export class CategoriasComponent implements OnInit {
   }
 
   cargarAreas(pagina: number, cantidadElementosAMostrar){
-    this.categoriasService.obtenerAreas(pagina, cantidadElementosAMostrar)
+    this.categoriasService.obtenerAreas(pagina, cantidadElementosAMostrar).pipe(take(1))
     .subscribe({
       next: res => {
         this.areas = res.body;
@@ -67,7 +68,7 @@ export class CategoriasComponent implements OnInit {
   }
 
   cargarSubcategorias(pagina: number, cantidadElementosAMostrar){
-    this.categoriasService.obtenerSubcategorias(pagina, cantidadElementosAMostrar)
+    this.categoriasService.obtenerSubcategorias(pagina, cantidadElementosAMostrar).pipe(take(1))
     .subscribe({
       next: res => {
         this.subcategorias = res.body;

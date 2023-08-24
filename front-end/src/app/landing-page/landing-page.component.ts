@@ -4,6 +4,7 @@ import { SeguridadService } from '../seguridad/seguridad.service';
 import { carouselDTO } from '../utilidades/carousel/carousel.models';
 import { collectionDTO } from './landing.models';
 import { LandingService } from './landing.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-landing-page',
@@ -12,6 +13,7 @@ import { LandingService } from './landing.service';
 })
 export class LandingPageComponent implements OnInit {
 
+  userId:string;
   carouselDTO: carouselDTO[] = [{
     image: "//www.teasetea.com/cdn/shop/files/Shopify_Website_Banner_PAGE_4_1296x.png?v=1682089410",
     title: "Blends with Benefits",
@@ -20,10 +22,11 @@ export class LandingPageComponent implements OnInit {
     linkDescription: "SHOP OUR BEST SELLERS"
   }];
   countryCode :string;
-  collectionList: collectionDTO[];
-  economyList: productoDTO[];
-  topSubcategories: collectionDTO[];
-  bestSellers: productoDTO[];
+  collectionList: collectionDTO[] = [];
+  economyList: productoDTO[] = [];
+  topSubcategories: collectionDTO[] = [];
+  bestSellers: productoDTO[] = [];
+  
 
   constructor(private securityService: SeguridadService,
               private landingService: LandingService) { }
@@ -33,33 +36,37 @@ export class LandingPageComponent implements OnInit {
   }
 
   GetUserLocation(){
-    this.securityService.getUserLocation()
+    this.securityService.getUserLocation().pipe(take(1))
     .subscribe({
       next: res =>{
+        this.userId = this.securityService.setUserId();
+
         this.countryCode = res.body.countryCode;
 
         this.GetAreas();
 
         this.GetBestSellers();
 
-        this.GetLowestCost();
+        this.GetDiscountedProducts();
 
         this.GetSubcategories();
+
       }
     });
   }
 
   GetAreas(){
-    this.landingService.GetAreas()
+    this.landingService.GetAreas().pipe(take(1))
     .subscribe({
       next:(res)=>{
         this.collectionList = res.body;
+        console.log("collectionList",this.collectionList);
       }
     })
   }
 
   GetProductsFromArea(){
-    this.landingService.GetProductsFromArea()
+    this.landingService.GetProductsFromArea().pipe(take(1))
     .subscribe({
       next: (result) => {
         this.collectionList = result.body;
@@ -68,7 +75,7 @@ export class LandingPageComponent implements OnInit {
   }
 
   GetBestSellers(){
-    this.landingService.GetBestSellers(this.countryCode)
+    this.landingService.GetBestSellers(this.countryCode).pipe(take(1))
     .subscribe({ 
       next: (result) =>{
         this.bestSellers = result.body;
@@ -80,7 +87,7 @@ export class LandingPageComponent implements OnInit {
   }
 
   GetLatestProducts(){
-    this.landingService.GetLatestProducts(this.countryCode)
+    this.landingService.GetLatestProducts(this.countryCode).pipe(take(1))
       .subscribe({
         next: (result)=>{
           this.bestSellers = result.body;
@@ -88,8 +95,21 @@ export class LandingPageComponent implements OnInit {
       });
   }
 
+  GetDiscountedProducts(){
+    this.landingService.GetDiscountedProducts(this.countryCode).pipe(take(1))
+    .subscribe({
+      next: (result) => {
+        if(result.body.length == 0)
+          this.GetLowestCost();
+        else{
+          this.economyList = result.body;
+        }
+      }
+    })
+  }
+
   GetLowestCost(){
-    this.landingService.GetLowestCost(this.countryCode)
+    this.landingService.GetLowestCost(this.countryCode).pipe(take(1))
     .subscribe({
       next: (result)=>{
         this.economyList = result.body;
@@ -98,7 +118,7 @@ export class LandingPageComponent implements OnInit {
   }
 
   GetSubcategories(){
-    this.landingService.GetTopSubcategories(this.countryCode)
+    this.landingService.GetTopSubcategories(this.countryCode).pipe(take(1))
     .subscribe((result)=> {
       this.topSubcategories = result.body;
     });

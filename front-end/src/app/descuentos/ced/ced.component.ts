@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { take } from 'rxjs';
 import { parsearErroresAPI } from 'src/app/utilidades/utilidades';
 import Swal from 'sweetalert2';
 import { descuentoDTO } from '../descuentos.models';
@@ -40,7 +41,7 @@ export class CEDComponent implements OnInit {
 
     this.activatedRoute.params.subscribe((params) => {
       if(!!params.id){
-        this.descuentosService.obtenerDescuento(params.id)
+        this.descuentosService.obtenerDescuento(params.id).pipe(take(1))
         .subscribe({
           next: res => {
             this.descuentos = res.body;
@@ -55,7 +56,7 @@ export class CEDComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       this.descuentos = Object.assign(this.descuentos,this.form.value);
       if(!!params.id){
-        this.descuentosService.actualizarDescuento(this.descuentos)
+        this.descuentosService.actualizarDescuento(this.descuentos).pipe(take(1))
         .subscribe({
           next: (res) => {
             Swal.fire({
@@ -69,7 +70,7 @@ export class CEDComponent implements OnInit {
           error: (error) => this.errores = parsearErroresAPI(error)
         });
       }else{
-        this.descuentosService.crearDescuento(this.descuentos)
+        this.descuentosService.crearDescuento(this.descuentos).pipe(take(1))
         .subscribe({
           next: (res) => {
             Swal.fire({

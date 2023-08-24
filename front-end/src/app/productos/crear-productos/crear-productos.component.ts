@@ -2,6 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { take } from 'rxjs';
 import { CategoriaDTO } from 'src/app/categorias/categorias.models';
 import { descuentoDTO } from 'src/app/descuentos/descuentos.models';
 import { dataURI, parsearErroresAPI, toBase64 } from 'src/app/utilidades/utilidades';
@@ -71,7 +72,7 @@ export class CrearProductosComponent implements OnInit {
   GetProduct(){
     this.activatedRoute.params.subscribe((params) => {
       if(!!params.id){
-        this.productosService.obtenerProducto(params.id)
+        this.productosService.obtenerProducto(params.id).pipe(take(1))
         .subscribe({
           next: res => {
             this.productoId = params.id;
@@ -89,7 +90,7 @@ export class CrearProductosComponent implements OnInit {
   }
 
   GetProductImagesBase64(){
-    this.productosService.obtenerImagenesProductoBase64(this.productoId)
+    this.productosService.obtenerImagenesProductoBase64(this.productoId).pipe(take(1))
       .subscribe({
         next: (res) => {
           this.listadoImagenesBase64 = res.body;
@@ -106,7 +107,7 @@ export class CrearProductosComponent implements OnInit {
   }
 
   GetMainCategories(){
-    this.productosService.obtenerCategoriasPrincipales()
+    this.productosService.obtenerCategoriasPrincipales().pipe(take(1))
       .subscribe({
         next: (res) => {
           this.categorias = res.body;
@@ -118,7 +119,7 @@ export class CrearProductosComponent implements OnInit {
   }
 
   GetDiscounts(){
-    this.productosService.obtenerDescuentos()
+    this.productosService.obtenerDescuentos().pipe(take(1))
       .subscribe({
         next: (res) => {
           this.descuentos = res.body;
@@ -133,7 +134,7 @@ export class CrearProductosComponent implements OnInit {
   }
 
   GetSubcategories(){
-    this.productosService.obtenerCategoriasSecundarias()
+    this.productosService.obtenerCategoriasSecundarias().pipe(take(1))
       .subscribe({
         next: (res) => {
           this.subcategorias = res.body;
@@ -148,11 +149,11 @@ export class CrearProductosComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       if(!!params.id){
         this.producto = Object.assign(this.producto,this.form.value);
-        this.productosService.actualizarProducto(this.producto)
+        this.productosService.actualizarProducto(this.producto).pipe(take(1))
         .subscribe({
           next: (res) => {
             if(this.listadoImagenes.length > 0){
-              this.productosService.subirImagenes(this.listadoImagenes,params.id)
+              this.productosService.subirImagenes(this.listadoImagenes,params.id).pipe(take(1))
               .subscribe({
                 next: (res) =>{
                   Swal.fire({
@@ -177,12 +178,12 @@ export class CrearProductosComponent implements OnInit {
         });
       }else{
         this.crearProducto = Object.assign(this.crearProducto,this.form.value);
-        this.productosService.crearProducto(this.crearProducto)
+        this.productosService.crearProducto(this.crearProducto).pipe(take(1))
         .subscribe({
           next: (res) => {
             if(this.listadoImagenes.length > 0){
               console.log(res);
-              this.productosService.subirImagenes(this.listadoImagenes,res.id)
+              this.productosService.subirImagenes(this.listadoImagenes,res.id).pipe(take(1))
               .subscribe({
                 next: (res) =>{
                 },
@@ -218,7 +219,7 @@ export class CrearProductosComponent implements OnInit {
   }
 
   deleteImage(id:string){
-    this.productosService.borrarImagen(id)
+    this.productosService.borrarImagen(id).pipe(take(1))
       .subscribe({
         next: (res) =>{
           this.listadoImagenesBase64 = this.listadoImagenesBase64.filter(item => item.key !== id);

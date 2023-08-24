@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 import { credencialesUsuario } from '../seguridad/seguridad';
 import { SeguridadService } from '../seguridad/seguridad.service';
 import { parsearErroresAPI } from '../utilidades/utilidades';
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
   }
 
   Ingresar(credenciales : credencialesUsuario){
-    this.securityService.login(credenciales)
+    this.securityService.login(credenciales).pipe(take(1))
     .subscribe(
       {
         next: (res) => {
