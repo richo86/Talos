@@ -37,7 +37,9 @@ export class CecComponent implements OnInit {
     areaDescripcion:null,
     categoriaPrincipal:null,
     categoriaPrincipalDescripcion:null,
-    imagen:null
+    imagen:null,
+    imagenBase64:null,
+    areaId:null
   };
   tipoCategorias:TipoCategoria[] = [
     {value : 0, descripcion : 'Área de negocio'},
@@ -64,27 +66,26 @@ export class CecComponent implements OnInit {
         this.categoriasService.obtenerArea(params.id).pipe(take(1))
         .subscribe({
           next: res => {
-            this.imagenActual = dataURI(res.body.imagen);
+            this.imagenActual = !!res.body.imagenBase64 ? dataURI(res.body.imagenBase64) : dataURI(res.body.imagen);
             this.categoria = res.body;
             this.categoria.categoriaPrincipal = 'ninguna';
             this.categoria.area = 'ninguna';
-            if(this.categoria.imagen != null)
-              this.imagenActual = dataURI(this.categoria.imagen);
 
             this.form.patchValue(this.categoria);
           },
           error: () => {
             this.categoriasService.obtenerCategoria(params.id).pipe(take(1))
             .subscribe({
-              next: res => {
+              next: (categoryres) => {
                 this.categoriasService.obtenerAreas(this.paginaActual,this.cantidadRegistrosMostrados).pipe(take(1))
                 .subscribe({
                   next: (result) => {
                     this.areasNegocio = result.body;
-                    this.imagenActual = dataURI(res.body.imagen);
-                    this.categoria = res.body;
+                    this.imagenActual = !!categoryres.body.imagenBase64 ? dataURI(categoryres.body.imagenBase64) : dataURI(categoryres.body.imagen);
+                    this.categoria = categoryres.body;
                     this.categoria.categoriaPrincipal = 'ninguna';
-                    this.categoria.area = this.areasNegocio.find(x=>x.id == this.categoria.categoriaPrincipal)?.descripcion;
+                    this.categoria.areaDescripcion = this.areasNegocio.find(x=>x.id == this.categoria.areaId.toUpperCase())?.descripcion;
+                    this.categoria.area = this.areasNegocio.find(x=>x.id == this.categoria.areaId.toUpperCase())?.id;
                     this.form.patchValue(this.categoria);
                   }
                 });
@@ -97,10 +98,10 @@ export class CecComponent implements OnInit {
                       .subscribe({
                         next: (result) => {
                           this.categoriasPrincipales = result.body;
-                          this.imagenActual = dataURI(res.body.imagen);
+                          this.imagenActual = !!res.body.imagenBase64 ? dataURI(res.body.imagenBase64) : dataURI(res.body.imagen);
                           this.categoria = res.body;
                           this.categoria.area = 'ninguna';
-                          this.categoria.categoriaPrincipalDescripcion = this.categoriasPrincipales.find(x=>x.id == this.categoria.categoriaPrincipal)?.descripcion;
+                          this.categoria.categoriaPrincipalDescripcion = this.categoriasPrincipales.find(x=>x.id == this.categoria.categoriaPrincipal)?.id;
                           this.form.patchValue(this.categoria);
                         }
                       });
@@ -135,59 +136,68 @@ export class CecComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       this.categoria = Object.assign(this.categoria,this.form.value);
       if(!!params.id){
-        this.categoriasService.actualizarCategoria(this.categoria).pipe(take(1))
-        .subscribe({
-          next: (res) => {
-            if(this.imagenCategoria.size > 0){
-              if(!!this.categoria.imagen)
-                this.categoriasService.borrarImagen(this.categoria.imagen);
-                
-              this.categoriasService.subirImagen(this.imagenCategoria,this.categoria.id).pipe(take(1))
-              .subscribe({
-                next: (res) =>{
-                },
-                error: (error) =>{
-                  this.errores = parsearErroresAPI(error)
-                }
+        if(!!this.categoria.imagen || !!this.imagenCategoria){
+          this.categoriasService.actualizarCategoria(this.categoria).pipe(take(1))
+          .subscribe({
+            next: (res) => {
+              if(!!this.imagenCategoria){
+                if(!!this.categoria.imagen)
+                  this.categoriasService.borrarImagen(this.categoria.imagen).pipe(take(1)).subscribe();
+                  
+                this.categoriasService.subirImagen(this.imagenCategoria,this.categoria.id).pipe(take(1))
+                .subscribe({
+                  next: (res) =>{
+                  },
+                  error: (error) =>{
+                    this.errores = parsearErroresAPI(error)
+                  }
+                });
+              }
+              Swal.fire({
+                text: '¡Operación exitosa!',
+                icon: 'success'
+              }).then(res =>{
+                if(res.isConfirmed)
+                  this.router.navigate(['/categorias']);
               });
-            }
-            Swal.fire({
-              text: '¡Operación exitosa!',
-              icon: 'success'
-            }).then(res =>{
-              if(res.isConfirmed)
-                this.router.navigate(['/categorias']);
-            });
-          },
-          error: (error) => this.errores = parsearErroresAPI(error)
-        });
+            },
+            error: (error) => this.errores = parsearErroresAPI(error)
+          });
+        }else{
+          this.errores.push("Es necesario incluir una imagen")
+        }
       }else{
-        this.categoriasService.crearCategoria(this.categoria).pipe(take(1))
-        .subscribe({
-          next: (res) => {
-            if(this.imagenCategoria.size > 0){
-              this.categoriasService.subirImagen(this.imagenCategoria,res.id).pipe(take(1))
-              .subscribe({
-                next: (res) =>{
-                },
-                error: (error) =>{
-                  this.errores = parsearErroresAPI(error)
-                }
+        console.log(this.imagenCategoria);
+        if(!!this.categoria.imagen || !!this.imagenCategoria){
+          this.categoriasService.crearCategoria(this.categoria).pipe(take(1))
+          .subscribe({
+            next: (res) => {
+              if(!!this.imagenCategoria.size){
+                this.categoriasService.subirImagen(this.imagenCategoria,res.id).pipe(take(1))
+                .subscribe({
+                  next: (res) =>{
+                  },
+                  error: (error) =>{
+                    this.errores = parsearErroresAPI(error)
+                  }
+                });
+              }
+              else{
+                this.errores.push("Es necesario incluir una imagen")
+              }
+              Swal.fire({
+                text: '¡Operación exitosa!',
+                icon: 'success'
+              }).then(res =>{
+                if(res.isConfirmed)
+                  this.router.navigate(['/categorias']);
               });
-            }
-            else{
-              this.errores.push("Es necesario incluir una imagen")
-            }
-            Swal.fire({
-              text: '¡Operación exitosa!',
-              icon: 'success'
-            }).then(res =>{
-              if(res.isConfirmed)
-                this.router.navigate(['/categorias']);
-            });
-          },
-          error: (error) => this.errores = parsearErroresAPI(error)
-        });
+            },
+            error: (error) => this.errores = parsearErroresAPI(error)
+          });
+        }else{
+          this.errores.push('Es necesario incluir una imagen');
+        }
       }
     });
   }

@@ -1,7 +1,7 @@
 <div class="card-item">
     <a routerLink="areas/{{category.id}}">
         <div class="image-wrapper">
-            <img [src]="category.imagen" [alt]="category.area">
+            <img [src]="base64(category.imagenBase64)" [alt]="category.area">
         </div>
         <span>{{category.descripcion}}</span>
     </a>

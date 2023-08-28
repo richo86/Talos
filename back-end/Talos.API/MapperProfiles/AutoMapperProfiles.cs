@@ -4,6 +4,7 @@ using Models.Classes;
 using Models.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Talos.API.User;
 
 namespace PeliculasAPI.Utilidades
@@ -32,7 +33,8 @@ namespace PeliculasAPI.Utilidades
                     output.FechaCreacion = DateTime.Now;
                 });
             CreateMap<Categorias, CategoriaDTO>()
-                .ForMember(to => to.Id, from => from.MapFrom(src => src.Id.ToString()));
+                .ForMember(to => to.Id, from => from.MapFrom(src => src.Id.ToString()))
+                .ForMember(to => to.AreaId, from => from.MapFrom(src => src.Area.ToString()));
             CreateMap<CategoriaDTO, Categorias>()
                 .AfterMap((input, output) =>
                 {
@@ -90,9 +92,12 @@ namespace PeliculasAPI.Utilidades
         private object ExtractImages(List<Imagenes> imagenes)
         {
             List<string> imagesCodes = new List<string>();
-            foreach (var item in imagenes)
+            if (imagenes.Any())
             {
-                imagesCodes.Add(item.ImagenUrl);
+                foreach (var item in imagenes)
+                {
+                    imagesCodes.Add(item.ImagenUrl);
+                }
             }
 
             return imagesCodes;
@@ -100,10 +105,13 @@ namespace PeliculasAPI.Utilidades
 
         private object ExtractBase64Images(List<Imagenes> imagenes)
         {
-            List<string> images = new List<string>();
-            foreach (var item in imagenes)
+            List<KeyValuePair<string,string>> images = new List<KeyValuePair<string, string>>();
+            if (imagenes.Any())
             {
-                images.Add(item.ImagenBase64);
+                foreach (var item in imagenes)
+                {
+                    images.Add(new KeyValuePair<string, string>(item.ImagenUrl, item.ImagenBase64));
+                }
             }
 
             return images;

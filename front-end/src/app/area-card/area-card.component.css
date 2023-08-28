@@ -19,16 +19,23 @@
     transition: transform .3s ease;
 }
 
+.image-wrapper img{
+    width:100%;
+}
+
 .image-wrapper:hover{
     transform: 1.1;
 }
 
 .card-item span{
     position: absolute;
+    padding: 10px;
+    bottom: 20%;
     left: 10px;
-    right: 10px;
     color: #1d432b;
     z-index: 2;
     display: inline-block;
     background-color: #fff;
+    font-size: 20px;
+    font-weight: bold;
 }

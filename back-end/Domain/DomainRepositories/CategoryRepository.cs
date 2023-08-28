@@ -72,7 +72,7 @@ namespace Domain.DomainRepositories
 
                 var result = context.SaveChanges();
                 if (result > 0)
-                    return "Operación exitosa";
+                    return id;
                 else
                     return "Ocurrió un error al eliminar la categoria";
             }else if(Subcategoria != null)
@@ -81,7 +81,7 @@ namespace Domain.DomainRepositories
 
                 var result = context.SaveChanges();
                 if (result > 0)
-                    return "Operación exitosa";
+                    return id;
                 else
                     return "Ocurrió un error al eliminar la categoria";
             }else if(area != null)
@@ -89,7 +89,7 @@ namespace Domain.DomainRepositories
                 context.Areas.Remove(area);
                 var result = context.SaveChanges();
                 if (result > 0)
-                    return "Operación exitosa";
+                    return id;
                 else
                     return "Ocurrió un error al eliminar el área";
             }
@@ -110,7 +110,9 @@ namespace Domain.DomainRepositories
                                   Codigo = a.Codigo,
                                   Area = a.Id.ToString(),
                                   AreaDescripcion = a.Descripcion,
-                                  TipoCategoria = a.TipoCategoria
+                                  TipoCategoria = a.TipoCategoria,
+                                  Imagen = a.Imagen,
+                                  ImagenBase64 = a.ImagenBase64
                               });
 
             if (categories.Count() > 0)
@@ -165,7 +167,9 @@ namespace Domain.DomainRepositories
                                   Codigo = a.Codigo,
                                   CategoriaPrincipal = a.CategoriaPrincipal.ToString(),
                                   CategoriaPrincipalDescripcion = b.Descripcion,
-                                  TipoCategoria = a.TipoCategoria
+                                  TipoCategoria = a.TipoCategoria,
+                                  Imagen = a.Imagen,
+                                  ImagenBase64 = a.ImagenBase64
                               });
 
             if (categories.Count() > 0)
@@ -225,7 +229,9 @@ namespace Domain.DomainRepositories
                                   Id = a.Id.ToString(),
                                   Descripcion = a.Descripcion,
                                   Codigo = a.Codigo,
-                                  TipoCategoria = a.TipoCategoria
+                                  TipoCategoria = a.TipoCategoria,
+                                  Imagen = a.Imagen,
+                                  ImagenBase64 = a.ImagenBase64
                               });
 
             if (areas.Count() > 0)

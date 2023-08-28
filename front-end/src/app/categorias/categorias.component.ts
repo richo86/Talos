@@ -32,6 +32,7 @@ export class CategoriasComponent implements OnInit {
   cantidadRegistrosMostradosSub = 12;
   paginaActualAreas = 1;
   cantidadRegistrosMostradosAreas = 12;
+  imagen : string = null;
 
   ngOnInit(): void {
     this.cargarRegistros(this.paginaActual,this.cantidadRegistrosMostrados);
@@ -58,6 +59,7 @@ export class CategoriasComponent implements OnInit {
     .subscribe({
       next: res => {
         this.areas = res.body;
+        console.log("categorias",this.areas);
         this.cantidadTotalRegistrosArea = res.headers.get("cantidadTotalRegistros");
       },
       error: errores =>{
@@ -100,14 +102,18 @@ export class CategoriasComponent implements OnInit {
   }
 
   borrar(id:string){
+    this.imagen = !!this.categorias.find(x=>x.id == id) ? this.categorias.find(x=>x.id==id).imagen : !!this.areas.find(x=>x.id==id) ? 
+                this.areas.find(x=>x.id==id).imagen : !!this.subcategorias.find(x=>x.id==id) ? this.subcategorias.find(x=>x.id==id).imagen
+                : null;
     this.categoriasService.borrarCategoria(id).subscribe({
       next: (res) => {
-      Swal.fire({
-        text: '¡Operación exitosa!',
-        icon: 'success'
-      }).then(res => {
-        window.location.reload();
-      });
+        this.categoriasService.borrarImagen(this.imagen).pipe(take(1)).subscribe();
+        Swal.fire({
+          text: '¡Operación exitosa!',
+          icon: 'success'
+        }).then(res => {
+          window.location.reload();
+        });
     },
     error: (error) => this.errores = parsearErroresAPI(error)}
     );

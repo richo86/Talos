@@ -49,11 +49,11 @@
     <mat-form-field appearance="outline">
         <mat-label>Descuento</mat-label>
         <mat-select formControlName="descuentoId">
-            <mat-option [value]="0">Ninguno</mat-option>
             <mat-option *ngFor="let descuento of descuentos" [value]="descuento.id">
             {{descuento.descripcion}}
             </mat-option>
         </mat-select>
+        <mat-error>El campo es requerido</mat-error>
     </mat-form-field>
     <app-cargar-imagen [imagenActual]="producto?.imagen" (archivoSeleccionado)="archivoSeleccionado($event)"></app-cargar-imagen>
 

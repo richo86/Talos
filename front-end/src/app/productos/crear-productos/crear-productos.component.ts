@@ -130,7 +130,7 @@ export class CrearProductosComponent implements OnInit {
     });
 
     //Default selected discount
-    this.form.get('descuentoId').setValue(0);
+    this.form.get('descuentoId').setValue("ninguno");
   }
 
   GetSubcategories(){
@@ -178,6 +178,10 @@ export class CrearProductosComponent implements OnInit {
         });
       }else{
         this.crearProducto = Object.assign(this.crearProducto,this.form.value);
+        console.log(this.crearProducto);
+        if(this.crearProducto.descuentoId == 'ninguno')
+          this.crearProducto.descuentoId = null;
+        
         this.productosService.crearProducto(this.crearProducto).pipe(take(1))
         .subscribe({
           next: (res) => {

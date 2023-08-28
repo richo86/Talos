@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CategoriaDTO } from '../categorias/categorias.models';
+import { dataURI } from '../utilidades/utilidades';
 
 @Component({
   selector: 'app-area-card',
@@ -14,6 +15,10 @@ export class AreaCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  base64(image:string){
+    return dataURI(image);
   }
 
 }

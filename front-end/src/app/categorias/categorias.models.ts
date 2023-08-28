@@ -11,6 +11,8 @@ export interface CategoriaDTO
     categoriaPrincipal:string;
     categoriaPrincipalDescripcion:string;
     imagen:string;
+    imagenBase64:string;
+    areaId:string;
 }
 
 export class TipoCategoria{

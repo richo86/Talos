@@ -58,11 +58,11 @@ export class CategoriasService {
   }
 
   public crearCategoria(producto: CategoriaDTO){
-    return this.http.post<CategoriaDTO>(this.apiURL + '/CreateCategory', producto, { responseType: 'text' as 'json'});
+    return this.http.post<CategoriaDTO>(this.apiURL + '/CreateCategory', producto);
   }
 
   public actualizarCategoria(producto: CategoriaDTO){
-    return this.http.put<string>(this.apiURL + '/UpdateCategory', producto, { responseType: 'text' as 'json'});
+    return this.http.put<string>(this.apiURL + '/UpdateCategory', producto);
   }
 
   public borrarCategoria(id:string){

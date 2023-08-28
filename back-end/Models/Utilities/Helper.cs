@@ -23,8 +23,13 @@ namespace Models.Utilities
 
         public static bool checkBase64String(string base64)
         {
-            Span<byte> buffer = new Span<byte>(new byte[base64.Length]);
-            return Convert.TryFromBase64String(base64, buffer, out int bytesParsed);
+            if(base64 != null)
+            {
+                Span<byte> buffer = new Span<byte>(new byte[base64.Length]);
+                return Convert.TryFromBase64String(base64, buffer, out int bytesParsed);
+            }
+
+            return false;
         }
     }
 }

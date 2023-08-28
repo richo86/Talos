@@ -12,6 +12,8 @@ namespace Models.DTOs
         public string CategoriaPrincipal { get; set; }
         public string CategoriaPrincipalDescripcion { get; set; }
         public string Imagen { get; set; }
+        public string ImagenBase64 { get; set; }
         public TipoCategoria TipoCategoria { get; set; }
+        public string AreaId { get; set; }
     }
 }

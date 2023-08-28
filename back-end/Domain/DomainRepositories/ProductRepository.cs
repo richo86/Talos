@@ -145,7 +145,7 @@ namespace Domain.DomainRepositories
             var products = context.Producto.AsNoTracking()
                             .Include(x => x.Categoria)
                             .Include(x => x.Subcategoria)
-                            .Include(x => x.Imagenes).Take(1)
+                            .Include(x => x.Imagenes.Take(1))
                             .Where(x => x.Descripcion != null);
 
             if (products.Count() > 0)

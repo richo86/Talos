@@ -15,8 +15,8 @@ namespace Talos.API.Classes
 
         public CategoriaDTO GetImage(CategoriaDTO category)
         {
-            if (!Helper.checkBase64String(category.Imagen))
-                category.Imagen = _driveRepository.GetFileById(category.Imagen);
+            if (!Helper.checkBase64String(category.ImagenBase64))
+                category.ImagenBase64 = _driveRepository.GetFileById(category.Imagen);
 
             return category;
         }
@@ -25,8 +25,8 @@ namespace Talos.API.Classes
         {
             foreach (var item in categories)
             {
-                if (!Helper.checkBase64String(item.Imagen))
-                    item.Imagen = _driveRepository.GetFileById(item.Imagen);
+                if (!Helper.checkBase64String(item.ImagenBase64))
+                    item.ImagenBase64 = _driveRepository.GetFileById(item.Imagen);
             }
             
             return categories;

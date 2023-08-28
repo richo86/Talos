@@ -73,11 +73,6 @@ namespace Talos.API.Controllers
                 {
                     var productsDTO = mapper.Map<List<Producto>, List<ProductoDTO>>(products);
 
-                    foreach (var item in productsDTO)
-                    {
-                        item.Imagenes[0] = driveRepository.GetFileById(item.Imagenes.FirstOrDefault());
-                    }
-
                     return Ok(productsDTO);
                 }
                 else

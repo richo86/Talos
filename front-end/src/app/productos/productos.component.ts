@@ -25,6 +25,9 @@ paginaActual = 1;
 cantidadRegistrosMostrados = 12;
 
 ngOnInit(): void {
+  this.productosService.obtenerTodasImagenes().subscribe((res)=>{
+    console.log(res);
+  });
   this.cargarRegistros(this.paginaActual,this.cantidadRegistrosMostrados);
 }
 
