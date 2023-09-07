@@ -4,6 +4,7 @@ import { CategoriaDTO } from '../categorias/categorias.models';
 import { productoDTO } from '../productos/productos.models';
 import { SeguridadService } from '../seguridad/seguridad.service';
 import { AreasDisplayService } from './areas-display.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-areas-display',
@@ -18,10 +19,20 @@ export class AreasDisplayComponent implements OnInit {
   areaId:string;
 
   constructor(private areasDisplayService:AreasDisplayService,
-              private securityService:SeguridadService) { }
+              private securityService:SeguridadService,
+              private activatedRoute: ActivatedRoute,) { }
 
   ngOnInit(): void {
-    this.GetUserLocation();
+    this.GetParams();
+  }
+
+  GetParams(){
+    this.activatedRoute.params.subscribe((params) => {
+      if(!!params.id){
+        this.areaId = params.id;
+        this.GetUserLocation();
+      }
+    });
   }
 
   GetUserLocation(){
@@ -29,7 +40,6 @@ export class AreasDisplayComponent implements OnInit {
     .subscribe({
       next: res =>{
         this.countryCode = res.body.countryCode;
-
         this.GetCategoryProducts(this.countryCode,this.areaId);
         this.GetCategories(this.countryCode,this.areaId);
       }
@@ -37,7 +47,7 @@ export class AreasDisplayComponent implements OnInit {
   }
 
   GetCategoryProducts(countryCode:string,id:string){
-    this.areasDisplayService.getCategoryProducts(countryCode,id).pipe(take(1))
+    this.areasDisplayService.getAreaProducts(countryCode,id).pipe(take(1))
     .subscribe({
       next: (res) =>{
         this.products = res.body;

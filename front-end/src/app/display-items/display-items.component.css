@@ -1,0 +1,10 @@
+.topImage img{
+    height:200px;
+}
+.items{
+    display:flex;
+}
+app-product-card{
+    margin-right:2rem ;
+    width:310px;
+}

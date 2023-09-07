@@ -15,7 +15,7 @@ namespace Talos.API.Classes
 
         public CategoriaDTO GetImage(CategoriaDTO category)
         {
-            if (!Helper.checkBase64String(category.ImagenBase64))
+            if (!Helper.checkBase64String(category.ImagenBase64) && category.Imagen != null)
                 category.ImagenBase64 = _driveRepository.GetFileById(category.Imagen);
 
             return category;

@@ -114,7 +114,7 @@ namespace Talos.API.Controllers
 
         [HttpPut("UpdateProduct")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
-        public async Task<ActionResult<ProductoDTO>> UpdateProduct([FromForm] CrearProductoDTO producto)
+        public async Task<ActionResult<ProductoDTO>> UpdateProduct(CrearProductoDTO producto)
         {
             try
             {

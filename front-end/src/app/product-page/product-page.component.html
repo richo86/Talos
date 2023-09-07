@@ -1,1 +1,17 @@
-<p>product-page works!</p>
+
+<mat-grid-list cols="2" >
+    <mat-grid-tile>
+        <app-image-gallery [product]="product"></app-image-gallery>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <div class="productInfo">
+            <app-rating></app-rating>
+            <p>{{product.nombre}}</p>
+            <p>{{product.descripcion}}</p>
+            <p>{{product.precio}}</p>
+            <p>{{product.inventario}}</p>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>
+
+

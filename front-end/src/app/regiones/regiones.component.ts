@@ -30,7 +30,6 @@ export class RegionesComponent implements OnInit {
     .subscribe({
       next: res => {
         this.regiones = res.body;
-        console.log(this.regiones);
         this.cantidadTotalRegistros = res.headers.get("cantidadTotalRegistros");
       },
       error: errores =>{

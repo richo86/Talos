@@ -15,11 +15,11 @@ export class AreasDisplayService {
   private apiURL = environment.apiUrl + 'StoreFront';
   private categoryURL = environment.apiUrl + 'Category';
 
-  public getCategoryProducts(countryCode:string,category:string){
+  public getAreaProducts(countryCode:string,area:string){
     let params = new HttpParams();
     params = params.append('countryCode', countryCode.toString());
-    params = params.append('category', category.toString());
-    return this.http.get<productoDTO[]>(this.apiURL + '/GetProductsFromSpecificCategory', {observe: 'response', params});
+    params = params.append('area', area.toString());
+    return this.http.get<productoDTO[]>(this.apiURL + '/GetProductsFromSpecificArea', {observe: 'response', params});
   }
 
   public getCategories(id:string){

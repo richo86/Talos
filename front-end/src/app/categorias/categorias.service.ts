@@ -87,7 +87,6 @@ export class CategoriasService {
     return this.http.post<any>(this.driveURL + '/UploadCategoryFile', file, { params: params})
         .pipe(map(
           resp => {
-            console.log(resp);
           }
         ));
   }

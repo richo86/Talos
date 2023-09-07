@@ -59,7 +59,6 @@ export class CategoriasComponent implements OnInit {
     .subscribe({
       next: res => {
         this.areas = res.body;
-        console.log("categorias",this.areas);
         this.cantidadTotalRegistrosArea = res.headers.get("cantidadTotalRegistros");
       },
       error: errores =>{

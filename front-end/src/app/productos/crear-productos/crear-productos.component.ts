@@ -33,7 +33,8 @@ export class CrearProductosComponent implements OnInit {
     subcategoriaId: null,
     subcategoriaDescripcion: null,
     descuentoId: null,
-    codigo: null
+    codigo: null,
+    moneda:null
   };
   listadoImagenes: File[] = new Array(0);
   listadoImagenesBase64: KeyValuePair<string, string>[] = [];;
@@ -178,7 +179,6 @@ export class CrearProductosComponent implements OnInit {
         });
       }else{
         this.crearProducto = Object.assign(this.crearProducto,this.form.value);
-        console.log(this.crearProducto);
         if(this.crearProducto.descuentoId == 'ninguno')
           this.crearProducto.descuentoId = null;
         
@@ -186,7 +186,6 @@ export class CrearProductosComponent implements OnInit {
         .subscribe({
           next: (res) => {
             if(this.listadoImagenes.length > 0){
-              console.log(res);
               this.productosService.subirImagenes(this.listadoImagenes,res.id).pipe(take(1))
               .subscribe({
                 next: (res) =>{

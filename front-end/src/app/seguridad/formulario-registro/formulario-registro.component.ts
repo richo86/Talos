@@ -46,7 +46,6 @@ export class FormularioRegistroComponent implements OnInit {
     this.seguridadService.obtenerGeneros().pipe(take(1))
     .subscribe(res => {
       this.generos = res.body;
-      console.log(this.generos);
     });
   }
 

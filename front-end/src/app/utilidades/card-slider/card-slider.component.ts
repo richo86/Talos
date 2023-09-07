@@ -36,7 +36,6 @@ export class CardSliderComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log("object",this.arr);
     this.initializeArray();
     this.totalCards = this.arr.length;
     this.cardsPerPage = this.getCardsPerPage();
@@ -53,9 +52,9 @@ export class CardSliderComponent implements OnInit {
   initializeSlider() {
     this.totalPages = Math.ceil(this.totalCards / this.cardsPerPage);
     this.overflowWidth = `calc(${this.totalPages * 100}% + ${this.totalPages *
-      10}px)`;
+      30}px)`;
     this.cardWidth = `calc((${100 / this.totalPages}% - ${this.cardsPerPage *
-      10}px) / ${this.cardsPerPage})`;
+      30}px) / ${this.cardsPerPage})`;
   }
 
   getCardsPerPage() {

@@ -89,7 +89,6 @@ export class ProductosService {
     return this.http.post<any>(this.driveURL + '/UploadImage', files, { params: params})
         .pipe(map(
           resp => {
-            console.log(resp);
           }
         ));
   }
@@ -101,6 +100,7 @@ export class ProductosService {
   }
 
   public actualizarProducto(producto: productoDTO){
+    console.log("actualizar producto",producto);
     return this.http.put<string>(this.apiURL + '/UpdateProduct', producto);
   }
 

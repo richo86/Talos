@@ -24,7 +24,8 @@ namespace Domain.DomainRepositories
             try
             {
                 Guid productId = Guid.Parse(product);
-                var imagenExistente = context.Imagenes.FirstOrDefault(x => x.ImagenUrl.Equals(id) && x.ProductoId.Equals(productId));
+                var imagenExistente = context.Imagenes.FirstOrDefault(x => x.ImagenUrl.Equals(id) 
+                                        && x.ProductoId.Equals(productId));
 
                 if(imagenExistente == null)
                 {

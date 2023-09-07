@@ -4,8 +4,8 @@
         <mat-card-title>{{productDTO.nombre}}</mat-card-title>
         <mat-card-subtitle>{{productDTO.subcategoriaDescripcion}}</mat-card-subtitle>
     </mat-card-header>
-    <a (click)="redirect('/product-page/{{ productDTO.Id }}')">
-        <img mat-card-image [src]="base64(productDTO.imagenesBase64[0].value)" [alt]="productDTO.nombre">
+    <a routerLink="/product-page/{{productDTO.id}}">
+        <img mat-card-image [src]="base64(productDTO.imagenesBase64[0]?.value)" [alt]="productDTO.nombre">
     </a>
     <div class="slide">
         <mat-card-content>

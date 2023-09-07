@@ -49,6 +49,7 @@
     <mat-form-field appearance="outline">
         <mat-label>Descuento</mat-label>
         <mat-select formControlName="descuentoId">
+            <mat-option value="ninguno">Ninguno</mat-option>
             <mat-option *ngFor="let descuento of descuentos" [value]="descuento.id">
             {{descuento.descripcion}}
             </mat-option>

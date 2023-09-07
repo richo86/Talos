@@ -10,6 +10,7 @@ namespace Models.DTOs
         public string Descripcion { get; set; }
         public long Inventario { get; set; }
         public decimal Precio { get; set; }
+        public string Moneda { get; set; }
         public DateTime? FechaCreacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
         public string CategoriaId { get; set; }

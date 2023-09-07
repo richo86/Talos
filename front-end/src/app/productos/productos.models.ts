@@ -14,6 +14,7 @@ export interface productoDTO{
     subcategoriaDescripcion: string;
     descuentoId: string;
     codigo: string;
+    moneda: string;
 }
 
 export interface crearProductoDTO{
@@ -30,6 +31,7 @@ export interface crearProductoDTO{
     subcategoriaDescripcion: string;
     descuentoId: string;
     codigo: string;
+    moneda: string;
 }
 
 export interface KeyValuePair<K, V> {

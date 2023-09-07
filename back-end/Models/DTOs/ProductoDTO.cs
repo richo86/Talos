@@ -10,6 +10,7 @@ namespace Models.DTOs
         public string Descripcion { get; set; }
         public string Inventario { get; set; }
         public decimal Precio { get; set; }
+        public string Moneda { get; set; }
         public List<string> Imagenes { get; set; }
         public List<KeyValuePair<string, string>> ImagenesBase64 { get; set; }
         public DateTime FechaCreacion { get; set; }

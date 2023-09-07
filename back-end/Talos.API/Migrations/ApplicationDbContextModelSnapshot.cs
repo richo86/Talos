@@ -547,6 +547,9 @@ namespace Repositories.Migrations
                     b.Property<long>("Inventario")
                         .HasColumnType("bigint");
 
+                    b.Property<Guid>("Moneda")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(max)");
 

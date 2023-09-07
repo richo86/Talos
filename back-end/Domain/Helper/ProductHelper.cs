@@ -39,8 +39,10 @@ namespace Domain.Helper
                         CategoriaDescripcion = context.Categorias.FirstOrDefault(x => x.Id.Equals(productItem.CategoriaId)).Descripcion,
                         SubcategoriaId = productItem.SubcategoriaId.ToString(),
                         SubcategoriaDescripcion = context.Subcategorias.FirstOrDefault(x => x.Id.Equals(productItem.SubcategoriaId)).Descripcion,
-                        DescuentoId = productItem.DescuentoId.ToString(),
-                        ValorDescuento = context.Descuentos.FirstOrDefault(x => x.Id.Equals(productItem.DescuentoId)).PorcentajeDescuento.ToString(),
+                        DescuentoId = productItem.DescuentoId != null ? productItem.DescuentoId.ToString() : null,
+                        ValorDescuento = productItem.DescuentoId != null ?
+                                        context.Descuentos.FirstOrDefault(x => x.Id.Equals(productItem.DescuentoId)).PorcentajeDescuento.ToString()
+                                        : "0",
                         Codigo = productItem.Codigo
                     };
 

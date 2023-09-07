@@ -60,7 +60,6 @@ export class LandingPageComponent implements OnInit {
     .subscribe({
       next:(res)=>{
         this.collectionList = res.body;
-        console.log("collectionList",this.collectionList);
       }
     })
   }
@@ -82,6 +81,9 @@ export class LandingPageComponent implements OnInit {
         if(this.bestSellers.length <3){
           this.GetLatestProducts();
         }
+      },
+      error: (errors) =>{
+        this.GetLatestProducts();
       }
     });
   }

@@ -21,8 +21,12 @@ namespace Domain.DomainRepositories
 
         public async Task<Categorias> CreateCategory(Categorias categoria)
         {
-            var codigo = context.Categorias.Max(x => x.Codigo);
-            categoria.Codigo = (Convert.ToInt32(codigo) + 1).ToString();
+            var codigo = (from a in context.Categorias
+                          select new
+                          {
+                              codigo = Convert.ToInt32(a.Codigo)
+                          }).ToList().Max(x => x.codigo);
+            categoria.Codigo = (codigo + 1).ToString();
 
             var categoriaExistente = context.Categorias.FirstOrDefault(x => x.Descripcion.Equals(categoria.Descripcion));
 
@@ -41,8 +45,12 @@ namespace Domain.DomainRepositories
 
         public async Task<Subcategorias> CreateSubCategory(Subcategorias categoria)
         {
-            var codigo = context.Subcategorias.Max(x => x.Codigo);
-            categoria.Codigo = (Convert.ToInt32(codigo) + 1).ToString();
+            var codigo = (from a in context.Subcategorias
+                          select new
+                          {
+                              codigo = Convert.ToInt32(a.Codigo)
+                          }).ToList().Max(x => x.codigo);
+            categoria.Codigo = (codigo + 1).ToString();
 
             var categoriaExistente = context.Subcategorias.FirstOrDefault(x => x.Descripcion.Equals(categoria.Descripcion));
 
@@ -83,7 +91,7 @@ namespace Domain.DomainRepositories
                 if (result > 0)
                     return id;
                 else
-                    return "Ocurrió un error al eliminar la categoria";
+                    return "Ocurrió un error al eliminar la subcategoria";
             }else if(area != null)
             {
                 context.Areas.Remove(area);
@@ -242,8 +250,12 @@ namespace Domain.DomainRepositories
 
         public async Task<Areas> CreateArea(Areas area)
         {
-            var codigo = context.Areas.Max(x => x.Codigo);
-            area.Codigo = (Convert.ToInt32(codigo) + 1).ToString();
+            var codigo = (from a in context.Areas
+                          select new
+                          {
+                              codigo = Convert.ToInt32(a.Codigo)
+                          }).ToList().Max(x => x.codigo);
+            area.Codigo = (codigo + 1).ToString();
 
             var areaExistente = context.Areas.FirstOrDefault(x => x.Descripcion.Equals(area.Descripcion));
 

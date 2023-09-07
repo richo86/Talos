@@ -29,7 +29,7 @@ namespace PeliculasAPI.Utilidades
                 .ForMember(to => to.DescuentoId, from => from.MapFrom(src => src.DescuentoId != null ? src.DescuentoId : null))
                 .AfterMap((input, output) =>
                 {
-                    output.Id = Guid.NewGuid();
+                    output.Id = input.Id == null ? Guid.NewGuid() : Guid.Parse(input.Id);
                     output.FechaCreacion = DateTime.Now;
                 });
             CreateMap<Categorias, CategoriaDTO>()

@@ -81,7 +81,7 @@ namespace Talos.API.Controllers
         }
 
         [HttpPut("UpdateCart")]
-        public async Task<ActionResult<List<CarritoDTO>>> UpdateCart(List<CarritoDTO> cartDTO)
+        public async Task<ActionResult> UpdateCart(List<CarritoDTO> cartDTO)
         {
             try
             {
@@ -114,13 +114,16 @@ namespace Talos.API.Controllers
         }
 
         [HttpDelete("DeleteCart")]
-        public async Task<ActionResult<string>> DeleteCart(string id)
+        public async Task<ActionResult> DeleteCart(string id)
         {
             try
             {
                 var result = await cartRepository.DeleteCart(id);
 
-                return Ok(result);
+                if (result == "Operación exitosa")
+                    return Ok(result);
+                else
+                    return BadRequest(result);
             }
             catch (Exception ex)
             {

@@ -167,7 +167,6 @@ export class CecComponent implements OnInit {
           this.errores.push("Es necesario incluir una imagen")
         }
       }else{
-        console.log(this.imagenCategoria);
         if(!!this.categoria.imagen || !!this.imagenCategoria){
           this.categoriasService.crearCategoria(this.categoria).pipe(take(1))
           .subscribe({
