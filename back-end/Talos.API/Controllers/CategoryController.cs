@@ -148,11 +148,11 @@ namespace Talos.API.Controllers
         }
 
         [HttpGet("GetSecondaryCategories")]
-        public async Task<ActionResult> GetSecondaryCategories()
+        public ActionResult GetSecondaryCategories(string id)
         {
             try
             {
-                var categories = await categoryRepository.GetSecondaryCategories();
+                var categories = categoryRepository.GetSecondaryCategories(id);
 
                 if (categories.Any())
                 {
@@ -178,7 +178,7 @@ namespace Talos.API.Controllers
                     return NotFound();
 
                 await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
-                var categories = await queryable.OrderBy(x => x.Descripcion).Paginar(paginacionDTO).ToListAsync();
+                var categories = queryable.OrderBy(x => x.Descripcion).Paginar(paginacionDTO).ToList();
 
                 if (categories.Count() != 0)
                 {
@@ -203,7 +203,7 @@ namespace Talos.API.Controllers
                     return NotFound();
 
                 await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
-                var categories = await queryable.OrderBy(x => x.Descripcion).Paginar(paginacionDTO).ToListAsync();
+                var categories = queryable.OrderBy(x => x.Descripcion).Paginar(paginacionDTO).ToList();
 
                 if (categories.Count() != 0)
                 {
@@ -228,7 +228,7 @@ namespace Talos.API.Controllers
                     return NotFound();
 
                 await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
-                var categories = await queryable.OrderBy(x => x.Descripcion).Paginar(paginacionDTO).ToListAsync();
+                var categories = queryable.OrderBy(x => x.Descripcion).Paginar(paginacionDTO).ToList();
 
                 if (categories.Count() != 0)
                 {

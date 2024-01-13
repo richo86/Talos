@@ -16,5 +16,8 @@ namespace Models.DTOs
         public decimal PorcentajeDescuento { get; set; }
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaEdicion { get; set; }
+        public string CodigoPromocion { get; set; }
+        public DateTime FechaInicioVigencia { get; set; }
+        public DateTime FechaFinVigencia { get; set; }
     }
 }

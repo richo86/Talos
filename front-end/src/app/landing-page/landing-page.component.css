@@ -3,6 +3,7 @@
     text-align: center;
     padding-left:20vw;
     padding-right:20vw;
+    margin-bottom:100px;
 }
 #storeDescription h1{
     font-size:32px;
@@ -14,11 +15,15 @@
 }
 #categories{
     margin-top:100px;
+    margin-bottom:100px;
 }
 #categories h1{
     text-align: center;
     font-size:32px;
     color: #1d432b;
+}
+#bestSellers{
+    margin-bottom:100px;
 }
 #bestSellers h1{
     text-align: center;
@@ -31,11 +36,15 @@
     position: relative;
     overflow: hidden;
     background-repeat: no-repeat;
+    margin-bottom:100px;
 }
 #subcategories h1{
     text-align: center;
     font-size:32px;
     color: #1d432b;
+}
+#lowCost{
+    margin-bottom:100px;
 }
 #lowCost h1{
     text-align: center;
@@ -43,7 +52,7 @@
     color: #1d432b;
 }
 #about{
-    margin-bottom:150px;
+    margin-bottom:100px;
 }
 #about h1{
     text-align: center;

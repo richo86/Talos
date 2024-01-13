@@ -1,0 +1,101 @@
+<app-cabecera-generica [titulo]="'Campaign'"></app-cabecera-generica>
+
+<app-mostrar-errores [errores]="errores"></app-mostrar-errores>
+
+<form (submit)="create()" [formGroup]="form">
+    <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input type="text" formControlName="nombre" matInput />
+        <mat-error>The field is required</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <input type="text" formControlName="descripcion" matInput />
+        <mat-error>The field is required</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>State</mat-label>
+        <mat-select formControlName="estado">
+            <mat-option [value]="true">Active</mat-option>
+            <mat-option [value]="false">Inactive</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Discount</mat-label>
+        <input type="number" formControlName="porcentajeDescuento" matInput />
+        <mat-error>The field is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Enter a starting and ending date for the campaign</mat-label>
+        <mat-date-range-input [formGroup]="form" [rangePicker]="picker">
+          <input matStartDate formControlName="fechaInicioVigencia" placeholder="Start date">
+          <input matEndDate formControlName="fechaFinVigencia" placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      
+        <mat-error *ngIf="form.controls.fechaInicioVigencia.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+        <mat-error *ngIf="form.controls.fechaFinVigencia.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="categoria" (selectionChange)="updateSubcategories($event)">
+            <mat-option *ngFor="let tipo of categorias" [value]="tipo.id">
+            {{tipo.descripcion}}
+            </mat-option>
+        </mat-select>
+        <mat-error>The field is required</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Subcategory</mat-label>
+        <mat-select formControlName="subcategoria">
+            <mat-option *ngFor="let tipo of subcategorias" [value]="tipo.id">
+            {{tipo.descripcion}}
+            </mat-option>
+        </mat-select>
+        <mat-error>The field is required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-chip-list" appearance="fill">
+        <mat-label>Products</mat-label>
+        <mat-chip-list #chipList aria-label="Products">
+          <mat-chip
+            *ngFor="let product of products"
+            (removed)="remove(product)">
+            {{product}}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input
+            placeholder="Add products..."
+            #keywordInput
+            [formControl]="myControl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let product of filteredProducts | async" [value]="product.id">
+            {{product.nombre}}
+          </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <div class="uploadImage">
+        <app-cargar-imagen [imagenActual]="" (archivoSeleccionado)="archivoSeleccionado($event)"></app-cargar-imagen>
+
+        <ng-container *ngFor="let image of listadoImagenesBase64">
+            <div class="main-container" *ngIf="listadoImagenesBase64.length > 0">
+                <img [src]="image.value" alt="Base64 Image">
+                <div id="delete-wrapper" (click)="deleteImage(image.key)">
+                    <mat-icon>delete</mat-icon>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    
+    <div class="formButtons">
+        <a mat-stroked-button routerLink="/campañas">Cancel</a>
+        <button mat-flat-button color="primary" [disabled]="form.invalid">Send</button>
+    </div>
+</form>

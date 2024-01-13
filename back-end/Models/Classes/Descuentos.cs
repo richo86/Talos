@@ -15,7 +15,16 @@ namespace Models.Classes
         public bool Estado { get; set; }
         [Range(0,100)]
         public decimal PorcentajeDescuento { get; set; }
+        public string CodigoPromocion { get; set; }
         public DateTime? FechaCreacion { get; set; }
         public DateTime? FechaEdicion { get; set; }
+        public DateTime FechaInicioVigencia { get; set; }
+        public DateTime FechaFinVigencia { get; set; }
+
+        private void DeactivateDiscount()
+        {
+            Estado = false;
+            FechaEdicion = DateTime.Now;
+        }
     }
 }

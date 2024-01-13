@@ -58,7 +58,7 @@ namespace Talos.API.Controllers
                     return NotFound();
 
                 await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
-                var detallePedidosDTO = await queryable.OrderBy(x => x.FechaActualizacion).Paginar(paginacionDTO).ToListAsync();
+                var detallePedidosDTO = queryable.OrderBy(x => x.FechaActualizacion).Paginar(paginacionDTO).ToList();
 
                 if (detallePedidosDTO.Count() > 0)
                 {

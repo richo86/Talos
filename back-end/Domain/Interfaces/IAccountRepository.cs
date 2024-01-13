@@ -1,4 +1,5 @@
-﻿using Models.Classes;
+﻿using Google.Apis.Auth;
+using Models.Classes;
 using Models.DTOs;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Domain.Interfaces
         Task<ApplicationUser> GetUserByEmail(string email);
         Task<IList<Claim>> GetClaims(ApplicationUser usuario);
         Task<ApplicationUser> SignIn(Credenciales credenciales);
+        Task<ApplicationUser> SignInExternal(GoogleJsonWebSignature.Payload socialUser);
         Task<ApplicationUser> Update(UsuarioDTO usuario);
         Task<bool> Delete(string id);
         IQueryable<UsuarioDTO> getUsers();

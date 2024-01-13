@@ -14,7 +14,8 @@ import { generoDTO } from './registro';
 export class FormularioRegistroComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
-              private seguridadService: SeguridadService) { }
+              private seguridadService: SeguridadService,
+              private securityService: SeguridadService) { }
 
   @Input()
   errores: string[] = [];
@@ -27,11 +28,13 @@ export class FormularioRegistroComponent implements OnInit {
 
   form: FormGroup;
   generos: generoDTO[] = [];
+  passwordAlert:boolean = true;
+  loggedIn: boolean = false;
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       email: ['',{validators: [Validators.required, Validators.email]}],
-      password: ['',{validators: [Validators.required]}],
+      password: ['',{validators: [Validators.required,Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]}],
       confirmPassword:['',{validators:[Validators.required]}],
       firstName: ['',{validators:[]}],
       middleName: ['',{validators:[]}],
@@ -40,7 +43,8 @@ export class FormularioRegistroComponent implements OnInit {
       address: ['',{validators:[]}],
       country: ['',{validators:[]}],
       gender: ['',{validators:[]}],
-      phoneNumber:['',{validators:[]}]
+      phoneNumber:['',{validators:[]}],
+      userName:['',{validators:[Validators.required]}]
     },{validators: passwordMatchingValidator});
 
     this.seguridadService.obtenerGeneros().pipe(take(1))
@@ -52,9 +56,9 @@ export class FormularioRegistroComponent implements OnInit {
   ObtenerMensajeErrorEmail(){
      var campo = this.form.get('email');
      if(campo.hasError('required'))
-        return "El campo email es requerido";
+        return "The field email is required";
      else if(campo.hasError('email'))
-        return "El email no es válido";
+        return "Email is not valid";
   }
 
 }

@@ -19,6 +19,33 @@ namespace Domain.DomainRepositories
             this.context = context;
         }
 
+        public bool AssignKeywords(List<string> keywords, Guid id)
+        {
+            var existingKeywords = context.ProductKeywords.Where(x => x.ProductId.Equals(id));
+            if(existingKeywords.Any())
+            {
+                context.RemoveRange(existingKeywords);
+                context.SaveChanges();
+            }
+
+            var productKeywords = new List<ProductKeywords>();
+            foreach (var keyword in keywords)
+            {
+                var newItem = new ProductKeywords()
+                {
+                    Id = Guid.NewGuid(),
+                    ProductId = id,
+                    Keyword = keyword
+                };
+                productKeywords.Add(newItem);
+            }
+
+            context.ProductKeywords.AddRange(productKeywords);
+            context.SaveChanges();
+
+            return true;
+        }
+
         public bool CreateImage(string id, string product, string imageBase64)
         {
             try
@@ -139,6 +166,11 @@ namespace Domain.DomainRepositories
             imagenes.AddRange(query.Select(x => x.id).ToList());
 
             return imagenes;
+        }
+
+        public List<string> GetProductKeywords(Guid id)
+        {
+            return context.ProductKeywords.Where(x => x.ProductId.Equals(id)).Select(x=>x.Keyword).ToList();
         }
 
         public IQueryable<Producto> GetProducts()

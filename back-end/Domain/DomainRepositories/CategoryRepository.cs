@@ -25,8 +25,11 @@ namespace Domain.DomainRepositories
                           select new
                           {
                               codigo = Convert.ToInt32(a.Codigo)
-                          }).ToList().Max(x => x.codigo);
-            categoria.Codigo = (codigo + 1).ToString();
+                          }).ToList();
+            if (codigo.Any())
+                categoria.Codigo = (codigo.Max(x => x.codigo) + 1).ToString();
+            else
+                categoria.Codigo = 1.ToString();
 
             var categoriaExistente = context.Categorias.FirstOrDefault(x => x.Descripcion.Equals(categoria.Descripcion));
 
@@ -49,8 +52,12 @@ namespace Domain.DomainRepositories
                           select new
                           {
                               codigo = Convert.ToInt32(a.Codigo)
-                          }).ToList().Max(x => x.codigo);
-            categoria.Codigo = (codigo + 1).ToString();
+                          }).ToList();
+
+            if (codigo.Any())
+                categoria.Codigo = (codigo.Max(x => x.codigo) + 1).ToString();
+            else
+                categoria.Codigo = 1.ToString();
 
             var categoriaExistente = context.Subcategorias.FirstOrDefault(x => x.Descripcion.Equals(categoria.Descripcion));
 
@@ -155,12 +162,20 @@ namespace Domain.DomainRepositories
 
         public async Task<List<Categorias>> GetMainCategories()
         {
-            return await context.Categorias.AsNoTracking().Where(x => x.TipoCategoria.Equals(Models.Enums.TipoCategoria.Principal)).ToListAsync();
+            return context.Categorias.AsNoTracking().Where(x => x.TipoCategoria.Equals(Models.Enums.TipoCategoria.Principal)).ToList();
         }
 
-        public async Task<List<Subcategorias>> GetSecondaryCategories()
+        public List<Subcategorias> GetSecondaryCategories(string category)
         {
-            return await context.Subcategorias.AsNoTracking().Where(x => x.TipoCategoria.Equals(Models.Enums.TipoCategoria.Secundario)).ToListAsync();
+            
+            if(category == "null" || category == null)
+                return context.Subcategorias.AsNoTracking().Where(x => x.TipoCategoria.Equals(Models.Enums.TipoCategoria.Secundario)).ToList();
+            else
+            {
+                var categoryId = Guid.Parse(category);
+                return context.Subcategorias.AsNoTracking().Where(x => x.TipoCategoria.Equals(Models.Enums.TipoCategoria.Secundario) && x.CategoriaPrincipal.Equals(categoryId)).ToList();
+            }
+                
         }
 
         public IQueryable<CategoriaDTO> GetSubcategories()
@@ -254,8 +269,12 @@ namespace Domain.DomainRepositories
                           select new
                           {
                               codigo = Convert.ToInt32(a.Codigo)
-                          }).ToList().Max(x => x.codigo);
-            area.Codigo = (codigo + 1).ToString();
+                          }).ToList();
+            
+            if (codigo.Any())
+                area.Codigo = (codigo.Max(x => x.codigo) + 1).ToString();
+            else
+                area.Codigo = 1.ToString();
 
             var areaExistente = context.Areas.FirstOrDefault(x => x.Descripcion.Equals(area.Descripcion));
 
@@ -289,7 +308,7 @@ namespace Domain.DomainRepositories
 
         public async Task<List<Areas>> GetMainAreas()
         {
-            return await context.Areas.AsNoTracking().Where(x => x.TipoCategoria.Equals(Models.Enums.TipoCategoria.Area)).ToListAsync();
+            return context.Areas.AsNoTracking().Where(x => x.TipoCategoria.Equals(Models.Enums.TipoCategoria.Area)).ToList();
         }
 
         public bool CreateImage(string id, string category, string base64Image)
@@ -335,7 +354,7 @@ namespace Domain.DomainRepositories
         public async Task<List<CategoriaDTO>> GetCategoriesFromArea(string id)
         {
             Guid areaId = Guid.Parse(id);
-            var categories = await (from a in context.Categorias
+            var categories = (from a in context.Categorias
                               join b in context.Areas on a.Area equals b.Id
                               where a.Area == areaId
                               select new CategoriaDTO()
@@ -347,7 +366,7 @@ namespace Domain.DomainRepositories
                                   AreaDescripcion = b.Descripcion,
                                   Imagen = a.ImagenBase64,
                                   TipoCategoria = a.TipoCategoria
-                              }).AsNoTracking().ToListAsync();
+                              }).AsNoTracking().ToList();
 
             return categories;
         }
@@ -355,7 +374,7 @@ namespace Domain.DomainRepositories
         public async Task<List<CategoriaDTO>> GetSubcategoriesFromCategory(string id)
         {
             Guid categoryId = Guid.Parse(id);
-            var categories = await (from a in context.Subcategorias
+            var categories = (from a in context.Subcategorias
                                    join b in context.Categorias on a.CategoriaPrincipal equals b.Id
                                    where a.CategoriaPrincipal == categoryId
                                    select new CategoriaDTO()
@@ -367,7 +386,7 @@ namespace Domain.DomainRepositories
                                        CategoriaPrincipalDescripcion = b.Descripcion,
                                        Imagen = a.ImagenBase64,
                                        TipoCategoria = a.TipoCategoria
-                                   }).AsNoTracking().ToListAsync();
+                                   }).AsNoTracking().ToList();
 
             return categories;
         }

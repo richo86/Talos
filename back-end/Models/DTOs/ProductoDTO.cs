@@ -24,5 +24,6 @@ namespace Models.DTOs
         public string DescuentoId { get; set; }
         public string ValorDescuento { get; set; }
         public string Codigo { get; set; }
+        public List<string> Keywords { get; set; }
     }
 }

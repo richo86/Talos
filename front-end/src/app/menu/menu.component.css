@@ -1,24 +1,41 @@
 a{
-    color:#fff;
+    color: #222;
     text-decoration:none;
 }
 .spacer {
     flex: 1 1 auto;
 }
 .notification-icon{
+    color:#222;
     margin-right:0.5em;
 }
 .shopping-icon{
+    color:#222;
+    margin-right:1em;
+}
+.favorites-icon{
+    color:#222;
     margin-right:1em;
 }
 .mat-toolbar{
-    background:#3f51b5;
+    background:#fff;
     position: fixed;
     top:0;
     z-index: 1000;
+    border-bottom: solid 2px rgba(34,34,34,.15);  
+    flex-flow: row wrap;
+    padding-top: 12px;
+    padding-left:5%;
+    padding-right:5%;
+    height: fit-content;
+    max-height:120px;
+    min-height:70px;
+}
+.mat-button{
+    color: #222;
 }
 .hoverButton:hover{
-    background:#3f51b5;
+    background:rgba(0, 0, 0, 0);
 }
 app-autorizacion{
     display:flex;
@@ -44,8 +61,8 @@ app-autorizacion p{
     margin-top:10px;
 }
 .mat-drawer{
-    background:#3f51b5;
-    color:#fff;
+    background:#fff;
+    color: #222;
     width:45%;
 }
 .menuMobile{
@@ -56,7 +73,7 @@ app-autorizacion p{
 }
 .menu-item{
     padding:1rem;
-    color:#fff;
+    color: #222;
 }
 .mobileItem{
     display:flex;

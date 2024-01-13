@@ -6,4 +6,7 @@ export interface descuentoDTO{
     porcentajeDescuento: number;
     fechaCreacion: Date;
     fechaEdicion: Date;
+    codigoPromocion: string;
+    fechaInicioVigencia: Date;
+    fechaFinVigencia: Date;
 }

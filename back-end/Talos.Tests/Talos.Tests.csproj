@@ -9,6 +9,8 @@
   <ItemGroup>
 	<PackageReference Include="FakeItEasy" Version="8.0.0-alpha.1.10" />
 	<PackageReference Include="FluentAssertions" Version="7.0.0-alpha.1" />
+	<PackageReference Include="Google.Apis.Auth" Version="1.62.1" />
+	<PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="5.0.17" />
 	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.17" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />

@@ -4,6 +4,7 @@ import { take } from 'rxjs';
 import { credencialesUsuario } from '../seguridad/seguridad';
 import { SeguridadService } from '../seguridad/seguridad.service';
 import { parsearErroresAPI } from '../utilidades/utilidades';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,13 @@ export class LoginComponent implements OnInit {
           this.securityService.guardarToken(res);
           this.router.navigate(['/']);
         },
-        error: (errores) => this.errores = parsearErroresAPI(errores)
+        error: (errores) => {
+          this.errores = parsearErroresAPI(errores);
+          Swal.fire({
+            text: 'An error occurred while trying to log in, please try again later',
+            icon: 'error'
+          });
+        }
       });
   }
 

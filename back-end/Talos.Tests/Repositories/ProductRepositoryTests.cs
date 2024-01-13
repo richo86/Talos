@@ -102,6 +102,29 @@ namespace Talos.Tests.Repositories
         }
 
         [Fact]
+        public void AssignKeywords_returns_true()
+        {
+            //Arrange
+            var productId = Guid.Parse("832DF7D6-9341-45FE-B5C1-DAEAB46DBF3A");
+            var currentKeywordsCount = _dbContext.ProductKeywords
+                                        .Where(x=>x.ProductId
+                                        .Equals(productId))
+                                        .Count();
+            var keywords = new List<string>();
+            keywords.Add("keyword");
+
+            //Act
+            var result = _productRepository.AssignKeywords(keywords, productId);
+
+            //Assert
+            result.Should().BeTrue();
+            _dbContext.ProductKeywords.Where(x=>x.ProductId.Equals(productId)).Count()
+                .Should().BeGreaterThan(currentKeywordsCount);
+
+            Cleanup();
+        }
+
+        [Fact]
         public void Create_Image_Returns_true()
         {
             //Arrange
@@ -144,6 +167,7 @@ namespace Talos.Tests.Repositories
 
             //Assert
             result.Should().BeEquivalentTo(product);
+            Cleanup();
         }
 
         [Fact]
@@ -175,6 +199,7 @@ namespace Talos.Tests.Repositories
             createProduct.Should().BeEquivalentTo(product);
             deleteProduct.Should().Be("Producto eliminado correctamente");
             _dbContext.Producto.Count().Should().Be(expectedCount);
+            Cleanup();
         }
 
         [Fact]
@@ -192,6 +217,7 @@ namespace Talos.Tests.Repositories
 
             //Assert
             result.Id.Should().Be(product.Id);
+            Cleanup();
         }
 
         [Fact]
@@ -206,6 +232,7 @@ namespace Talos.Tests.Repositories
 
             //Assert
             result.Should().HaveCount(expectedCount);
+            Cleanup();
         }
 
         [Fact]
@@ -220,6 +247,7 @@ namespace Talos.Tests.Repositories
 
             //Assert
             result.Should().HaveCount(expectedCount);
+            Cleanup();
         }
 
         [Fact]
@@ -238,6 +266,7 @@ namespace Talos.Tests.Repositories
             //Assert
             result.Should().HaveCount(products.Count());
             result.FirstOrDefault().Id.Should().Be(products.FirstOrDefault().Id);
+            Cleanup();
         }
 
         [Fact]
@@ -265,6 +294,7 @@ namespace Talos.Tests.Repositories
 
             //Assert
             result.Should().BeEquivalentTo(product);
+            Cleanup();
         }
 
         [TestCleanup]

@@ -46,11 +46,15 @@
           "dependencies": {
             "Google.Apis.Auth": {
               "target": "Package",
-              "version": "[1.60.0, )"
+              "version": "[1.62.1, )"
             },
             "Google.Apis.Drive.v3": {
               "target": "Package",
               "version": "[1.60.0.2986, )"
+            },
+            "Microsoft.AspNetCore.Authentication.Facebook": {
+              "target": "Package",
+              "version": "[5.0.17, )"
             },
             "Microsoft.AspNetCore.Identity": {
               "target": "Package",
@@ -128,6 +132,10 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[11.0.1, )"
+            },
+            "Google.Apis.Auth": {
+              "target": "Package",
+              "version": "[1.62.1, )"
             },
             "Microsoft.AspNetCore.Http.Features": {
               "target": "Package",
@@ -212,11 +220,15 @@
             },
             "Google.Apis.Auth": {
               "target": "Package",
-              "version": "[1.60.0, )"
+              "version": "[1.62.1, )"
             },
             "Google.Apis.Drive.v3": {
               "target": "Package",
               "version": "[1.60.0.2986, )"
+            },
+            "Microsoft.AspNetCore.Authentication.Facebook": {
+              "target": "Package",
+              "version": "[5.0.17, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
@@ -327,9 +339,17 @@
               "target": "Package",
               "version": "[7.0.0-alpha.1, )"
             },
+            "Google.Apis.Auth": {
+              "target": "Package",
+              "version": "[1.62.1, )"
+            },
             "MSTest.TestFramework": {
               "target": "Package",
               "version": "[3.1.1, )"
+            },
+            "Microsoft.AspNetCore.Authentication.Facebook": {
+              "target": "Package",
+              "version": "[5.0.17, )"
             },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",

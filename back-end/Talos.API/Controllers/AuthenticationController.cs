@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Domain.Interfaces;
 using Domain.Utilities;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +19,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Talos.API.User;
+using Models.Classes;
+using Google.Apis.Auth;
 
 namespace Talos.API.Controllers
 {
@@ -44,7 +49,7 @@ namespace Talos.API.Controllers
                     return NotFound();
 
                 await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
-                var usuarios = await queryable.OrderBy(x => x.Email).Paginar(paginacionDTO).ToListAsync();
+                var usuarios = queryable.OrderBy(x => x.Email).Paginar(paginacionDTO).ToList();
                 usuarios = await accountRepository.getRoles(usuarios);
                 return Ok(usuarios);
             }
@@ -132,7 +137,7 @@ namespace Talos.API.Controllers
                 if (resultado)
                 {
                     var credenciales = mapper.Map<Credenciales>(usuario);
-                    return await CreateToken(credenciales,user.FirstName);
+                    return await CreateToken(credenciales,user.UserName);
                 }
                 else
                     return BadRequest("No fue posible crear el usuario");
@@ -149,12 +154,47 @@ namespace Talos.API.Controllers
             try
             {
                 var user = await accountRepository.SignIn(credenciales);
-                if (!string.IsNullOrEmpty(user.FirstName))
-                    return await CreateToken(credenciales,user.FirstName);
+                if (!string.IsNullOrEmpty(user.UserName))
+                    return await CreateToken(credenciales,user.UserName);
                 else
                     return BadRequest("No fue posible iniciar sesión, por favor verifica tu usuario y contraseña");
             }
             catch(Exception ex)
+            {
+                return BadRequest($"No fue posible iniciar sesión. Error: {ex.Message}");
+            }
+        }
+
+        [HttpPost("LoginWithGoogle")]
+        public async Task<ActionResult<RespuestaAutenticacion>> LoginWithGoogle([FromBody] string credential)
+        {
+            try
+            {
+                var settings = new GoogleJsonWebSignature.ValidationSettings()
+                {
+                    Audience = new List<string> { configuration.GetValue<string>("GoogleSettings:AppId") }
+                };
+
+                var payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
+
+                if(payload != null)
+                {
+                    var user = await accountRepository.SignInExternal(payload);
+                    if (!string.IsNullOrEmpty(user.FirstName))
+                    {
+                        var credenciales = new Credenciales()
+                        {
+                            Email = user.Email
+                        };
+                        return await CreateToken(credenciales, user.UserName);
+                    }
+                    else
+                        return BadRequest("No fue posible iniciar sesión, por favor intentalo más tarde");
+                }
+                else
+                    return BadRequest("No fue posible iniciar sesión, por favor intentalo más tarde");
+            }
+            catch (Exception ex)
             {
                 return BadRequest($"No fue posible iniciar sesión. Error: {ex.Message}");
             }

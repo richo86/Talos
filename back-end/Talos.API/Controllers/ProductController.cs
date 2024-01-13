@@ -46,6 +46,8 @@ namespace Talos.API.Controllers
                 if (product.Descripcion != null)
                 {
                     var productDTO = mapper.Map<Producto, ProductoDTO>(product);
+                    productDTO.Keywords = productRepository.GetProductKeywords(product.Id);
+
                     return Ok(productDTO);
                 }
                 else
@@ -67,7 +69,7 @@ namespace Talos.API.Controllers
                     return NotFound();
 
                 await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
-                var products = await queryable.OrderBy(x => x.FechaCreacion).Paginar(paginacionDTO).ToListAsync();
+                var products = queryable.OrderBy(x => x.FechaCreacion).Paginar(paginacionDTO).ToList();
 
                 if (products.Any())
                 {
@@ -100,6 +102,9 @@ namespace Talos.API.Controllers
 
                 if (product.Descripcion != null)
                 {
+                    if(producto.Keywords.Any())
+                        productRepository.AssignKeywords(producto.Keywords, product.Id);
+
                     var productDTO = mapper.Map<Producto, ProductoDTO>(product);
                     return Ok(productDTO);
                 }
@@ -128,6 +133,9 @@ namespace Talos.API.Controllers
 
                 if (product.Descripcion != null)
                 {
+                    if (producto.Keywords.Any())
+                        productRepository.AssignKeywords(producto.Keywords, product.Id);
+
                     var productDTO = mapper.Map<Producto, ProductoDTO>(product);
                     return Ok(productDTO);
                 }

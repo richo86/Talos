@@ -47,7 +47,8 @@ namespace Domain.DomainRepositories
 
         public async Task<string> DeleteDiscount(string id)
         {
-            var descuento = await context.Descuentos.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            var discountId = Guid.Parse(id);
+            var descuento = await context.Descuentos.FirstOrDefaultAsync(x => x.Id.Equals(discountId));
 
             if (descuento != null)
             {
@@ -62,9 +63,9 @@ namespace Domain.DomainRepositories
                 return "No se encontró el descuento que se desea eliminar";
         }
 
-        public async Task<List<Descuentos>> GetAllDiscounts()
+        public List<Descuentos> GetAllDiscounts()
         {
-            var discounts = await context.Descuentos.ToListAsync();
+            var discounts = context.Descuentos.ToList();
 
             if (discounts.Any())
                 return discounts;

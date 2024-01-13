@@ -27,11 +27,11 @@ namespace Talos.API.Controllers
         }
 
         [HttpGet("GetAllProducts")]
-        public async Task<ActionResult> GetAllMenuItems()
+        public ActionResult GetAllMenuItems()
         {
             try
             {
-                var products = await storeFrontRepository.GetAllMenuItems();
+                var products = storeFrontRepository.GetAllMenuItems();
 
                 if (!products.Areas.Any())
                     return NotFound();
@@ -313,6 +313,96 @@ namespace Talos.API.Controllers
                 }
 
                 return Ok(subcategories);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
+            }
+        }
+
+        [HttpGet("SearchItems")]
+        public async Task<ActionResult> SearchItems(string search, string countryCode)
+        {
+            try
+            {
+                var result = await storeFrontRepository.SearchItems(search,countryCode);
+
+                if (!result.Any())
+                    return NotFound();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al intentar obtener resultados: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetStoreProducts")]
+        public ActionResult GetAllProducts(string countryCode)
+        {
+            try
+            {
+                var result = storeFrontRepository.GetAllProducts(countryCode);
+
+                if (!result.Any())
+                    return NotFound();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetStoreAreas")]
+        public ActionResult GetStoreAreas()
+        {
+            try
+            {
+                var result = storeFrontRepository.GetStoreAreas();
+
+                if (!result.Any())
+                    return NotFound();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetStoreCategories")]
+        public ActionResult GetStoreCategories()
+        {
+            try
+            {
+                var result = storeFrontRepository.GetStoreCategories();
+
+                if (!result.Any())
+                    return NotFound();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error al intentar obtener los productos: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetStoreSubcategories")]
+        public ActionResult GetStoreSubcategories()
+        {
+            try
+            {
+                var result = storeFrontRepository.GetStoreSubcategories();
+
+                if (!result.Any())
+                    return NotFound();
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

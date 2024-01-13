@@ -1,5 +1,5 @@
 form{
-    max-width: 500px;
+    max-width: 350px;
 }
 
 mat-form-field{
@@ -7,15 +7,71 @@ mat-form-field{
     margin-right:1rem;
 }
 
+::ng-deep .mat-form-field-subscript-wrapper {
+    margin-top: 0.1rem;
+    font-size: 11px;
+}
+
 button{
     margin-right:1rem;
 }
 
 .formButtons{
-    text-align: right;
+    display:flex;
+    justify-content: flex-end;
+    margin-bottom:15px;
 }
 
 .formButtons a{
     margin-right: 2rem;
     display: inline-block;
+}
+
+h1{
+    font-size:24px;
+}
+
+.title{
+    display:flex;
+    justify-content: space-between;
+}
+.title button{
+    align-items: end;
+    -webkit-text-size-adjust: 100%;
+    --vh: 5.2px;
+    --header-search-bar-background: rgba(#222222, 0.05);
+    --header-search-bar-border-color: #222222;
+    --header-search-bar-border-color-focus: #222222;
+    --header-search-bar-button-active-bg-color: #222222;
+    --header-search-bar-box-shadow: 1px 2px 4px 0 rgba(14, 14, 14, 0.0901960784) inset;
+    --header-nav-menu-trigger-caret-color: rgba($wt-bg-black, 0.3);
+    --top-nav-item-margin-top: 0;
+    --top-nav-item-margin-bottom: 4px;
+    -webkit-font-smoothing: antialiased;
+    visibility: visible;
+    margin: 0;
+    box-sizing: inherit;
+    text-transform: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-appearance: none;
+    border-radius: 24px;
+    display: inline-block;
+    font-weight: 500;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 10;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 1.4;
+    min-height: 36px;
+    min-width: 36px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #222;
+    margin-top:-20px;
 }

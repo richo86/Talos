@@ -1,0 +1,20 @@
+<ng-container *ngIf="showNavigation">
+    <ul class="areas">
+        <ng-container *ngFor="let item of productMenu.areas">
+            <div>
+                <li class="menu-items" routerLink="/areas/{{item.id}}">
+                    {{item.descripcion}}
+                </li>
+                <div class="li-content">
+                    <ul>
+                        <ng-container *ngFor="let category of item.categorias">
+                            <li class="categories" routerLink="/categories/{{category.id}}">
+                                {{category.descripcion}}
+                            </li>
+                        </ng-container>
+                    </ul>
+                </div>
+            </div>
+        </ng-container>    
+    </ul>
+</ng-container>

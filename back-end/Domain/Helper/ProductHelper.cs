@@ -53,11 +53,49 @@ namespace Domain.Helper
             return productList;
         }
 
+        public List<ProductoDTO> CreateProductDTOFromIds(List<Guid> products)
+        {
+            List<ProductoDTO> productList = new List<ProductoDTO>();
+
+            foreach (var item in products)
+            {
+                var productItem = context.Producto.FirstOrDefault(x => x.Id.Equals(item));
+                if (productItem != null)
+                {
+                    var images = context.Imagenes.Where(x => x.ProductoId.Equals(item)).Select(x => x.ImagenUrl).ToList();
+                    ProductoDTO producto = new ProductoDTO()
+                    {
+                        Id = productItem.Id.ToString(),
+                        Nombre = productItem.Nombre,
+                        Descripcion = productItem.Descripcion,
+                        Inventario = productItem.Inventario.ToString(),
+                        Precio = productItem.Precio,
+                        Imagenes = images,
+                        FechaCreacion = productItem.FechaCreacion,
+                        FechaModificacion = productItem.FechaModificacion,
+                        CategoriaId = productItem.CategoriaId.ToString(),
+                        CategoriaDescripcion = context.Categorias.FirstOrDefault(x => x.Id.Equals(productItem.CategoriaId)).Descripcion,
+                        SubcategoriaId = productItem.SubcategoriaId.ToString(),
+                        SubcategoriaDescripcion = context.Subcategorias.FirstOrDefault(x => x.Id.Equals(productItem.SubcategoriaId)).Descripcion,
+                        DescuentoId = productItem.DescuentoId != null ? productItem.DescuentoId.ToString() : null,
+                        ValorDescuento = productItem.DescuentoId != null ?
+                                        context.Descuentos.FirstOrDefault(x => x.Id.Equals(productItem.DescuentoId)).PorcentajeDescuento.ToString()
+                                        : "0",
+                        Codigo = productItem.Codigo
+                    };
+
+                    productList.Add(producto);
+                }
+            }
+
+            return productList;
+        }
+
         public List<ProductoDTO> ApplyRegionalPricing(List<ProductoDTO> products,string countryCode)
         {
             foreach (var producto in products)
             {
-                var country = context.Pais.FirstOrDefault(x => x.Abreviacion.Equals(countryCode))?.Id;
+                var country = context.Pais.FirstOrDefault(x => x.Iso.Equals(countryCode))?.Id;
                 var region = context.RegionesProductos.FirstOrDefault(x => x.Pais.Equals(country));
                 if (region != null)
                 {
@@ -76,7 +114,14 @@ namespace Domain.Helper
                     }
                 }
 
-                if (producto.DescuentoId != null)
+                var campaign = context.CampaignProducts.FirstOrDefault(x => x.ProductId.Equals(producto.Id));
+                if(campaign != null)
+                {
+                    var descuentoCampaña = context.Campañas.FirstOrDefault(x => x.Id.Equals(campaign.CampaignId)).PorcentajeDescuento;
+                    producto.ValorDescuento = ((producto.Precio * (100 - descuentoCampaña)) / 100).ToString();
+                }
+
+                if (producto.DescuentoId != null && campaign == null)
                 {
                     var descuentoId = Guid.Parse(producto.DescuentoId);
                     var descuento = context.Descuentos.FirstOrDefault(x => x.Id.Equals(descuentoId)).PorcentajeDescuento;

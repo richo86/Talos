@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using Models.Classes;
 using Microsoft.EntityFrameworkCore;
+using Google.Apis.Auth;
 
 namespace Domain.DomainRepositories
 {
@@ -28,8 +29,11 @@ namespace Domain.DomainRepositories
 
         public async Task<bool> Create(ApplicationUser usuario, string password)
         {
-            usuario.UserName = usuario.Email;
             usuario.Id = Guid.NewGuid().ToString();
+
+            var existingUser = await userManager.FindByNameAsync(usuario.Email);
+            if (existingUser != null)
+                return false;
 
             var respuesta = await userManager.CreateAsync(usuario, password);
 
@@ -205,6 +209,32 @@ namespace Domain.DomainRepositories
         public List<Pais> getCountries()
         {
             return context.Pais.Where(x => x.Nombre != null).ToList();
+        }
+
+        public async Task<ApplicationUser> SignInExternal(GoogleJsonWebSignature.Payload socialUser)
+        {
+            var user = await userManager.FindByEmailAsync(socialUser.Email);
+            if (user != null && user.UserName.Equals(socialUser.GivenName))
+                return user;
+            else
+            {
+                ApplicationUser usuario = new ApplicationUser();
+                usuario.FirstName = socialUser.GivenName;
+                usuario.FirstLastName = socialUser.FamilyName;
+                usuario.Email = socialUser.Email;
+                usuario.Id = socialUser.JwtId;
+                usuario.UserName = socialUser.GivenName;
+
+                var respuesta = await userManager.CreateAsync(usuario);
+
+                if (respuesta.Succeeded)
+                {
+                    var newUser = await userManager.FindByEmailAsync(socialUser.Email);
+                    return newUser;
+                }
+            }
+
+            return new ApplicationUser { };
         }
     }
 }

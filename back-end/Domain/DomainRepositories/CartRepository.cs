@@ -56,7 +56,7 @@ namespace Domain.DomainRepositories
             sesion.Id = Guid.NewGuid();
             sesion.FechaCreacion = DateTime.Now;
             sesion.Estado = true;
-            sesion.IdUsuario = idUsuario;
+            sesion.IdUsuario = idUsuario.ToString();
             sesion.TotalCosto = sesion.TotalCosto;
 
             return sesion;

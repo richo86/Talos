@@ -16,6 +16,10 @@ using Domain.Utilities;
 using Talos.API.User;
 using System.IdentityModel.Tokens.Jwt;
 using Talos.API.Controllers;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Options;
 
 namespace Talos.API
 {
@@ -46,6 +50,15 @@ namespace Talos.API
 
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("defaultConnection"), b => b.MigrationsAssembly("Talos.API")));
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequireNonAlphanumeric = true;
+            });
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -84,6 +97,7 @@ namespace Talos.API
             services.AddScoped<IDriveRepository, DriveRepository>();
             services.AddScoped<IRegionsRepository, RegionsRepository>();
             services.AddScoped<IStoreFrontRepository, StoreFrontRepository>();
+            services.AddScoped<ICampaignRepository, CampaignRepository>();
             services.AddScoped<TransactionController>();
             services.AddScoped<MailController>();
             services.AddScoped<PrintController>();
@@ -93,6 +107,8 @@ namespace Talos.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Talos.API", Version = "v1" });
             });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

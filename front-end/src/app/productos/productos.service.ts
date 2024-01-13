@@ -35,8 +35,10 @@ export class ProductosService {
     return this.http.get<CategoriaDTO[]>(this.categoriasURL + '/GetMainCategories', {observe: 'response'});
   }
 
-  public obtenerCategoriasSecundarias(){
-    return this.http.get<CategoriaDTO[]>(this.categoriasURL + '/GetSecondaryCategories', {observe: 'response'});
+  public obtenerCategoriasSecundarias(id:string){
+    let params = new HttpParams();
+    params = params.append('id', id);
+    return this.http.get<CategoriaDTO[]>(this.categoriasURL + '/GetSecondaryCategories', {observe: 'response', params});
   }
 
   public obtenerDescuentos(){

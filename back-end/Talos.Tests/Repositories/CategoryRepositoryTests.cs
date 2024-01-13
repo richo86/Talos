@@ -279,12 +279,12 @@ namespace Talos.Tests.Repositories
         }
 
         [Fact]
-        public async void Get_SecondaryCategories_returns_list()
+        public void Get_SecondaryCategories_returns_list()
         {
             //Arrange
 
             //Act
-            var result = await categoryRepository.GetSecondaryCategories();
+            var result = categoryRepository.GetSecondaryCategories(null);
 
             //Assert
             result.Should().HaveCountGreaterThan(0);

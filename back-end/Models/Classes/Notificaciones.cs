@@ -11,7 +11,7 @@ namespace Models.Classes
     public class Notificaciones
     {
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public bool Estado { get; set; }
         public string Mensaje { get; set; }
         public DateTime FechaRegistro { get; set; }

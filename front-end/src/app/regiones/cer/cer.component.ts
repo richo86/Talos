@@ -96,7 +96,7 @@ export class CerComponent implements OnInit {
   }
 
   GetSecondaryCategories(){
-    this.productosService.obtenerCategoriasSecundarias().pipe(take(1))
+    this.productosService.obtenerCategoriasSecundarias(null).pipe(take(1))
     .subscribe({
       next: (res) => {
         this.subcategorias = res.body;

@@ -14,6 +14,7 @@ namespace Domain.Interfaces
         List<KeyValuePair<string, string>> GetFilesByIds(List<string> fileIds);
         Task<string> UploadFile(List<IFormFile> files, string id);
         Task<string> UploadCategoryFile(IFormFile files, string id);
+        Task<string> UploadCampaignFile(IFormFile files, string id);
         Task<string> DeleteFile(string fileId);
     }
 }

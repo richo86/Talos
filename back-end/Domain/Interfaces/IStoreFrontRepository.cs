@@ -9,7 +9,7 @@ namespace Domain.Interfaces
 {
     public interface IStoreFrontRepository
     {
-        Task<CategoriasProductoDTO> GetAllMenuItems();
+        CategoriasProductoDTO GetAllMenuItems();
         List<ProductoDTO> GetLatestProducts(string countryCode);
         List<ProductoDTO> GetBestSellers(string countryCode);
         List<ProductoDTO> GetLowestCost(string countryCode);
@@ -22,5 +22,10 @@ namespace Domain.Interfaces
         List<ProductoDTO> GetDiscountedProducts(string countryCode);
         List<CollectionDTO> GetTopAreas(string countryCode);
         List<CollectionDTO> GetTopSubcategories(string countryCode);
+        Task<List<SearchResults>> SearchItems(string search, string countryCode);
+        List<ProductoDTO> GetAllProducts(string countryCode);
+        List<CollectionDTO> GetStoreAreas();
+        List<CollectionDTO> GetStoreCategories();
+        List<CollectionDTO> GetStoreSubcategories();
     }
 }

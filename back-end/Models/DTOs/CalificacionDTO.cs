@@ -12,5 +12,6 @@ namespace Models.DTOs
         public Guid ProductoId { get; set; }
         [Range(1,5)]
         public int Puntuacion { get; set; }
+        public string UsuarioId { get; set; }
     }
 }

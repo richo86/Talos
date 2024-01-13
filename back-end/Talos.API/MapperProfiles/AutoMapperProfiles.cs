@@ -65,6 +65,8 @@ namespace PeliculasAPI.Utilidades
                 .ForMember(to => to.Id, from => from.MapFrom(src => Guid.Parse(src.Id)));
             CreateMap<Descuentos, DescuentoDTO>();
             CreateMap<DescuentoDTO, Descuentos>();
+            CreateMap<Campañas, CampaignDTO>();
+            CreateMap<CampaignDTO, Campañas>();
             CreateMap<Carrito, CarritoDTO>();
             CreateMap<CarritoDTO, Carrito>()
                 .ForMember(to => to.Id, from => from.MapFrom(src => src.Id == null ? Guid.NewGuid() : Guid.Parse(src.Id)))

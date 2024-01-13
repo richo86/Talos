@@ -129,4 +129,10 @@ export class SeguridadService {
   getUserLocation(){
     return this.httpClient.get<any>("http://ip-api.com/json/",{observe: 'response'});
   }
+
+  loginWithGoogle(credentials: string) : Observable<any>{
+    const header = new HttpHeaders().set('Content-type', 'application/json');
+    return this.httpClient.post(this.apiUrl + '/loginWithGoogle', JSON.stringify(credentials), { headers: header });
+  }
+
 }

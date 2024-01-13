@@ -4,7 +4,12 @@ import { SeguridadService } from '../seguridad/seguridad.service';
 import { carouselDTO } from '../utilidades/carousel/carousel.models';
 import { collectionDTO } from './landing.models';
 import { LandingService } from './landing.service';
-import { take } from 'rxjs';
+import { Observable, take } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { getAreas } from '../utilidades/Redux/Areas/areasActions';
+import { selectAreas } from '../utilidades/Redux/Areas/areasSelectors';
+import { BestSellers } from '../utilidades/Redux/BestSellers/bestSelectors'
+import { getBestSellers } from '../utilidades/Redux/BestSellers/bestActions';
 
 @Component({
   selector: 'app-landing-page',
@@ -29,7 +34,8 @@ export class LandingPageComponent implements OnInit {
   
 
   constructor(private securityService: SeguridadService,
-              private landingService: LandingService) { }
+              private landingService: LandingService,
+              private store:Store) { }
 
   ngOnInit(): void {
     this.GetUserLocation();
@@ -56,12 +62,11 @@ export class LandingPageComponent implements OnInit {
   }
 
   GetAreas(){
-    this.landingService.GetAreas().pipe(take(1))
-    .subscribe({
-      next:(res)=>{
-        this.collectionList = res.body;
-      }
-    })
+    this.store.dispatch(getAreas());
+    this.store.select(selectAreas).subscribe(res => {
+      console.log("collection",res)
+      this.collectionList = res
+    });
   }
 
   GetProductsFromArea(){
@@ -74,15 +79,16 @@ export class LandingPageComponent implements OnInit {
   }
 
   GetBestSellers(){
-    this.landingService.GetBestSellers(this.countryCode).pipe(take(1))
-    .subscribe({ 
-      next: (result) =>{
-        this.bestSellers = result.body;
+    this.store.dispatch(getBestSellers({countryCode:this.countryCode}));
+    this.store.select(BestSellers).subscribe({
+      next: (res)=>{
+        console.log("best Sellers",res);
+        this.bestSellers = res;
         if(this.bestSellers.length <3){
           this.GetLatestProducts();
         }
       },
-      error: (errors) =>{
+      error: (res)=>{
         this.GetLatestProducts();
       }
     });

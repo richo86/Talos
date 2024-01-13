@@ -11,7 +11,7 @@ export class AreasDTO
 {
     id: string;
     descripcion: string;
-    dategorias: CategoriaPrincipalDTO[];
+    categorias: CategoriaPrincipalDTO[];
 }
 
 export class CategoriaPrincipalDTO

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 
 namespace Models.DTOs
 {
@@ -18,5 +19,6 @@ namespace Models.DTOs
         public string SubcategoriaId { get; set; }
         public string SubcategoriaDescripcion { get; set; }
         public string DescuentoId { get; set; }
+        public List<string> Keywords { get; set; }
     }
 }

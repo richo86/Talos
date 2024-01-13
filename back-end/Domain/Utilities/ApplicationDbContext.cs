@@ -38,5 +38,8 @@ namespace Domain.Utilities
         public DbSet<Imagenes> Imagenes { get; set; }
         public DbSet<RegionesProducto> RegionesProductos { get; set; }
         public DbSet<ProductosRelacionados> ProductosRelacionados { get; set; }
+        public DbSet<ProductKeywords> ProductKeywords { get; set; }
+        public DbSet<Campañas> Campañas { get; set; }
+        public DbSet<CampaignProducts> CampaignProducts { get; set; }
     }
 }

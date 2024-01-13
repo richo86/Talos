@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SeguridadService } from '../seguridad/seguridad.service';
 import { take } from 'rxjs';
 import { GUID } from '../utilidades/guid';
+import { Store } from '@ngrx/store';
+import { getCart } from '../utilidades/Redux/Cart/cartActions';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -9,9 +11,11 @@ import { GUID } from '../utilidades/guid';
 })
 export class CartComponent implements OnInit {
 
-  constructor(private securityService: SeguridadService) { }
+  constructor(private securityService: SeguridadService,
+              private store:Store) { }
 
   ngOnInit(): void {
+    this.store.dispatch(getCart({id:"1"}));
   }
 
 }

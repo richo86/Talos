@@ -5,6 +5,7 @@ namespace Models.DTOs
     {
         public string Id { get; set; }
         public string UserIP { get; set; }
+        public string UserName { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string FirstLastName { get; set; }

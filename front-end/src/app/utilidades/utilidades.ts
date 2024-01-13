@@ -52,3 +52,59 @@ export function formatearFecha(date: Date) {
 export function dataURI(base64String: string): string {
   return `data:image/png;base64,${base64String}`;
 }
+
+export function onlySpecialchars(str)
+{
+  // Regex to check if a string
+  // contains only special
+  // characters
+  var regex = /^[^a-zA-Z0-9]+$/;
+
+  // If the string is empty
+  // then print No
+  if (str.length < 1) {
+    document.write("No");
+    return;
+  }
+
+  // Find match between given
+  // string & regular expression
+  var matchedAuthors = regex.test(str);
+
+  // Print Yes If the string matches
+  // with the Regex
+  if (matchedAuthors) document.write("Yes");
+  else document.write("No");
+}
+
+export function hasNumbers(t)
+{
+  var regex = /\d/g;
+  return regex.test(t);
+}    
+
+export function hasUpperAndLowerCase(string:string){
+  var i=0;
+  var character='';
+  var hasLowerCase = false;
+  var hasUpperCase = false;
+  while (i <= string.length){
+      character = string.charAt(i);
+      if (hasNumbers(character)){
+          continue;
+      }else{
+          if (character == character.toUpperCase()) {
+              hasUpperCase = true;
+          }
+          if (character == character.toLowerCase()){
+              hasLowerCase = true;
+          }
+      }
+      i++;
+  }
+
+  if(hasLowerCase && hasUpperCase)
+    return true;
+
+  return false;
+}

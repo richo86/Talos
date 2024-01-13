@@ -1,23 +1,28 @@
-<h1>{{accion}}</h1>
+<div class="title">
+    <h1>{{accion}}</h1>
+    <mat-dialog-actions>
+        <button [mat-dialog-close]="true">Log in</button>
+    </mat-dialog-actions>
+</div>
 
 <app-mostrar-errores [errores]="errores"></app-mostrar-errores>
 
 <form (submit)="onSubmit.emit(form.value)" [formGroup]="form">
-    <mat-form-field appearance="outline">
-        <mat-label>Primer nombre</mat-label>
-        <input formControlName="firstName" matInput />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
+    <!-- <mat-form-field appearance="outline">
         <mat-label>Segundo nombre</mat-label>
         <input formControlName="middleName" matInput />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
+    </mat-form-field> -->
+    <!-- <mat-form-field appearance="outline">
         <mat-label>Primer apellido</mat-label>
         <input formControlName="firstLastName" matInput />
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Segundo apellido</mat-label>
         <input formControlName="secondLastName" matInput />
+    </mat-form-field> -->
+    <mat-form-field appearance="outline">
+        <mat-label>User name</mat-label>
+        <input formControlName="userName" matInput />
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
@@ -25,38 +30,46 @@
         <mat-error>{{ObtenerMensajeErrorEmail()}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
-        <mat-label>Contraseña</mat-label>
+        <mat-label>Password</mat-label>
         <input type="password" formControlName="password" matInput />
-        <mat-error>El campo es requerido</mat-error>
+        <mat-error>Must have at least 8 characters, include special characters, numbers and have upper and lower case letters</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
-        <mat-label>Confirma tu contraseña</mat-label>
+        <mat-label>Confirm password</mat-label>
         <input type="password" formControlName="confirmPassword" matInput />
     </mat-form-field>
     <span *ngIf="form.errors?.['notmatched'] && (form.controls.confirmPassword.touched)" style="margin-top: -25px;margin-bottom: 2rem;;font-size:10px" class="mat-error">
-        Las contraseñas no coinciden
+        Password fields don't match
     </span>
     <app-autorizacion>
         <ng-container autorizado>
             <mat-form-field appearance="outline">
-                <mat-label>Dirección</mat-label>
+                <mat-label>First name</mat-label>
+                <input formControlName="firstName" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Address</mat-label>
                 <input type="text" formControlName="address" matInput />
             </mat-form-field>
             <mat-form-field appearance="outline">
-                <mat-label>Género</mat-label>
+                <mat-label>Gender</mat-label>
                 <mat-select formControlName="gender">
                     <mat-option *ngFor="let genero of generos" [value]="genero.id">{{genero.nombre}}</mat-option>
                  </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline">
-                <mat-label>Teléfono</mat-label>
+                <mat-label>Phone number</mat-label>
                 <input type="text" formControlName="phoneNumber" matInput />
             </mat-form-field>
         </ng-container>
     </app-autorizacion>
 
     <div class="formButtons">
-        <a mat-stroked-button routerLink="/">Cancelar</a>
-        <button mat-flat-button color="primary" [disabled]="form.invalid">{{accion}}</button>
+        <mat-dialog-actions>
+            <a mat-stroked-button mat-dialog-close>Cancel</a>
+            <button mat-flat-button type="submit" color="primary" [disabled]="form.invalid" mat-dialog-close>{{accion}}</button>
+        </mat-dialog-actions>
     </div>
+
+    <app-social-login></app-social-login>
 </form>

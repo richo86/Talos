@@ -159,7 +159,7 @@ namespace Domain.DomainRepositories
         {
             var detailId = Guid.Parse(Id);
 
-            var itemsPedido = await (from a in context.DetallePedidos
+            var itemsPedido = (from a in context.DetallePedidos
                                join b in context.ItemsPedido on a.Id equals b.DetallePedidosId
                                join c in context.Pagos on a.PagoId equals c.Id
                                join d in context.Producto on b.ProductoId equals d.Id
@@ -171,7 +171,7 @@ namespace Domain.DomainRepositories
                                    Producto = d.Nombre,
                                    Imagen = e.ImagenUrl,
                                    Valor = d.Precio
-                               }).ToListAsync();
+                               }).ToList();
 
             return itemsPedido;
         }
@@ -218,7 +218,7 @@ namespace Domain.DomainRepositories
         {
             List<TipoVenta> tiposVenta = new List<TipoVenta>();
 
-            tiposVenta = await context.TipoVenta.Where(x => x.Descripcion != null).ToListAsync();
+            tiposVenta = context.TipoVenta.Where(x => x.Descripcion != null).ToList();
 
             return tiposVenta;
         }

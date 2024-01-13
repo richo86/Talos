@@ -24,7 +24,7 @@ namespace Domain.Interfaces
         Task<string> DeleteCategory(string id);
         Task<List<Areas>> GetMainAreas();
         Task<List<Categorias>> GetMainCategories();
-        Task<List<Subcategorias>> GetSecondaryCategories();
+        List<Subcategorias> GetSecondaryCategories(string category);
         bool CreateImage(string id, string category, string imageBase64);
         Task<List<CategoriaDTO>> GetCategoriesFromArea(string id);
         Task<List<CategoriaDTO>> GetSubcategoriesFromCategory(string id);

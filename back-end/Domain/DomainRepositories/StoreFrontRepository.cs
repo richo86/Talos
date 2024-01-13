@@ -2,6 +2,7 @@
 using Domain.Interfaces;
 using Domain.Utilities;
 using Microsoft.EntityFrameworkCore;
+using Models;
 using Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -21,24 +22,57 @@ namespace Domain.DomainRepositories
             this.productHelper = new ProductHelper(this.context);
         }
 
-        public async Task<CategoriasProductoDTO> GetAllMenuItems()
+        public CategoriasProductoDTO GetAllMenuItems()
         {
             CategoriasProductoDTO listadoCategoriasProducto = new CategoriasProductoDTO();
             listadoCategoriasProducto.Areas = new List<AreasDTO>();
 
-            var areas = await context.Areas.Where(x => x.Descripcion != null).ToListAsync();
-            var categorias = await context.Categorias.Where(x => x.Descripcion != null).ToListAsync();
-            var subcategorias = await context.Subcategorias.Where(x => x.Descripcion != null).ToListAsync();
+            var products = (from a in context.Producto
+                            join b in context.ItemsPedido on a.Id equals b.ProductoId into ab
+                            from abResult in ab.DefaultIfEmpty()
+                            join c in context.DetallePedidos on abResult.DetallePedidosId equals c.Id into bc
+                            from bcResult in bc.DefaultIfEmpty()
+                            join d in context.Pagos on bcResult.PagoId equals d.Id into cd
+                            from cdResult in cd.DefaultIfEmpty()
+                            select new { Id = a.Id }).AsNoTracking().GroupBy(p => p.Id).Select(y => new { Id = y.Key, cantidad = y.Count() }).OrderByDescending(x => x.cantidad).ToList();
+
+            var areas = new Dictionary<Guid, string>();
+            if (products.Any())
+            {
+                foreach (var item in products)
+                {
+                    var area = (from a in context.Producto
+                                join b in context.Categorias on a.CategoriaId equals b.Id
+                                join c in context.Areas on b.Area equals c.Id
+                                select new
+                                {
+                                    Id = c.Id,
+                                    Descripcion = c.Descripcion
+                                }).AsNoTracking().FirstOrDefault();
+                    areas.Add(area.Id, area.Descripcion);
+                }
+            }
+            else
+            {
+                var allAreas = context.Areas.Where(x=>x.Descripcion != null).Select(x=>new { Id = x.Id, Descripcion = x.Descripcion });
+                foreach (var item in allAreas)
+                {
+                    areas.Add(item.Id, item.Descripcion);
+                }
+            }
+            
+            var categorias = context.Categorias.AsNoTracking().Where(x => x.Descripcion != null).ToList();
+            var subcategorias = context.Subcategorias.AsNoTracking().Where(x => x.Descripcion != null).ToList();
 
             foreach (var area in areas)
             {
                 AreasDTO nuevaArea = new AreasDTO()
                 {
-                    Id = area.Id.ToString(),
-                    Descripcion = area.Descripcion
+                    Id = area.Key.ToString(),
+                    Descripcion = area.Value
                 };
                 List<CategoriaPrincipalDTO> categoriasPrincipales = new List<CategoriaPrincipalDTO>();
-                var listadoCategorias = categorias.Where(x => x.Area.Equals(area.Id));
+                var listadoCategorias = categorias.Where(x => x.Area.Equals(area.Key));
                 foreach (var categoria in listadoCategorias)
                 {
                     CategoriaPrincipalDTO nuevaPrincipal = new CategoriaPrincipalDTO()
@@ -48,19 +82,6 @@ namespace Domain.DomainRepositories
                         Codigo = categoria.Codigo
                     };
 
-                    List<CategoriaSecundariaDTO> Subcategorias = new List<CategoriaSecundariaDTO>();
-                    var listadoSubcategorias = subcategorias.Where(x => x.CategoriaPrincipal.Equals(categoria.Id));
-                    foreach (var subcategoria in listadoSubcategorias)
-                    {
-                        CategoriaSecundariaDTO nuevaSecundaria = new CategoriaSecundariaDTO()
-                        {
-                            Id = subcategoria.Id.ToString(),
-                            Descripcion = subcategoria.Descripcion,
-                            Codigo = subcategoria.Codigo
-                        };
-                        Subcategorias.Add(nuevaSecundaria);
-                    }
-                    nuevaPrincipal.Subcategorias = Subcategorias;
                     categoriasPrincipales.Add(nuevaPrincipal);
                 }
                 nuevaArea.Categorias = categoriasPrincipales;
@@ -68,6 +89,26 @@ namespace Domain.DomainRepositories
             }
 
             return listadoCategoriasProducto;
+        }
+
+        public List<ProductoDTO> GetAllProducts(string countryCode)
+        {
+            List<ProductoDTO> productList = new List<ProductoDTO>();
+
+            var products = (from a in context.Producto
+                         join b in context.ItemsPedido on a.Id equals b.ProductoId into ab
+                         from abResult in ab.DefaultIfEmpty()
+                         join c in context.DetallePedidos on abResult.DetallePedidosId equals c.Id into bc
+                         from bcResult in bc.DefaultIfEmpty()
+                         join d in context.Pagos on bcResult.PagoId equals d.Id into cd
+                         from cdResult in cd.DefaultIfEmpty()
+                         select new { a.Id }).AsNoTracking().GroupBy(p => p.Id).Select(y => new { Id = y.Key, cantidad = y.Count() }).OrderByDescending(x=>x.cantidad).ToList();
+
+            productList = productHelper.CreateProductDTOFromIds(products.Select(x=>x.Id).ToList());
+
+            productList = productHelper.ApplyRegionalPricing(productList, countryCode);
+
+            return productList;
         }
 
         public List<ProductoDTO> GetBestSellers(string countryCode)
@@ -78,61 +119,11 @@ namespace Domain.DomainRepositories
                          join b in context.DetallePedidos on a.Id equals b.PagoId
                          join c in context.ItemsPedido on b.Id equals c.DetallePedidosId
                          join d in context.Producto on c.ProductoId equals d.Id
-                         select new { d.Id }).GroupBy(x=>x.Id).Select(y => new { Id = y.Key, cantidad = y.Count() }).Take(12).ToList();
+                         select new { d.Id }).GroupBy(x=>x.Id).Select(y => new { Id = y.Key, cantidad = y.Count() }).OrderByDescending(z => z.cantidad).Take(12).ToList();
 
-            foreach (var item in sales)
-            {
-                var productItem = context.Producto.FirstOrDefault(x => x.Id.Equals(item.Id));
-                if(productItem != null)
-                {
-                    var images = context.Imagenes.Where(x => x.ProductoId.Equals(item.Id)).Select(x=>x.ImagenUrl).ToList();
-                    ProductoDTO producto = new ProductoDTO()
-                    {
-                        Id = productItem.Id.ToString(),
-                        Nombre = productItem.Nombre,
-                        Descripcion = productItem.Descripcion,
-                        Inventario = productItem.Inventario.ToString(),
-                        Precio = productItem.Precio,
-                        Imagenes = images,
-                        FechaCreacion = productItem.FechaCreacion,
-                        FechaModificacion = productItem.FechaModificacion,
-                        CategoriaId = productItem.CategoriaId.ToString(),
-                        CategoriaDescripcion = context.Categorias.FirstOrDefault(x=>x.Id.Equals(productItem.CategoriaId)).Descripcion,
-                        SubcategoriaId = productItem.SubcategoriaId.ToString(),
-                        SubcategoriaDescripcion = context.Subcategorias.FirstOrDefault(x=>x.Id.Equals(productItem.SubcategoriaId)).Descripcion,
-                        DescuentoId = productItem.DescuentoId.ToString(),
-                        ValorDescuento = context.Descuentos.FirstOrDefault(x=>x.Id.Equals(productItem.DescuentoId)).PorcentajeDescuento.ToString(),
-                        Codigo = productItem.Codigo
-                    };
+            productList = productHelper.CreateProductDTOFromIds(sales.Select(x => x.Id).ToList());
 
-                    var country = context.Pais.FirstOrDefault(x => x.Abreviacion.Equals(countryCode)).Id;
-                    var region = context.RegionesProductos.FirstOrDefault(x => x.Pais.Equals(country));
-                    if(region != null)
-                    {
-                        if (region.Inventario > -1)
-                            producto.Inventario = region.Inventario.ToString();
-
-                        if(region.Precio != null)
-                            producto.Precio = region.Precio.Value;
-
-                        var productHasOtherRegion = context.RegionesProductos.Where(x => x.Producto.Equals(producto.Id) && x.Pais != region.Id);
-                        if (productHasOtherRegion.Any())
-                        {
-                            var productInCountry = context.RegionesProductos.FirstOrDefault(x => x.Producto.Equals(producto.Id) && x.Pais.Equals(region.Id));
-                            if (productInCountry == null)
-                                sales.Remove(item);
-                        }
-                    }
-
-                    if (producto.DescuentoId != null)
-                    {
-                        var descuentoId = Guid.Parse(producto.DescuentoId);
-                        var descuento = context.Descuentos.FirstOrDefault(x => x.Id.Equals(descuentoId)).PorcentajeDescuento;
-
-                        producto.ValorDescuento = ((producto.Precio * (100 - descuento)) / 100).ToString();
-                    }
-                }
-            }
+            productList = productHelper.ApplyRegionalPricing(productList, countryCode);
 
             return productList;
         }
@@ -247,11 +238,45 @@ namespace Domain.DomainRepositories
             throw new NotImplementedException();
         }
 
+        public List<CollectionDTO> GetStoreAreas()
+        {
+            return context.Areas.AsNoTracking().Where(x => x.Descripcion != null).Select(x=>new CollectionDTO
+            {
+                Id = x.Id.ToString(),
+                Image = x.ImagenBase64,
+                Name = x.Descripcion,
+                Route = $"/areas/{x.Id}"
+            }).ToList();
+        }
+
+        public List<CollectionDTO> GetStoreCategories()
+        {
+            return context.Categorias.AsNoTracking().Where(x => x.Descripcion != null).Select(x => new CollectionDTO
+            {
+                Id = x.Id.ToString(),
+                Image = x.ImagenBase64,
+                Name = x.Descripcion,
+                Route = $"/categories/{x.Id}"
+            }).ToList();
+        }
+
+        public List<CollectionDTO> GetStoreSubcategories()
+        {
+            return context.Subcategorias.AsNoTracking().Where(x => x.Descripcion != null).Select(x => new CollectionDTO
+            {
+                Id = x.Id.ToString(),
+                Image = x.ImagenBase64,
+                Name = x.Descripcion,
+                Route = $"/subcategories/{x.Id}"
+            }).ToList();
+        }
+
         public List<CollectionDTO> GetTopAreas(string countryCode)
         {
             var categories = (from a in context.Areas
                               join b in context.Categorias on a.Id equals b.Area
-                              join c in context.Producto on a.Id equals c.CategoriaId
+                              join c in context.Producto on b.Id equals c.CategoriaId
+                              where a.Descripcion != null
                               select new CollectionDTO
                               {
                                   Id = a.Id.ToString(),
@@ -263,16 +288,17 @@ namespace Domain.DomainRepositories
 
             if(categories.Count() < 3)
             {
-                return (from b in context.Categorias
-                              join c in context.Producto on b.Id equals c.CategoriaId
-                              select new CollectionDTO
-                              {
-                                  Id = b.Id.ToString(),
-                                  Image = b.Imagen,
-                                  Name = b.Descripcion,
-                                  Route = "/categories/" + b.Id,
-                                  Price = c.Precio
-                              }).OrderBy(x => x.Price).Take(6).ToList();
+                categories = (from b in context.Categorias
+                        join c in context.Producto on b.Id equals c.CategoriaId
+                        where b.Descripcion != null
+                        select new CollectionDTO
+                        {
+                            Id = b.Id.ToString(),
+                            Image = b.Imagen,
+                            Name = b.Descripcion,
+                            Route = "/categories/" + b.Id,
+                            Price = c.Precio
+                        }).OrderBy(x => x.Price).Take(6).ToList();
             }
 
             return categories;
@@ -281,15 +307,88 @@ namespace Domain.DomainRepositories
         public List<CollectionDTO> GetTopSubcategories(string countryCode)
         {
             return (from a in context.Subcategorias
-                                  join c in context.Producto on a.Id equals c.SubcategoriaId
-                                  select new CollectionDTO
-                                  {
-                                      Id = a.Id.ToString(),
-                                      Image = a.Imagen,
-                                      Name = a.Descripcion,
-                                      Route = "/subcategories/" + a.Id,
-                                      Price = c.Precio
-                                  }).OrderBy(x => x.Price).Take(2).ToList();
+                    join c in context.Producto on a.Id equals c.SubcategoriaId
+                    select new CollectionDTO
+                    {
+                        Id = a.Id.ToString(),
+                        Image = a.Imagen,
+                        Name = a.Descripcion,
+                        Route = "/subcategories/" + a.Id,
+                        Price = c.Precio
+                    }).OrderBy(x => x.Price).Take(2).ToList();
+        }
+
+        public async Task<List<SearchResults>> SearchItems(string search, string countryCode)
+        {
+            List<SearchResults> results = new List<SearchResults>();
+
+            results = PredefinedResults(search);
+
+            var products = context.Producto.Where(x => EF.Functions.Like(x.Nombre, $"%{search}%") || EF.Functions.Like(x.Descripcion, $"%{search}%")).ToList();
+            results.AddRange(products.Select(x => new SearchResults()
+            {
+                Description = x.Nombre.ToString(),
+                Link = $"/product-page/{x.Id}"
+            }));
+
+            var areas = context.Areas.Where(x => EF.Functions.Like(x.Descripcion, $"%{search}%")).ToList();
+            results.AddRange(areas.Select(x => new SearchResults()
+            {
+                Description = x.Descripcion.ToString(),
+                Link = $"/areas/{x.Id}"
+            }));
+
+            var categories = context.Categorias.Where(x => EF.Functions.Like(x.Descripcion, $"%{search}%")).ToList();
+            results.AddRange(categories.Select(x => new SearchResults()
+            {
+                Description = x.Descripcion.ToString(),
+                Link = $"/categories/{x.Id}"
+            }));
+
+            var subcategories = context.Subcategorias.Where(x => EF.Functions.Like(x.Descripcion, $"%{search}%")).ToList();
+            results.AddRange(subcategories.Select(x => new SearchResults()
+            {
+                Description = x.Descripcion.ToString(),
+                Link = $"/subcategories/{x.Id}"
+            }));
+
+            return results;
+        }
+
+        private List<SearchResults> PredefinedResults(string search)
+        {
+            List<SearchResults> results = new List<SearchResults>();
+            List<string> predefinedBestSellers = new List<string>()
+            {
+                "best",
+                "mejor",
+                "mejores",
+            };
+
+            if (predefinedBestSellers.Contains(search))
+            {
+                results.Add(new SearchResults()
+                {
+                    Description = "Best sellers",
+                    Link = $"/best-sellers"
+                });
+            }
+
+            List<string> predefinedAllItems = new List<string>()
+            {
+                "all",
+                "todos",
+            };
+            if (predefinedAllItems.Contains(search))
+            {
+                results.Add(new SearchResults()
+                {
+                    Description = "All products",
+                    Link = "/all-products"
+                });
+            }
+
+            return results;
         }
     }
 }

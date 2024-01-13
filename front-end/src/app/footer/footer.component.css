@@ -5,6 +5,7 @@ footer {
     position:absolute;
     right:0px;
     width:100%;
+    margin-top:150px;
 }
 footer .container{
   padding-right: 15px;

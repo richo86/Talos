@@ -1,0 +1,223 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+  
+body {
+background-color: #eee;
+color: #a1a1a1;
+font-family: sans-serif;
+}
+
+.container {
+position: absolute;
+top: 8px;
+left: 25%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+.heading {
+margin-bottom: 1.5rem;
+font-size: 1.2rem;
+}
+
+.searchInputWrapper {
+position: relative;
+}
+
+.searchInput {
+width: 45vw;
+height: 3rem;
+padding: 0 1rem; 
+border-radius: 2rem;
+border: solid 2px #A8BED1;
+transition: transform 0.1s ease-in-out;
+}
+
+::placeholder {
+color: #a1a1a1;
+}
+
+/* hide the placeholder text on focus */
+:focus::placeholder {
+text-indent: -999px
+}
+
+.searchInput:focus {
+outline: none;
+}
+
+.searchInputIcon {
+position: absolute;
+right: 0.8rem;
+top: 0.9rem;
+color: #a1a1a1;
+transition: all 0.1s ease-in-out;
+}
+
+.search-suggestions{
+    -webkit-text-size-adjust: 100%;
+    --vh: 5.5200000000000005px;
+    --header-search-bar-background: rgba(#222222, 0.05);
+    --header-search-bar-border-color: #222222;
+    --header-search-bar-border-color-focus: #222222;
+    --header-search-bar-button-active-bg-color: #222222;
+    --header-search-bar-box-shadow: 1px 2px 4px 0 rgba(14, 14, 14, 0.0901960784) inset;
+    --header-nav-menu-trigger-caret-color: rgba($wt-bg-black, 0.3);
+    --top-nav-item-margin-top: 0;
+    --top-nav-item-margin-bottom: 4px;
+    color: #222;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Graphik Webfont",-apple-system,"Helvetica Neue","Droid Sans",Arial,sans-serif;
+    margin: 0;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px rgba(34,34,34,.15) solid;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-size: 16px;
+    padding-left: 0;
+    left: 0;
+    width: 50vw !important;
+    max-width: 100% !important;
+    min-width: 0px !important;
+    box-shadow: 0px 0px 0px rgba(0,0,0,0);
+    position: relative;
+    max-height: inherit;
+    z-index: 30;
+    display: block;
+    top: 0;
+    margin-top: 12px;
+}
+.search-suggestions ul{
+    -webkit-text-size-adjust: 100%;
+    --vh: 5.5200000000000005px;
+    --header-search-bar-background: rgba(#222222, 0.05);
+    --header-search-bar-border-color: #222222;
+    --header-search-bar-border-color-focus: #222222;
+    --header-search-bar-button-active-bg-color: #222222;
+    --header-search-bar-box-shadow: 1px 2px 4px 0 rgba(14, 14, 14, 0.0901960784) inset;
+    --header-nav-menu-trigger-caret-color: rgba($wt-bg-black, 0.3);
+    --top-nav-item-margin-top: 0;
+    --top-nav-item-margin-bottom: 4px;
+    color: #222;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Graphik Webfont",-apple-system,"Helvetica Neue","Droid Sans",Arial,sans-serif;
+    font-size: 16px;
+    margin: 0;
+    box-sizing: inherit;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    list-style: none;
+    padding-left: 0;
+}
+.search-suggestions li{
+    -webkit-text-size-adjust: 100%;
+    --vh: 5.5200000000000005px;
+    --header-search-bar-background: rgba(#222222, 0.05);
+    --header-search-bar-border-color: #222222;
+    --header-search-bar-border-color-focus: #222222;
+    --header-search-bar-button-active-bg-color: #222222;
+    --header-search-bar-box-shadow: 1px 2px 4px 0 rgba(14, 14, 14, 0.0901960784) inset;
+    --header-nav-menu-trigger-caret-color: rgba($wt-bg-black, 0.3);
+    --top-nav-item-margin-top: 0;
+    --top-nav-item-margin-bottom: 4px;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    background: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
+    outline: none;
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-appearance: none;
+    color: #222;
+    display: flex;
+    box-sizing: border-box;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 18px;
+    padding-right: 18px;
+    list-style: none;
+    min-width: 100%;
+    width: max-content;
+    max-width: 298px;
+    word-wrap: break-word;
+    word-break: break-word;
+    min-height: unset;
+}
+
+.search-suggestions li:hover{
+    background-color: #eee;
+}
+
+.resetSearch{
+    -webkit-text-size-adjust: 100%;
+    --vh: 5.5200000000000005px;
+    --header-search-bar-background: rgba(#ccc, 0.05);
+    --header-search-bar-border-color: #ccc;
+    --header-search-bar-border-color-focus: #ccc;
+    --header-search-bar-button-active-bg-color: #ccc;
+    --header-search-bar-box-shadow: 1px 2px 4px 0 #ccc inset;
+    --header-nav-menu-trigger-caret-color: rgba($wt-bg-black, 0.3);
+    --top-nav-item-margin-top: 0;
+    --top-nav-item-margin-bottom: 4px;
+    -webkit-font-smoothing: antialiased;
+    visibility: visible;
+    font: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: #ccc;
+    font-weight: 500;
+    text-align: center;
+    font-size: 13px;
+    color: #ccc;
+    line-height: 1;
+    box-sizing: inherit;
+    border: 0 !important;
+    height: 25px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 25px !important;
+    opacity:0.5;
+    z-index: 100;
+    top: 0.8rem;
+    right: 2.5rem;
+}
+
+.resetSearch svg{
+    -webkit-text-size-adjust: 100%;
+    --vh: 5.5200000000000005px;
+    --header-search-bar-background: rgba(#ccc, 0.05);
+    --header-search-bar-border-color: #ccc;
+    --header-search-bar-border-color-focus: #ccc;
+    --header-search-bar-button-active-bg-color: #ccc;
+    --header-search-bar-box-shadow: 1px 2px 4px 0 #ccc inset;
+    --header-nav-menu-trigger-caret-color: rgba($wt-bg-black, 0.3);
+    --top-nav-item-margin-top: 0;
+    --top-nav-item-margin-bottom: 4px;
+    -webkit-font-smoothing: antialiased;
+    font: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: #ccc;
+    font-weight: 500;
+    text-align: center;
+    font-size: 13px;
+    color: #ccc;
+    line-height: 1;
+    margin: 0;
+    box-sizing: inherit;
+    overflow: hidden;
+}

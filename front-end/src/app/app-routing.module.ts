@@ -27,6 +27,12 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { ProductCardComponent } from './utilidades/product-card/product-card.component';
 import { EditarVentaComponent } from './ventas/editar/editar.component';
 import { VentasComponent } from './ventas/ventas.component';
+import { SearchStoreComponent } from './search-store/search-store.component';
+import { CategoriesNavigationComponent } from './categories-navigation/categories-navigation.component';
+import { FavoritesComponent } from './favorites/favorites.component';
+import { CampaignsComponent } from './campaigns/campaigns.component';
+import { CreateCampaignComponent } from './campaigns/cec/cec.component';
+import { SocialLoginComponent } from './social-login/social-login.component';
 
 const routes: Routes = [
   {path:'',component:LandingPageComponent},
@@ -59,8 +65,14 @@ const routes: Routes = [
   {path:'subcategories/:id',component:SubcategoriesDisplayComponent},
   {path:'product-page/:id',component:ProductPageComponent},
   {path:'all-products',component:AllProductsComponent},
+  {path:'favorites',component:FavoritesComponent},
   {path:'cards',component:ProductCardComponent},
-  {path: '**', redirectTo: ''}
+  {path:'campañas',component:CampaignsComponent},
+  {path:'campaign/cec',component:CreateCampaignComponent,canActivate:[EsAdminGuard]},
+  {path:'campaign/cec/:id',component:CreateCampaignComponent,canActivate:[EsAdminGuard]},
+  {path:'navigation',component:CategoriesNavigationComponent},
+  {path:'loginGoogle',component:SocialLoginComponent},
+  {path:'**', redirectTo: ''}
 ];
 
 @NgModule({

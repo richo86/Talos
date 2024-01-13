@@ -1,79 +1,76 @@
 <div class="hiddenMobile">
-    <mat-toolbar color="primary">
-        <span style="margin-right:1rem;"><a routerLink="/">Talos</a></span>
-        <app-autorizacion [rol]="'admin'">
-            <ng-container autorizado>
-                <button mat-button [matMenuTriggerFor]="menu">Administrator</button>
-                <mat-menu #menu="matMenu">
-                    <button routerLink="/panel" mat-menu-item>Control Panel</button>
-                    <button routerLink="/categorias" mat-menu-item>Areas</button>
-                    <button routerLink="/descuentos" mat-menu-item>Discounts</button>
-                    <button routerLink="/productos" mat-menu-item>Products</button>
-                    <button routerLink="/usuarios" mat-menu-item>Users</button>
-                </mat-menu>
-            </ng-container>
-        </app-autorizacion>
-        <app-autorizacion [rol]="'vendor'">
-            <ng-container autorizado>
-                <button mat-button [matMenuTriggerFor]="vendor">Administrator</button>
-                <mat-menu #vendor="matMenu">
-                    <button routerLink="/panel" mat-menu-item>Control Panel</button>
-                </mat-menu>
-            </ng-container>
-        </app-autorizacion>
-
-        <button mat-button [matMenuTriggerFor]="areas">Categories</button>
-        <mat-menu #areas="matMenu" class="categories-panel">
-            <mat-grid-list cols="4" rowHeight="1:1" *ngIf="!!productMenu">
-                <ng-container *ngFor="let area of productMenu.areas">
-                    <mat-grid-tile>
-                        <div class="categoryContent">
-                            <h1 routerLink="/areas/{{area.id}}">{{area.descripcion}}</h1>
-                            <ng-container *ngFor="let category of area.categorias">
-                                <div class="categoryList">
-                                    <a routerLink="/categories/{{category.id}}">{{category.descripcion}}</a>
-                                    <ng-container *ngFor="let subcategory of category.subcategorias">
-                                        <div class="subcategoryList">
-                                            <a routerLink="/subcategories/{{subcategory.id}}">{{subcategory.descripcion}}</a>
-                                        </div>
-                                    </ng-container>
-                                </div>
-                            </ng-container>
-                        </div>
-                    </mat-grid-tile>
+    <div class="menu-container">
+        <mat-toolbar color="primary">
+            <span style="margin-right:1rem;"><a routerLink="/">Buddy Merch</a></span>
+            <app-autorizacion [rol]="'admin'">
+                <ng-container autorizado>
+                    <button mat-button [matMenuTriggerFor]="menu">Administrator</button>
+                    <mat-menu #menu="matMenu">
+                        <button routerLink="/panel" mat-menu-item>Control Panel</button>
+                        <button routerLink="/categorias" mat-menu-item>Areas</button>
+                        <button routerLink="/descuentos" mat-menu-item>Discounts</button>
+                        <button routerLink="/campañas" mat-menu-item>Campaigns</button>
+                        <button routerLink="/productos" mat-menu-item>Products</button>
+                        <button routerLink="/usuarios" mat-menu-item>Users</button>
+                    </mat-menu>
                 </ng-container>
-            </mat-grid-list>
-        </mat-menu>
-        
-        <span class="spacer"></span>
+            </app-autorizacion>
+            <app-autorizacion [rol]="'vendor'">
+                <ng-container autorizado>
+                    <button mat-button [matMenuTriggerFor]="vendor">Administrator</button>
+                    <mat-menu #vendor="matMenu">
+                        <button routerLink="/panel" mat-menu-item>Control Panel</button>
+                    </mat-menu>
+                </ng-container>
+            </app-autorizacion>
+    
+            <span class="spacer"></span>
+    
+            <app-search-store></app-search-store>
+            
+            <span class="spacer"></span>
+    
+            <!-- <button mat-icon-button class="notification-icon" aria-label="Notifications">
+                <mat-icon [matMenuTriggerFor]="notifications">
+                    <span class="material-symbols-outlined">notifications</span>
+                </mat-icon>
+            </button>
+            <mat-menu #notifications="matMenu">
+                <app-notificaciones></app-notificaciones>
+            </mat-menu> -->
+            <app-autorizacion>
+                <ng-container autorizado>
+                    <button mat-icon-button class="favorites-icon" aria-label="Favorites">
+                        <mat-icon routerLink="/favorites">
+                            <span class="material-symbols-outlined">favorite_border</span>
+                        </mat-icon>
+                    </button>
+                </ng-container>
+            </app-autorizacion>
+            <button mat-icon-button class="shopping-icon" aria-label="Shopping cart">
+                <mat-icon [matMenuTriggerFor]="cart">
+                    <span class="material-symbols-outlined">shopping_cart_checkout</span>
+                </mat-icon>
+            </button>
+            <mat-menu #cart="matMenu" class="shoppingCart">
+                <app-cart></app-cart>
+            </mat-menu>
+            <app-autorizacion>
+                <ng-container autorizado>
+                    <button mat-button class="hoverButton" routerLink="/perfil/{{userId}}">Hi {{securityService.obtenerCampoJwt('nombre')}}</button>
+                    <button mat-button class="hoverButton" (click)="logOut()">Log Out</button>
+                </ng-container>
+                <ng-container noAutorizado>
+                    <button mat-button (click)="openDialog()">Log In</button>
+                </ng-container>
+            </app-autorizacion>
+    
+            <div style="flex-basis:100%;height:0;overflow: hidden;width:0"></div>
+            <app-categories-navigation></app-categories-navigation>
+        </mat-toolbar>
+    </div>
 
-        <button mat-icon-button class="notification-icon" aria-label="Notificaciones">
-            <mat-icon [matMenuTriggerFor]="notifications">
-                <span class="material-symbols-outlined">notifications</span>
-            </mat-icon>
-        </button>
-        <mat-menu #notifications="matMenu">
-            <app-notificaciones></app-notificaciones>
-        </mat-menu>
-        <button mat-icon-button class="shopping-icon" aria-label="Carrito de compras">
-            <mat-icon [matMenuTriggerFor]="cart">
-                <span class="material-symbols-outlined">shopping_cart_checkout</span>
-            </mat-icon>
-        </button>
-        <mat-menu #cart="matMenu" class="shoppingCart">
-            <app-cart></app-cart>
-        </mat-menu>
-        <app-autorizacion>
-            <ng-container autorizado>
-                <button mat-button class="hoverButton" routerLink="/perfil/{{userId}}">Hi {{securityService.obtenerCampoJwt('nombre')}}</button>
-                <button mat-button class="hoverButton" (click)="logOut()">Log Out</button>
-            </ng-container>
-            <ng-container noAutorizado>
-                <button mat-button routerLink="/login">Log In</button>
-                <button mat-button routerLink="/registro">Register</button>
-            </ng-container>
-        </app-autorizacion>
-    </mat-toolbar>
+    
 </div>
 
 <div class="hiddenDesktop">

@@ -5,6 +5,9 @@ import { SeguridadService } from '../seguridad/seguridad.service';
 import { MenuService } from './menu.service';
 import { AreasDTO, CategoriasProductoDTO } from './menu.models';
 import { take } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from '../login/login.component';
+import { RegistroComponent } from '../seguridad/registro/registro.component';
 
 @Component({
   selector: 'app-menu',
@@ -19,15 +22,15 @@ export class MenuComponent implements OnInit {
   userId: string;
   productMenu: CategoriasProductoDTO = new CategoriasProductoDTO();
   shouldRun = /(^|.)(stackblitz|webcontainer).(io|com)$/.test(window.location.host);
-
+  loggedIn: boolean = false;
 
   constructor(public securityService: SeguridadService,
     private router: Router,
-    private menuService: MenuService) { }
+    private menuService: MenuService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getUserId();
-    this.getProductMenu();
   }
 
   getUserId(){
@@ -35,16 +38,6 @@ export class MenuComponent implements OnInit {
     this.securityService.getUserID(this.securityService.obtenerCampoJwt('email')).pipe(take(1))
     .subscribe(res =>{
       this.userId = res;
-    });
-  }
-
-  getProductMenu(){
-    this.menuService.obtenerMenuProductos().pipe(take(1))
-    .subscribe({
-      next: res =>{
-        if(!!res)
-          this.productMenu = res.body;
-      }
     });
   }
 
@@ -65,6 +58,24 @@ export class MenuComponent implements OnInit {
   redirect(location:string){
     this.router.navigate([location]);
     this.close();
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(LoginComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result)
+        this.openRegisterDialog();
+    });
+  }
+
+  openRegisterDialog(){
+    const registerDialog = this.dialog.open(RegistroComponent);
+
+    registerDialog.afterClosed().subscribe(result => {
+      if(result)
+        this.openDialog();
+    });
   }
 
 }

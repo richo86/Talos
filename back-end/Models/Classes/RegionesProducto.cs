@@ -14,6 +14,7 @@ namespace Models.Classes
         public Guid Pais { get; set; }
         [Range(double.Epsilon, double.MaxValue)]
         public decimal? Precio { get; set; }
+        public Guid Moneda { get; set; }
         [Range(1, int.MaxValue)]
         public int Inventario { get; set; }
         public DateTime FechaCreacion { get; set; }

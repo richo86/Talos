@@ -58,7 +58,7 @@ namespace Domain.DomainRepositories
 
         public async Task<List<Mensajes>> GetMessages(string email)
         {
-            var mensajes = await context.Mensajes.Where(x => x.UsuarioEmail.Equals(email)).ToListAsync();
+            var mensajes = context.Mensajes.Where(x => x.UsuarioEmail.Equals(email)).ToList();
 
             return mensajes;
         }
@@ -75,7 +75,7 @@ namespace Domain.DomainRepositories
 
         public async Task<List<Notificaciones>> GetNotifications()
         {
-            var notificaciones = await context.Notificaciones.Where(x => x.Mensaje != null).ToListAsync();
+            var notificaciones = context.Notificaciones.Where(x => x.Mensaje != null).ToList();
 
             if (notificaciones.Count() > 0)
                 return notificaciones;

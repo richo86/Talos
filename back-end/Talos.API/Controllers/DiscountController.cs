@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Models.Classes;
 using Models.DTOs;
 using System;
@@ -61,7 +60,7 @@ namespace Talos.API.Controllers
                     return NotFound();
 
                 await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
-                var discounts = await queryable.OrderBy(x => x.FechaCreacion).Paginar(paginacionDTO).ToListAsync();
+                var discounts = queryable.OrderBy(x => x.FechaCreacion).Paginar(paginacionDTO).ToList();
 
                 if (discounts.Count() != 0)
                 {
@@ -78,11 +77,11 @@ namespace Talos.API.Controllers
         }
 
         [HttpGet("getAllDiscountsList")]
-        public async Task<ActionResult<Descuentos>> getAllDiscountsList()
+        public ActionResult<Descuentos> getAllDiscountsList()
         {
             try
             {
-                var discounts = await discountRepository.GetAllDiscounts();
+                var discounts = discountRepository.GetAllDiscounts();
 
                 if (discounts.Count() != 0)
                 {

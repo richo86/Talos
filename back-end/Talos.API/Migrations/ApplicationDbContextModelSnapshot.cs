@@ -231,6 +231,72 @@ namespace Repositories.Migrations
                     b.ToTable("Calificaciones");
                 });
 
+            modelBuilder.Entity("Models.Classes.CampaignProducts", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CampaignId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CampaignProducts");
+                });
+
+            modelBuilder.Entity("Models.Classes.Campañas", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Categoria")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Estado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaEdicion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaFinVigencia")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaInicioVigencia")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Imagen")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagenBase64")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PorcentajeDescuento")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("Subcategoria")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Campañas");
+                });
+
             modelBuilder.Entity("Models.Classes.Carrito", b =>
                 {
                     b.Property<Guid>("Id")
@@ -267,6 +333,9 @@ namespace Repositories.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("CodigoPromocion")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
 
@@ -277,6 +346,12 @@ namespace Repositories.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FechaEdicion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaFinVigencia")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaInicioVigencia")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Nombre")
@@ -364,6 +439,9 @@ namespace Repositories.Migrations
                     b.Property<string>("ImagenUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Principal")
+                        .HasColumnType("bit");
+
                     b.Property<Guid?>("ProductoId")
                         .HasColumnType("uniqueidentifier");
 
@@ -445,8 +523,8 @@ namespace Repositories.Migrations
                     b.Property<string>("Mensaje")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -520,6 +598,23 @@ namespace Repositories.Migrations
                     b.ToTable("Pais");
                 });
 
+            modelBuilder.Entity("Models.Classes.ProductKeywords", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Keyword")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductKeywords");
+                });
+
             modelBuilder.Entity("Models.Classes.Producto", b =>
                 {
                     b.Property<Guid>("Id")
@@ -537,6 +632,9 @@ namespace Repositories.Migrations
 
                     b.Property<Guid?>("DescuentoId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Estado")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
@@ -600,6 +698,9 @@ namespace Repositories.Migrations
                     b.Property<int>("Inventario")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("Moneda")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("Pais")
                         .HasColumnType("uniqueidentifier");
 
@@ -629,8 +730,8 @@ namespace Repositories.Migrations
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("IdUsuario")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("IdUsuario")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalCosto")
                         .HasColumnType("decimal(18,2)");

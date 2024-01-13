@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
@@ -9,6 +9,9 @@ import { dataURI, parsearErroresAPI, toBase64 } from 'src/app/utilidades/utilida
 import Swal from 'sweetalert2';
 import { crearProductoDTO, KeyValuePair, productoDTO } from '../productos.models';
 import { ProductosService } from '../productos.service';
+import { MatChipInputEvent } from '@angular/material/chips';
+import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-crear-productos',
@@ -34,7 +37,8 @@ export class CrearProductosComponent implements OnInit {
     subcategoriaDescripcion: null,
     descuentoId: null,
     codigo: null,
-    moneda:null
+    moneda:null,
+    keywords:[]
   };
   listadoImagenes: File[] = new Array(0);
   listadoImagenesBase64: KeyValuePair<string, string>[] = [];;
@@ -43,6 +47,11 @@ export class CrearProductosComponent implements OnInit {
   subcategorias: CategoriaDTO[];
   descuentos: descuentoDTO[];
   productoId: string;
+  keywords: string[] = [];
+  separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
+  filteredKeywords: string[];
+
+  @ViewChild('keywordInput') keywordInput: ElementRef<HTMLInputElement>;
 
   constructor(private formBuilder: FormBuilder,
               private activatedRoute: ActivatedRoute,
@@ -52,8 +61,6 @@ export class CrearProductosComponent implements OnInit {
   ngOnInit(): void {
     this.InitializeForm();
     this.GetProduct();
-    this.GetMainCategories();
-    this.GetSubcategories();
     this.GetDiscounts();
   }
 
@@ -78,14 +85,21 @@ export class CrearProductosComponent implements OnInit {
           next: res => {
             this.productoId = params.id;
             this.producto = res.body;
+            console.log(this.producto);
             this.form.patchValue(this.producto);
+            this.keywords = this.producto.keywords;
 
+            this.GetMainCategories();
+            this.GetSubcategories();
             this.GetProductImagesBase64();
           },
           error: (error) =>{
             this.errores = parsearErroresAPI(error)
           }
         });
+      }else{
+        this.GetMainCategories();
+        this.GetSubcategories();
       }
     });
   }
@@ -135,7 +149,8 @@ export class CrearProductosComponent implements OnInit {
   }
 
   GetSubcategories(){
-    this.productosService.obtenerCategoriasSecundarias().pipe(take(1))
+    let categoryId = this.form.get('categoriaId').value;
+    this.productosService.obtenerCategoriasSecundarias(this.producto ? this.producto.categoriaId : !!categoryId? categoryId : null).pipe(take(1))
       .subscribe({
         next: (res) => {
           this.subcategorias = res.body;
@@ -146,10 +161,15 @@ export class CrearProductosComponent implements OnInit {
     }); 
   }
 
+  updateSubcategories(event:any){
+    this.GetSubcategories();
+  }
+
   create(){
     this.activatedRoute.params.subscribe((params) => {
       if(!!params.id){
         this.producto = Object.assign(this.producto,this.form.value);
+        this.producto.keywords = this.keywords;
         this.productosService.actualizarProducto(this.producto).pipe(take(1))
         .subscribe({
           next: (res) => {
@@ -179,6 +199,7 @@ export class CrearProductosComponent implements OnInit {
         });
       }else{
         this.crearProducto = Object.assign(this.crearProducto,this.form.value);
+        this.crearProducto.keywords = this.keywords;
         if(this.crearProducto.descuentoId == 'ninguno')
           this.crearProducto.descuentoId = null;
         
@@ -237,6 +258,30 @@ export class CrearProductosComponent implements OnInit {
           this.listadoImagenes = this.listadoImagenes.filter(x=>x.name !== id);
         }
       })
+  }
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    if (value) {
+      this.keywords.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+  }
+
+  remove(fruit: string): void {
+    const index = this.keywords.indexOf(fruit);
+
+    if (index >= 0) {
+      this.keywords.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.keywords.push(event.option.viewValue);
+    this.keywordInput.nativeElement.value = '';
   }
 
 }

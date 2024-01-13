@@ -28,7 +28,10 @@ export class CEDComponent implements OnInit {
     estado: null,
     porcentajeDescuento: null,
     fechaCreacion: new Date(),
-    fechaEdicion: new Date()
+    fechaEdicion: new Date(),
+    fechaInicioVigencia: null,
+    fechaFinVigencia: null,
+    codigoPromocion: null
   };
 
   ngOnInit(): void {

@@ -81,6 +81,17 @@ namespace Talos.API.Controllers
             return Ok(result);
         }
 
+        [HttpPost("UploadCampaignFile")]
+        public async Task<IActionResult> UploadCampaignFile(IFormFile file, [FromForm] string id)
+        {
+            if (file.Length == 0)
+                return BadRequest("No se adjuntó un archivo");
+
+            var result = await driveRepository.UploadCampaignFile(file, id);
+
+            return Ok(result);
+        }
+
         [HttpDelete("DeleteImage")]
         public async Task<IActionResult> DeleteFile(string fileId)
         {

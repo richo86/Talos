@@ -13,5 +13,6 @@ namespace Models.Classes
         public Guid? ProductoId { get; set; }
         public string ImagenUrl { get; set; }
         public string ImagenBase64 { get; set; }
+        public bool Principal { get; set; }
     }
 }

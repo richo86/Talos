@@ -15,6 +15,7 @@ export interface productoDTO{
     descuentoId: string;
     codigo: string;
     moneda: string;
+    keywords: string[];
 }
 
 export interface crearProductoDTO{
@@ -32,6 +33,7 @@ export interface crearProductoDTO{
     descuentoId: string;
     codigo: string;
     moneda: string;
+    keywords: string[];
 }
 
 export interface KeyValuePair<K, V> {

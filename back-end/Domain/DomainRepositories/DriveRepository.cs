@@ -23,12 +23,14 @@ namespace Domain.DomainRepositories
         private static readonly string ServiceAccountKeyFilePath = "C:\\infinitevrtx-639c1faca76a.json";
         private IProductRepository productRepository;
         private ICategoryRepository categoryRepository;
+        private ICampaignRepository campaignRepository;
 
-        public DriveRepository(ApplicationDbContext context, IProductRepository ProductRepository, ICategoryRepository CategoryRepository)
+        public DriveRepository(ApplicationDbContext context, IProductRepository ProductRepository, ICategoryRepository CategoryRepository, ICampaignRepository campaignRepository)
         {
             this.context = context;
             this.productRepository = ProductRepository;
             this.categoryRepository = CategoryRepository;
+            this.campaignRepository = campaignRepository;
         }
 
         public async Task<string> DeleteFile(string fileId)
@@ -166,6 +168,44 @@ namespace Domain.DomainRepositories
                     var imageBase64 = GetFileById(request.ResponseBody.Id);
 
                     var result = categoryRepository.CreateImage(request.ResponseBody.Id, id, imageBase64);
+
+                    if (!result)
+                        await DeleteFile(request.ResponseBody.Id);
+                }
+            }
+            catch
+            {
+                return "Error al subir el archivo";
+            }
+
+            return "Archivo creados en Google Drive con exito";
+        }
+
+        public async Task<string> UploadCampaignFile(IFormFile file, string id)
+        {
+            try
+            {
+                var service = GetService();
+
+                var fileMetadata = new Google.Apis.Drive.v3.Data.File()
+                {
+                    Name = file.FileName
+                };
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+
+                    var uploadStream = new MemoryStream(memoryStream.ToArray());
+
+                    var request = service.Files.Create(fileMetadata, uploadStream, file.ContentType);
+                    request.Fields = "id";
+                    request.Upload();
+
+                    var fileUploaded = request.ResponseBody;
+                    var imageBase64 = GetFileById(request.ResponseBody.Id);
+
+                    var result = campaignRepository.CreateImage(request.ResponseBody.Id, id, imageBase64);
 
                     if (!result)
                         await DeleteFile(request.ResponseBody.Id);

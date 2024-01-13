@@ -10,7 +10,7 @@ namespace Domain.Interfaces
     public interface IDiscountRepository
     {
         IQueryable<Descuentos> GetDiscounts();
-        Task<List<Descuentos>> GetAllDiscounts();
+        List<Descuentos> GetAllDiscounts();
         Task<DescuentoDTO> GetDiscount(string id);
         Task<Descuentos> CreateDiscount(Descuentos descuentos);
         Task<Descuentos> UpdateDiscount(Descuentos descuento);
