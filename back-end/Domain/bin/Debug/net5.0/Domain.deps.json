@@ -516,7 +516,10 @@
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "5.0.17"
         },
         "runtime": {
-          "Models.dll": {}
+          "Models.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

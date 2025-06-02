@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Domain",
+    "\\Models",
+    "\\Talos.API",
+    "\\Talos.API\\Talos.API",
+    "\\Talos.Tests\\Controllers"
   ],
-  "SelectedNode": "\\Talos.API.sln",
+  "SelectedNode": "\\Talos.API\\Talos.API.sln",
   "PreviewInSolutionExplorer": false
 }

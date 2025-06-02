@@ -54,3 +54,15 @@ export const selectProductsFromSubcategoryError = createSelector(
     selectProductsFromSubcategoryFeature,
     (state) => state.error
 );
+export const selectLatestsProductsAreLoading = createSelector(
+    selectProductsFromSubcategoryFeature,
+    (state) => state.isLoading
+);
+export const selectLatestsProducts = createSelector(
+    selectProductsFromSubcategoryFeature,
+    (state) => state.products
+);
+export const selectLatestsProductsError = createSelector(
+    selectProductsFromSubcategoryFeature,
+    (state) => state.error
+);

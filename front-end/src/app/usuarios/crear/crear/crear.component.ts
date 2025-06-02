@@ -23,9 +23,13 @@ export class CrearComponent implements OnInit {
   registrar(usuario: usuarioDTO){
     this.errores = [];
     this.seguridadService.registrar(usuario).pipe(take(1))
-      .subscribe(res => {
-        this.router.navigate(['/usuarios']);
-      }, errores => this.errores = parsearErroresAPI(errores));
-  }
-
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/usuarios']);
+        },
+        error: (errores) => {
+          this.errores = parsearErroresAPI(errores);
+        }
+      });
+    }
 }

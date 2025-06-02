@@ -3,16 +3,16 @@ import {createAction, props} from '@ngrx/store';
 import { productoDTO } from 'src/app/productos/productos.models';
 
 export const getProducts  = createAction(
-                        '[StoreFrontComponent] Get Products',
-                        props<{countryCode:string}>()
+        '[StoreFrontComponent] Get Products',
+        props<{countryCode:string}>()
 );
 export const getProductsSuccess  = createAction(
-                            '[StoreFrontComponent] Get Products Success',
-                            props<{ProductsDTO:productoDTO[]}>()
+        '[StoreFrontComponent] Get Products Success',
+        props<{ProductsDTO:productoDTO[]}>()
 );
 export const getProductsFailure  = createAction(
-                            '[StoreFrontComponent] Get Products Failure',
-                            props<{error:string}>()
+        '[StoreFrontComponent] Get Products Failure',
+        props<{error:string}>()
 );
 export const getProductsFromArea  = createAction(
     '[StoreFrontComponent] Get Products from area',
@@ -48,5 +48,17 @@ export const getProductsFromSubcategorySuccess  = createAction(
 );
 export const getProductsFromSubcategoryFailure  = createAction(
         '[StoreFrontComponent] Get Products from subcategory Failure',
+        props<{error:string}>()
+);
+export const getLatestProducts  = createAction(
+        '[StoreFrontComponent] Get Latests Products',
+        props<{countryCode:string,subcategory:string}>()
+);
+export const getLatestProductsSuccess  = createAction(
+        '[StoreFrontComponent] Get Latests Products Success',
+        props<{ProductsDTO:productoDTO[]}>()
+);
+export const getLatestsProductsFailure  = createAction(
+        '[StoreFrontComponent] Get Latests Products Failure',
         props<{error:string}>()
 );

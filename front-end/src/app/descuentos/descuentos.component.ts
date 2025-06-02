@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs';
 import Swal from 'sweetalert2';
 import { parsearErroresAPI } from '../utilidades/utilidades';
@@ -50,7 +49,7 @@ actualizarPaginacion(datos: PageEvent){
 borrar(id:string){
   this.descuentosService.borrarDescuento(id).pipe(take(1))
   .subscribe({
-    next: (res) => {
+    next: () => {
     Swal.fire({
       text: '¡Operación exitosa!',
       icon: 'success'

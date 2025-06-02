@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Talos\\back-end\\Talos.Tests\\Talos.Tests.csproj": {}
+    "F:\\Talos\\back-end\\Talos.Tests\\Talos.Tests.csproj": {}
   },
   "projects": {
-    "D:\\Talos\\back-end\\Domain\\Domain.csproj": {
+    "F:\\Talos\\back-end\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Talos\\back-end\\Domain\\Domain.csproj",
+        "projectUniqueName": "F:\\Talos\\back-end\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\Talos\\back-end\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\Talos\\back-end\\Domain\\obj\\",
+        "projectPath": "F:\\Talos\\back-end\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\richo\\.nuget\\packages\\",
+        "outputPath": "F:\\Talos\\back-end\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\richo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +28,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "D:\\Talos\\back-end\\Models\\Models.csproj": {
-                "projectPath": "D:\\Talos\\back-end\\Models\\Models.csproj"
+              "F:\\Talos\\back-end\\Models\\Models.csproj": {
+                "projectPath": "F:\\Talos\\back-end\\Models\\Models.csproj"
               }
             }
           }
@@ -38,7 +38,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net5.0": {
@@ -89,21 +95,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Talos\\back-end\\Models\\Models.csproj": {
+    "F:\\Talos\\back-end\\Models\\Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Talos\\back-end\\Models\\Models.csproj",
+        "projectUniqueName": "F:\\Talos\\back-end\\Models\\Models.csproj",
         "projectName": "Models",
-        "projectPath": "D:\\Talos\\back-end\\Models\\Models.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\Talos\\back-end\\Models\\obj\\",
+        "projectPath": "F:\\Talos\\back-end\\Models\\Models.csproj",
+        "packagesPath": "C:\\Users\\richo\\.nuget\\packages\\",
+        "outputPath": "F:\\Talos\\back-end\\Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\richo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -123,7 +129,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net5.0": {
@@ -162,21 +174,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Talos\\back-end\\Talos.API\\Talos.API.csproj": {
+    "F:\\Talos\\back-end\\Talos.API\\Talos.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Talos\\back-end\\Talos.API\\Talos.API.csproj",
+        "projectUniqueName": "F:\\Talos\\back-end\\Talos.API\\Talos.API.csproj",
         "projectName": "Talos.API",
-        "projectPath": "D:\\Talos\\back-end\\Talos.API\\Talos.API.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\Talos\\back-end\\Talos.API\\obj\\",
+        "projectPath": "F:\\Talos\\back-end\\Talos.API\\Talos.API.csproj",
+        "packagesPath": "C:\\Users\\richo\\.nuget\\packages\\",
+        "outputPath": "F:\\Talos\\back-end\\Talos.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\richo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -184,18 +196,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "D:\\Talos\\back-end\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\Talos\\back-end\\Domain\\Domain.csproj"
+              "F:\\Talos\\back-end\\Domain\\Domain.csproj": {
+                "projectPath": "F:\\Talos\\back-end\\Domain\\Domain.csproj"
               },
-              "D:\\Talos\\back-end\\Models\\Models.csproj": {
-                "projectPath": "D:\\Talos\\back-end\\Models\\Models.csproj"
+              "F:\\Talos\\back-end\\Models\\Models.csproj": {
+                "projectPath": "F:\\Talos\\back-end\\Models\\Models.csproj"
               }
             }
           }
@@ -204,7 +215,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net5.0": {
@@ -284,21 +301,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Talos\\back-end\\Talos.Tests\\Talos.Tests.csproj": {
+    "F:\\Talos\\back-end\\Talos.Tests\\Talos.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Talos\\back-end\\Talos.Tests\\Talos.Tests.csproj",
+        "projectUniqueName": "F:\\Talos\\back-end\\Talos.Tests\\Talos.Tests.csproj",
         "projectName": "Talos.Tests",
-        "projectPath": "D:\\Talos\\back-end\\Talos.Tests\\Talos.Tests.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\Talos\\back-end\\Talos.Tests\\obj\\",
+        "projectPath": "F:\\Talos\\back-end\\Talos.Tests\\Talos.Tests.csproj",
+        "packagesPath": "C:\\Users\\richo\\.nuget\\packages\\",
+        "outputPath": "F:\\Talos\\back-end\\Talos.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\richo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -312,11 +329,11 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "D:\\Talos\\back-end\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\Talos\\back-end\\Domain\\Domain.csproj"
+              "F:\\Talos\\back-end\\Domain\\Domain.csproj": {
+                "projectPath": "F:\\Talos\\back-end\\Domain\\Domain.csproj"
               },
-              "D:\\Talos\\back-end\\Talos.API\\Talos.API.csproj": {
-                "projectPath": "D:\\Talos\\back-end\\Talos.API\\Talos.API.csproj"
+              "F:\\Talos\\back-end\\Talos.API\\Talos.API.csproj": {
+                "projectPath": "F:\\Talos\\back-end\\Talos.API\\Talos.API.csproj"
               }
             }
           }
@@ -325,7 +342,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net5.0": {
@@ -396,7 +419,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

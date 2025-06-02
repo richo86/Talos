@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Talos\\back-end\\Domain\\Domain.csproj": {}
+    "f:\\Talos\\back-end\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "D:\\Talos\\back-end\\Domain\\Domain.csproj": {
+    "f:\\Talos\\back-end\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Talos\\back-end\\Domain\\Domain.csproj",
+        "projectUniqueName": "f:\\Talos\\back-end\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\Talos\\back-end\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\Talos\\back-end\\Domain\\obj\\",
+        "projectPath": "f:\\Talos\\back-end\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\richo\\.nuget\\packages\\",
+        "outputPath": "f:\\Talos\\back-end\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\richo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +28,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "D:\\Talos\\back-end\\Models\\Models.csproj": {
-                "projectPath": "D:\\Talos\\back-end\\Models\\Models.csproj"
+              "f:\\Talos\\back-end\\Models\\Models.csproj": {
+                "projectPath": "f:\\Talos\\back-end\\Models\\Models.csproj"
               }
             }
           }
@@ -38,7 +38,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net5.0": {
@@ -89,21 +95,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Talos\\back-end\\Models\\Models.csproj": {
+    "f:\\Talos\\back-end\\Models\\Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Talos\\back-end\\Models\\Models.csproj",
+        "projectUniqueName": "f:\\Talos\\back-end\\Models\\Models.csproj",
         "projectName": "Models",
-        "projectPath": "D:\\Talos\\back-end\\Models\\Models.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\Talos\\back-end\\Models\\obj\\",
+        "projectPath": "f:\\Talos\\back-end\\Models\\Models.csproj",
+        "packagesPath": "C:\\Users\\richo\\.nuget\\packages\\",
+        "outputPath": "f:\\Talos\\back-end\\Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\richo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -123,7 +129,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net5.0": {
@@ -162,7 +174,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

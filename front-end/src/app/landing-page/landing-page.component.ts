@@ -10,6 +10,8 @@ import { getAreas } from '../utilidades/Redux/Areas/areasActions';
 import { selectAreas } from '../utilidades/Redux/Areas/areasSelectors';
 import { BestSellers } from '../utilidades/Redux/BestSellers/bestSelectors'
 import { getBestSellers } from '../utilidades/Redux/BestSellers/bestActions';
+import { getLowestCost } from '../utilidades/Redux/LowestCost/lowestCostActions';
+import { selectLowestCost } from '../utilidades/Redux/LowestCost/lowestCostSelectors';
 
 @Component({
   selector: 'app-landing-page',
@@ -64,17 +66,8 @@ export class LandingPageComponent implements OnInit {
   GetAreas(){
     this.store.dispatch(getAreas());
     this.store.select(selectAreas).subscribe(res => {
-      console.log("collection",res)
+      console.log("collection", res)
       this.collectionList = res
-    });
-  }
-
-  GetProductsFromArea(){
-    this.landingService.GetProductsFromArea().pipe(take(1))
-    .subscribe({
-      next: (result) => {
-        this.collectionList = result.body;
-      }
     });
   }
 
@@ -95,12 +88,11 @@ export class LandingPageComponent implements OnInit {
   }
 
   GetLatestProducts(){
-    this.landingService.GetLatestProducts(this.countryCode).pipe(take(1))
-      .subscribe({
-        next: (result)=>{
-          this.bestSellers = result.body;
-        }
-      });
+    this.store.dispatch(getLowestCost({countryCode:this.countryCode}));
+    this.store.select(selectLowestCost).subscribe(res => {
+      console.log("lowestCost",res)
+      this.economyList = res
+    });
   }
 
   GetDiscountedProducts(){
@@ -117,11 +109,10 @@ export class LandingPageComponent implements OnInit {
   }
 
   GetLowestCost(){
-    this.landingService.GetLowestCost(this.countryCode).pipe(take(1))
-    .subscribe({
-      next: (result)=>{
-        this.economyList = result.body;
-      }
+    this.store.dispatch(getLowestCost({countryCode:this.countryCode}));
+    this.store.select(selectLowestCost).subscribe(res => {
+      console.log("lowestCost",res)
+      this.economyList = res
     });
   }
 

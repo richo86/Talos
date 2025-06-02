@@ -195,7 +195,6 @@ F:\Talos\back-end\Talos.Tests\bin\Debug\net5.0\xunit.runner.utility.netcoreapp10
 F:\Talos\back-end\Talos.Tests\bin\Debug\net5.0\Talos.API.deps.json
 F:\Talos\back-end\Talos.Tests\bin\Debug\net5.0\Talos.API.runtimeconfig.json
 F:\Talos\back-end\Talos.Tests\bin\Debug\net5.0\Talos.API.runtimeconfig.dev.json
-F:\Talos\back-end\Talos.Tests\bin\Debug\net5.0\Talos.API.StaticWebAssets.xml
 F:\Talos\back-end\Talos.Tests\bin\Debug\net5.0\Talos.API.exe
 F:\Talos\back-end\Talos.Tests\bin\Debug\net5.0\Microsoft.TestPlatform.PlatformAbstractions.dll
 F:\Talos\back-end\Talos.Tests\bin\Debug\net5.0\Talos.Tests.deps.json
@@ -366,7 +365,6 @@ F:\Talos\back-end\Talos.Tests\obj\Debug\net5.0\Talos.Tests.GeneratedMSBuildEdito
 F:\Talos\back-end\Talos.Tests\obj\Debug\net5.0\Talos.Tests.AssemblyInfoInputs.cache
 F:\Talos\back-end\Talos.Tests\obj\Debug\net5.0\Talos.Tests.AssemblyInfo.cs
 F:\Talos\back-end\Talos.Tests\obj\Debug\net5.0\Talos.Tests.csproj.CoreCompileInputs.cache
-F:\Talos\back-end\Talos.Tests\obj\Debug\net5.0\Talos.Tests.csproj.CopyComplete
 F:\Talos\back-end\Talos.Tests\obj\Debug\net5.0\Talos.Tests.dll
 F:\Talos\back-end\Talos.Tests\obj\Debug\net5.0\refint\Talos.Tests.dll
 F:\Talos\back-end\Talos.Tests\obj\Debug\net5.0\Talos.Tests.pdb
@@ -375,3 +373,5 @@ F:\Talos\back-end\Talos.Tests\obj\Debug\net5.0\ref\Talos.Tests.dll
 F:\Talos\back-end\Talos.Tests\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.Facebook.dll
 D:\Talos\back-end\Talos.Tests\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.Facebook.dll
 D:\Talos\back-end\Talos.Tests\obj\Debug\net5.0\refint\Talos.Tests.dll
+f:\Talos\back-end\Talos.Tests\obj\Debug\net5.0\Talos.Tests.sourcelink.json
+f:\Talos\back-end\Talos.Tests\obj\Debug\net5.0\Talos.Te.BFC46C1F.Up2Date
